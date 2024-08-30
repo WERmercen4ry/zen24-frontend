@@ -19,6 +19,10 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
 /*****Routes******/
 
+// Zen pilates
+const Timetable = lazy(() => import("../views/ui/Timetable.js"));
+const Timetables = lazy(() => import("../views/ui/Timetables.js"));
+
 const ThemeRoutes = [
   {
     path: "/",
@@ -35,6 +39,8 @@ const ThemeRoutes = [
       { path: "/table", exact: true, element: <Tables /> },
       { path: "/forms", exact: true, element: <Forms /> },
       { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
+      { path: "/timetable", exact: true, element: <Timetable /> },
+      { path: "/timetables", exact: true, element: <Timetables /> },
     ],
   },
 ];

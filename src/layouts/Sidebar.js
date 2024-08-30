@@ -4,6 +4,26 @@ import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   {
+    title: "Quản lý khách hàng",
+    href: "/starter",
+    icon: "bi bi-people",
+  },
+  {
+    title: "Thời khoá biểu",
+    href: "/timetables",
+    icon: "bi bi-card-text",
+  },
+  {
+    title: "Giao dịch",
+    href: "/starter",
+    icon: "bi bi-columns-gap",
+  },
+  {
+    title: "Nhận diện khuôn mặt",
+    href: "/starter",
+    icon: "bi bi-person-bounding-box",
+  },
+  {
     title: "Dashboard",
     href: "/starter",
     icon: "bi bi-speedometer2",
@@ -83,7 +103,7 @@ const Sidebar = () => {
                 className={
                   location.pathname === navi.href
                     ? "text-primary nav-link py-3"
-                    : "nav-link text-secondary py-3"
+                    : "nav-link text-primary py-3"
                 }
               >
                 <i className={navi.icon}></i>
@@ -91,15 +111,7 @@ const Sidebar = () => {
               </Link>
             </NavItem>
           ))}
-          <Button
-            color="danger"
-            tag="a"
-            target="_blank"
-            className="mt-3"
-            href="https://www.wrappixel.com/templates/xtreme-react-redux-admin/?ref=33"
-          >
-            Upgrade To Pro
-          </Button>
+
         </Nav>
       </div>
     </div>
