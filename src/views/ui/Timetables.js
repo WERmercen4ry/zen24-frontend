@@ -14,7 +14,7 @@ const Timetables = () => {
                         </Link>
 
                     </div>
-                    <Table striped>
+                    <Table  >
                         <thead>
                             <tr>
                                 <th>Trainer</th>

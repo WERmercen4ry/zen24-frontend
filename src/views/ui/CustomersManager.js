@@ -156,13 +156,13 @@ const CustomersManager = () => {
               </CardSubtitle>
             </div>
             <div className="button-user">
-              <Button className="btn" color="primary" size="lg">
+              <Button className="btn" color="primary" size="md">
                 + Thêm mới
               </Button>
-              <Button className="btn" outline color="danger" size="lg">
+              <Button className="btn" outline color="danger" size="md">
                 Tài khoản gần đến giới hạn
               </Button>
-              <Button className="btn" outline color="secondary" size="lg">
+              <Button className="btn" outline color="secondary" size="md">
                 Quá ngày không tham gia
               </Button>
             </div>

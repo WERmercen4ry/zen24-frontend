@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "Quản lý khách hàng",
-    href: "/starter",
+    href: "/customers-manager",
     icon: "bi bi-people",
   },
   {
@@ -15,7 +15,7 @@ const navigation = [
   },
   {
     title: "Giao dịch",
-    href: "/starter",
+    href: "/transactions",
     icon: "bi bi-columns-gap",
   },
   {

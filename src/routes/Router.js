@@ -22,7 +22,9 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 // Zen pilates
 const Timetable = lazy(() => import("../views/ui/Timetable.js"));
 const Timetables = lazy(() => import("../views/ui/Timetables.js"));
-
+const CustomersManager = lazy(() => import("../views/ui/CustomersManager.js"));
+const Transactions = lazy(() => import("../views/ui/Transactions.js"));
+const Subscription = lazy(() => import("../views/ui/Subscription.js"));
 const ThemeRoutes = [
   {
     path: "/",
@@ -38,9 +40,12 @@ const ThemeRoutes = [
       { path: "/grid", exact: true, element: <Grid /> },
       { path: "/table", exact: true, element: <Tables /> },
       { path: "/forms", exact: true, element: <Forms /> },
-      { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
+      { path: "/breadcrumbs", exact: true, element: <Subscription /> },
       { path: "/timetable", exact: true, element: <Timetable /> },
       { path: "/timetables", exact: true, element: <Timetables /> },
+      { path: "/customers-manager", exact: true, element: <CustomersManager /> },
+      { path: "/transactions", exact: true, element: <Transactions /> },
+
     ],
   },
 ];
