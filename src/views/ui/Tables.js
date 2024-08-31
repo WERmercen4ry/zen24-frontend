@@ -1,3 +1,4 @@
+import CustomersManager from "../../components/dashboard/CustomersManager";
 import ProjectTables from "../../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
@@ -8,7 +9,8 @@ const Tables = () => {
       {/* table-1*/}
       {/* --------------------------------------------------------------------------------*/}
       <Col lg="12">
-        <ProjectTables />
+        {/* <ProjectTables /> */}
+        <CustomersManager />
       </Col>
       {/* --------------------------------------------------------------------------------*/}
       {/* table-2*/}
