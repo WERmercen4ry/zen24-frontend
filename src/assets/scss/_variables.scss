@@ -1,19 +1,19 @@
 /*******************/
 // Theme Fonts
 /********************/
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap");
-$font-family-sans-serif: "Nunito", sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+$font-family-sans-serif: "Roboto", sans-serif;
 /*******************/
 // Theme Colors
 /********************/
-$primary: #2962ff;
+$primary: #E9E1D2 !default;
 $info: #3699ff;
 $danger: #f64e60;
 $success: #0bb7af;
 $warning: #ee9d01;
 $dark: #343a40;
 $light: #eaf2fb;
-$secondary: #35363b;
+$secondary: #343434;
 
 $theme-colors: (
   "primary": $primary,
@@ -80,4 +80,4 @@ $btn-focus-width: 0px;
 // Theme sidebar width
 /********************/
 $sidebarWidth: 260px;
-$sidebarColor: $white;
+$sidebarColor: #343434 !default;

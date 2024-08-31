@@ -1,10 +1,16 @@
-import { ReactComponent as LogoDark } from "../assets/images/logos/xtremelogo.svg";
+import logo from "../assets/images/logos/ZenLogo.png";
 import { Link } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <Link to="/">
-      <LogoDark />
+    <Link to="/" className="logo">
+      <img
+        src={logo}
+        alt="profile"
+        className=""
+        width="60"
+      ></img>
+      <p>Zen Pilates</p>
     </Link>
   );
 };

@@ -21,3 +21,8 @@
     }
   }
 }
+.nav-link:hover, .nav-link:focus {
+  color: $secondary !important;
+  background-color: $white !important;
+  border-radius: 5px;
+}
