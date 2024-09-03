@@ -48,7 +48,7 @@ const Subscription = () => {
                         <div className="timetable-header">
                             <h4>Đăng ký gói</h4>
                             <Link to={'/customers-manager'}>
-                                <Button className="btn" outline color="secondary">
+                                <Button className="btn m-auto" outline color="secondary">
                                 ← Trở về</Button>
                             </Link>
 
@@ -67,7 +67,7 @@ const Subscription = () => {
                                     className={activeTab === '2' ? 'active' : ''}
                                     onClick={() => { toggleTab('2'); }}
                                 >
-                                    Danh sách Gói Tập
+                                    Danh sách gói Tập
                                 </NavLink>
                             </NavItem>
                         </Nav>

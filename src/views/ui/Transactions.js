@@ -65,20 +65,20 @@ const Transactions = () => {
             <div className="transactions-header">
                 <h4>Giao dịch</h4>
             </div>
-            <Table >
+            <Table borderless>
                 <thead>
                     <tr>
-                        <th>Người dùng</th>
-                        <th>Phương Thức</th>
-                        <th>Trạng Thái</th>
-                        <th>Loại</th>
-                        <th>Số Tiền</th>
-                        <th>Hình Ảnh</th>
+                        <th className="text-muted">Người dùng</th>
+                        <th className="text-muted">Phương Thức</th>
+                        <th className="text-muted">Trạng Thái</th>
+                        <th className="text-muted">Loại</th>
+                        <th className="text-muted">Số Tiền</th>
+                        <th className="text-muted">Hình Ảnh</th>
                     </tr>
                 </thead>
                 <tbody>
                     {transactionData.map((transaction, index) => (
-                        <tr key={index}>
+                        <tr key={index} className="border-top">
                             <td>{transaction.user}</td>
                             <td><span className="label-method">{transaction.method}</span></td>
                             <td><span className={`label-status ${getStatusClass(transaction.status)}`}>{transaction.status}</span></td>

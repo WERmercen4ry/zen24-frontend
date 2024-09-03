@@ -5,7 +5,9 @@
 @import "./layout/sidebar";
 @import "./layout/container";
 @import "./layout/header";
-
+.page-link{
+    color: $secondary !important;
+}
 .contentArea{
     background-color: $primary !important;
 }
@@ -56,7 +58,7 @@
 .timetable-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+
 }
 
 .timetable-footer {
@@ -135,6 +137,13 @@
     border-radius: 7px;
 }
 
+.nav-tabs .nav-link{
+    cursor: pointer;
+}
 
-// Đăng ký gói
 
+.form-label{
+    font-weight: bold;
+    --bs-text-opacity: 1;
+    color: var(--bs-secondary-color) !important;
+}

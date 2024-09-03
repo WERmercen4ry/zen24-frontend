@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Dropdown,
-  Button,  
+  Button,
   Breadcrumb,
   BreadcrumbItem
 } from "reactstrap";
@@ -61,7 +61,7 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Link to="/about" className="nav-link text-secondary">
-                Quảng lý khách hàng
+                Quản lý khách hàng
               </Link>
             </NavItem>
             <NavItem>
@@ -87,7 +87,9 @@ const Header = () => {
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
               <DropdownItem>My Account</DropdownItem>
-              <DropdownItem>Edit Profile</DropdownItem>
+              <Link to={'/profile'}>
+                <DropdownItem>Edit Profile</DropdownItem>
+              </Link>
               <DropdownItem divider />
               <DropdownItem>My Balance</DropdownItem>
               <DropdownItem>Inbox</DropdownItem>
