@@ -1,0 +1,175 @@
+.profile-page-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.overview-section {
+    padding: 0px 0;
+    align-items: center;
+}
+.profile-avatar {
+    width: 170px;
+    height: 170px;
+    border-radius: 8px;
+}
+
+.profile-info h4 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.profile-info p {
+    margin-right: 25px;
+    color: #6c757d;
+    font-size: 1rem;
+}
+.profile-info div {
+
+    align-items: center;
+}
+
+.link-branches {
+    background-color: #e0f7fa;
+    color: #00796b;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.profile-stats {
+    font-size: 1rem;
+    color: #6c757d;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-stats div {
+    display: flex;
+    align-items: center;
+}
+
+.profile-completion {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
+
+.profile-completion span {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.completion-percentage {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #388e3c;
+    margin-top: 5px;
+}
+.nav-link{
+    color: #343434;
+}
+.nav-tabs .nav-link.active {
+    background-color: #E9E1D2;
+
+}
+
+.profile-overview p {
+    margin-bottom: 10px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.stats-box {
+    border: 2px dashed  #dee2e6;
+    border-radius: 8px;
+    padding: 10px 15px;
+    text-align: left;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    min-width: 150px;
+}
+
+.stats-box h5 {
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
+.stats-box p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.link-branches {
+    font-weight: bold;
+    color: #007bff;
+}
+.progress{
+    max-height: 10px;
+}
+.label{
+    min-width: 40%;
+}
+.avatar-upload {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #ddd;
+    border-radius: 8px; /* Thay đổi từ 50% sang 8px để tạo hình vuông với góc bo tròn nhẹ */
+    margin: auto;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.avatar-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-icon {
+    position: absolute;
+    font-size: 24px;
+    color: #007bff;
+}
+.profile-detail-container {
+    padding: 15px 0px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    min-height: 40px;
+}
+.profile-detail-edit{
+    display: flex;
+}
+.profile-detail-edit label{
+    min-width: 40%;
+    min-height: 30px;
+}

@@ -101,7 +101,9 @@ const Header = () => {
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
               <DropdownItem>My Account</DropdownItem>
-              <DropdownItem>Edit Profile</DropdownItem>
+              <Link to={'/profile'}>
+                <DropdownItem>Edit Profile</DropdownItem>
+              </Link>
               <DropdownItem divider />
               <DropdownItem>My Balance</DropdownItem>
               <DropdownItem>Inbox</DropdownItem>
@@ -109,14 +111,6 @@ const Header = () => {
             </DropdownMenu>
           </Dropdown>
         </Collapse>
-      </Navbar>
-      <Navbar color="sec" dark expand="md" className="breadcrumbs">
-        <Breadcrumb className="">
-          <BreadcrumbItem>
-            <a href="/">Home</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>Library</BreadcrumbItem>
-        </Breadcrumb>
       </Navbar>
     </div>
   );
