@@ -112,14 +112,6 @@ const Header = () => {
           </Dropdown>
         </Collapse>
       </Navbar>
-      <Navbar color="sec" dark expand="md" className="breadcrumbs">
-        <Breadcrumb className="">
-          <BreadcrumbItem>
-            <a href="/">Home</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>Library</BreadcrumbItem>
-        </Breadcrumb>
-      </Navbar>
     </div>
   );
 };
