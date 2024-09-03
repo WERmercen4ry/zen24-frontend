@@ -8,6 +8,7 @@ import bg1 from "../assets/images/bg/bg1.jpg";
 import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
+import Dashboard from "./ui/Dashboard";
 
 const BlogData = [
   {
@@ -48,7 +49,7 @@ const Starter = () => {
   return (
     <div>
       {/***Top Cards***/}
-      <Row>
+      {/* <Row>
         <Col sm="6" lg="3">
           <TopCards
             bg="bg-light-success text-success"
@@ -85,24 +86,22 @@ const Starter = () => {
             icon="bi bi-bag"
           />
         </Col>
-      </Row>
+      </Row> */}
       {/***Sales & Feed***/}
-      <Row>
+      {/* <Row>
         <Col sm="6" lg="6" xl="7" xxl="8">
           <SalesChart />
         </Col>
         <Col sm="6" lg="6" xl="5" xxl="4">
           <Feeds />
         </Col>
-      </Row>
+      </Row> */}
       {/***Table ***/}
       <Row>
-        <Col lg="12">
-          <ProjectTables />
-        </Col>
+        <Dashboard></Dashboard>
       </Row>
       {/***Blog Cards***/}
-      <Row>
+      {/* <Row>
         {BlogData.map((blg, index) => (
           <Col sm="6" lg="6" xl="3" key={index}>
             <Blog
@@ -114,7 +113,7 @@ const Starter = () => {
             />
           </Col>
         ))}
-      </Row>
+      </Row> */}
     </div>
   );
 };
