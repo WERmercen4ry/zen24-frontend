@@ -1,8 +1,21 @@
-.navbar{
-    height: 55px;
+.navbar {
+    height          : 55px;
     background-color: white;
 }
-.avatar{
-    background-color: white;;
+
+.avatar {
+    background-color: white;
+    ;
     border: none;
+}
+
+.item-header {
+    padding         : 5px;
+    background-color: #fff;
+    margin          : 5px;
+    cursor          : pointer;
+}
+
+.item-header:hover {
+    background-color: black;
 }

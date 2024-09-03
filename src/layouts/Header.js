@@ -10,9 +10,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Dropdown,
-  Button,  
+  Button,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
 } from "reactstrap";
 import user1 from "../assets/images/users/user1.jpg";
 
@@ -32,7 +32,7 @@ const Header = () => {
       <Navbar color="sec" dark expand="md">
         <div className="d-flex align-items-center">
           <NavbarBrand href="/" className="d-lg-none">
-            <DropdownToggle >
+            <DropdownToggle>
               <img
                 src={user1}
                 alt="profile"
@@ -40,7 +40,6 @@ const Header = () => {
                 width="30"
               ></img>
             </DropdownToggle>
-
           </NavbarBrand>
           <Button
             color="primary"
@@ -51,26 +50,41 @@ const Header = () => {
           </Button>
         </div>
 
-
         <Collapse navbar isOpen={isOpen}>
           <Nav className="me-auto" navbar>
             <NavItem>
-              <Link to="/starter" className="nav-link text-secondary">
+              <Link
+                to="/starter"
+                className="nav-link text-secondary item-header"
+                style={{ borderRadius: "10px" }}
+              >
                 Dashboard
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/about" className="nav-link text-secondary">
+              <Link
+                to="/about"
+                className="nav-link text-secondary item-header"
+                style={{ borderRadius: "10px" }}
+              >
                 Quảng lý khách hàng
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/about" className="nav-link text-secondary">
+              <Link
+                to="/about"
+                className="nav-link text-secondary item-header"
+                style={{ borderRadius: "10px" }}
+              >
                 Thời khoá biểu
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/about" className="nav-link text-secondary">
+              <Link
+                to="/about"
+                className="nav-link text-secondary item-header"
+                style={{ borderRadius: "10px" }}
+              >
                 Giao dịch
               </Link>
             </NavItem>
@@ -103,7 +117,6 @@ const Header = () => {
           </BreadcrumbItem>
           <BreadcrumbItem active>Library</BreadcrumbItem>
         </Breadcrumb>
-
       </Navbar>
     </div>
   );
