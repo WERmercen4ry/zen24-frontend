@@ -1,0 +1,36 @@
+.date-time {
+    cursor: pointer;
+}
+
+.desc-total {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+}
+
+.button-month {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    gap            : 10px;
+}
+
+.title-month {
+    font-size  : 20px;
+    font-weight: bold;
+}
+
+.num {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+}
+
+.num span {
+    font-size       : 20px;
+    padding-left    : 8px;
+    padding-right   : 8px;
+    background-color: lightgray;
+    border-radius   : 4px;
+    font-weight     : 600;
+}
