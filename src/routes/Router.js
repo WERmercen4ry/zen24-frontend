@@ -26,8 +26,7 @@ const CustomersManager = lazy(() => import("../views/ui/CustomersManager.js"));
 const Transactions = lazy(() => import("../views/ui/Transactions.js"));
 const Subscription = lazy(() => import("../views/ui/Subscription.js"));
 const UserForm = lazy(() => import("../views/ui/UserForm.js"));
-const ProfilePage  = lazy(() => import("../views/ui/ProfilePage .js"));
-
+const ProfilePage = lazy(() => import("../views/ui/ProfilePage .js"));
 
 const ThemeRoutes = [
   {
@@ -47,13 +46,14 @@ const ThemeRoutes = [
       { path: "/breadcrumbs", exact: true, element: <Subscription /> },
       { path: "/timetable", exact: true, element: <Timetable /> },
       { path: "/timetables", exact: true, element: <Timetables /> },
-      { path: "/customers-manager", exact: true, element: <CustomersManager /> },
+      {
+        path: "/customers-manager",
+        exact: true,
+        element: <CustomersManager />,
+      },
       { path: "/transactions", exact: true, element: <Transactions /> },
       { path: "/create-user", exact: true, element: <UserForm /> },
-      { path: "/profile", exact: true, element: <ProfilePage  /> },
-
-
-
+      { path: "/profile", exact: true, element: <ProfilePage /> },
     ],
   },
 ];

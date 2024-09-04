@@ -10,12 +10,17 @@
 }
 
 .item-header {
-    padding         : 5px;
+    padding         : 8px;
     background-color: #fff;
     margin          : 5px;
     cursor          : pointer;
+    text-decoration : none;
 }
 
 .item-header:hover {
-    background-color: black;
+    background-color: rgb(235, 232, 232);
+}
+
+.active-link {
+    background-color: rgb(235, 232, 232);
 }

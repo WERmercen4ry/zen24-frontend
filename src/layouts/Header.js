@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Navbar,
   Collapse,
@@ -19,13 +19,23 @@ import user1 from "../assets/images/users/user1.jpg";
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const location = useLocation();
+  console.log(location.pathname);
+
+  const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
+
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
+  };
+
+  const handleLinkClick = (link) => {
+    setActiveLink(link);
   };
   return (
     <div>
@@ -36,7 +46,7 @@ const Header = () => {
               <img
                 src={user1}
                 alt="profile"
-                className="rounded-circle"
+                className="rounded-circle m-auto"
                 width="30"
               ></img>
             </DropdownToggle>
@@ -55,35 +65,47 @@ const Header = () => {
             <NavItem>
               <Link
                 to="/starter"
-                className="nav-link text-secondary item-header"
+                className={`text-secondary item-header ${
+                  activeLink === "/starter" ? "active-link" : ""
+                }`}
                 style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/starter")}
               >
                 Dashboard
               </Link>
             </NavItem>
             <NavItem>
               <Link
-                to="/about"
-                className="nav-link text-secondary item-header"
+                to="/customers-manager"
+                className={`text-secondary item-header ${
+                  activeLink === "/customers-manager" ? "active-link" : ""
+                }`}
                 style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/customers-manager")}
               >
-                Quảng lý khách hàng
+                Quản lý khách hàng
               </Link>
             </NavItem>
             <NavItem>
               <Link
-                to="/about"
-                className="nav-link text-secondary item-header"
+                to="/timetables"
+                className={`text-secondary item-header ${
+                  activeLink === "/timetables" ? "active-link" : ""
+                }`}
                 style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/timetables")}
               >
                 Thời khoá biểu
               </Link>
             </NavItem>
             <NavItem>
               <Link
-                to="/about"
-                className="nav-link text-secondary item-header"
+                to="/transactions"
+                className={`text-secondary item-header ${
+                  activeLink === "/transactions" ? "active-link" : ""
+                }`}
                 style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/transactions")}
               >
                 Giao dịch
               </Link>
@@ -94,14 +116,14 @@ const Header = () => {
               <img
                 src={user1}
                 alt="profile"
-                className="rounded-circle "
+                className="rounded-circle m-auto"
                 width="30"
               ></img>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
               <DropdownItem>My Account</DropdownItem>
-              <Link to={'/profile'}>
+              <Link to={"/profile"}>
                 <DropdownItem>Edit Profile</DropdownItem>
               </Link>
               <DropdownItem divider />
