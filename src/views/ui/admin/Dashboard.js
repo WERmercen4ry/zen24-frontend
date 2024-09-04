@@ -2,26 +2,20 @@ import React, { useState } from "react";
 import {
   Table,
   Button,
-  Form,
   FormGroup,
   Label,
   Input,
   Col,
   Row,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
   Card,
   CardBody,
 } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user3 from "../../assets/images/users/user3.jpg";
-import "../../assets/scss/layout/dashboard.scss";
-import trainer from "../../assets/images/logos/student-icon.png";
-import student from "../../assets/images/logos/trainer-logo.png";
+import user1 from "../../../assets/images/users/user1.jpg";
+import user2 from "../../../assets/images/users/user2.jpg";
+import user3 from "../../../assets/images/users/user3.jpg";
+import "../../../assets/scss/layout/dashboard.scss";
+import trainer from "../../../assets/images/logos/student-icon.png";
+import student from "../../../assets/images/logos/trainer-logo.png";
 
 const tableData = [
   {

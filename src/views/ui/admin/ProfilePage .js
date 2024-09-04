@@ -1,4 +1,4 @@
-import "../../assets/scss/layout/profilePage.scss";
+import "../../../assets/scss/layout/profilePage.scss";
 import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Button, Progress, Form, FormGroup, Label, Input, Table } from 'reactstrap';
 import classnames from 'classnames';
