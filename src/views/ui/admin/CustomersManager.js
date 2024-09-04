@@ -9,10 +9,10 @@ import {
   Col,
   Button,
 } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user3 from "../../assets/images/users/user3.jpg";
-import "../../assets/scss/layout/customersManager.scss";
+import user1 from "../../../assets/images/users/user1.jpg";
+import user2 from "../../../assets/images/users/user2.jpg";
+import user3 from "../../../assets/images/users/user3.jpg";
+import "../../../assets/scss/layout/customersManager.scss";
 import { Link } from "react-router-dom";
 const tableData = [
   {
@@ -157,11 +157,11 @@ const CustomersManager = () => {
             </div>
             <div className="button-user">
 
-              <Link to={'/create-user'}>
-              <Button className="btn" color="primary" size="md">
-                + Thêm mới
-              </Button>
-                        </Link>
+              <Link to={'/admin/create-user'}>
+                <Button className="btn" color="primary" size="md">
+                  + Thêm mới
+                </Button>
+              </Link>
               <Button className="btn" outline color="danger" size="md">
                 Tài khoản gần đến giới hạn
               </Button>

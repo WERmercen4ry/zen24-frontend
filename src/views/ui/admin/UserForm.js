@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button, Row, Col, FormFeedback } from 'reactstrap';
-import "../../assets/scss/layout/user.scss";
+import "../../../assets/scss/layout/user.scss";
 import { Link } from "react-router-dom";
 const UserForm = () => {
     const [formData, setFormData] = useState({
@@ -66,7 +66,7 @@ const UserForm = () => {
         <div className="user-form-container">
             <div className="timetable-header">
                 <h3>Thêm mới người dùng</h3>
-                <Link to={'/customers-manager'}>
+                <Link to={'/admin/customers-manager'}>
                     <Button className="btn mx-auto my-auto" outline color="secondary">
                         ← Trở về</Button>
                 </Link>

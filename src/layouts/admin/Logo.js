@@ -1,4 +1,4 @@
-import logo from "../assets/images/logos/ZenLogo.png";
+import logo from "../../assets/images/logos/ZenLogo.png";
 import { Link } from "react-router-dom";
 
 const Logo = () => {

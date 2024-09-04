@@ -14,7 +14,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from "reactstrap";
-import user1 from "../assets/images/users/user1.jpg";
+import user1 from "../../assets/images/users/user1.jpg";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);

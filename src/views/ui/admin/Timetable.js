@@ -98,7 +98,7 @@ const Timetable = () => {
                                 </Col>
                             </Row>
                             <div className="btn-form">
-                                <Link to={'/timetables'}>
+                                <Link to={'/admin/timetables'}>
                                     <Button className="mt-2 btn-secondary me-2">Huỷ</Button>
                                 </Link>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Form, FormGroup, Label, Input, Col, Row, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
-import "../../assets/scss/layout/subscription.scss";
+import "../../../assets/scss/layout/subscription.scss";
 import { Link } from "react-router-dom";
 const Subscription = () => {
     const [activeTab, setActiveTab] = useState('1');
@@ -47,7 +47,7 @@ const Subscription = () => {
                     <div >
                         <div className="timetable-header">
                             <h4>Đăng ký gói</h4>
-                            <Link to={'/customers-manager'}>
+                            <Link to={'/admin/customers-manager'}>
                                 <Button className="btn m-auto" outline color="secondary">
                                 ← Trở về</Button>
                             </Link>

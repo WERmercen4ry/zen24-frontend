@@ -7,7 +7,7 @@ const Timetables = () => {
                 <div className="timetable-content">
                     <div className="timetable-header">
                         <h4>Thời Khóa Biểu</h4>
-                        <Link to={'/timetable'}>
+                        <Link to={'/admin/timetable'}>
                             <Button color="primary" className='m-auto'>
 
                                 + Thêm mới</Button>

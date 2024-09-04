@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import user3 from "../../assets/images/users/user3.jpg";
+import user3 from "../../../assets/images/users/user3.jpg";
 const Transactions = () => {
     // Dữ liệu mẫu cho bảng
     const transactionData = [
