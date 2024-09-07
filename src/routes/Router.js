@@ -1,8 +1,12 @@
+import { element } from "prop-types";
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
+import Login from "../views/ui/Login.js";
 
 /****Layouts*****/
-const AdminFullLayout = lazy(() => import("../layouts/admin/AdminFullLayout.js"));
+const AdminFullLayout = lazy(() =>
+  import("../layouts/admin/AdminFullLayout.js")
+);
 const UserFullLayout = lazy(() => import("../layouts/user/UserFullLayout.js"));
 
 /*****Routes******/
@@ -10,7 +14,9 @@ const UserFullLayout = lazy(() => import("../layouts/user/UserFullLayout.js"));
 // Admin
 const Timetable = lazy(() => import("../views/ui/admin/Timetable.js"));
 const Timetables = lazy(() => import("../views/ui/admin/Timetables.js"));
-const CustomersManager = lazy(() => import("../views/ui/admin/CustomersManager.js"));
+const CustomersManager = lazy(() =>
+  import("../views/ui/admin/CustomersManager.js")
+);
 const Transactions = lazy(() => import("../views/ui/admin/Transactions.js"));
 const Subscription = lazy(() => import("../views/ui/admin/Subscription.js"));
 const UserForm = lazy(() => import("../views/ui/admin/UserForm.js"));
@@ -20,7 +26,6 @@ const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
 // User
 const WorkoutHistory = lazy(() => import("../views/ui/user/WorkoutHistory.js"));
 const BookingScreen = lazy(() => import("../views/ui/user/BookingScreen.js"));
-
 
 const ThemeRoutes = [
   {
@@ -41,7 +46,8 @@ const ThemeRoutes = [
       { path: "create-user", exact: true, element: <UserForm /> },
       { path: "profile", exact: true, element: <ProfilePage /> },
     ],
-  }, {
+  },
+  {
     path: "/",
     element: <UserFullLayout />,
     children: [
@@ -59,7 +65,11 @@ const ThemeRoutes = [
       { path: "create-user", exact: true, element: <UserForm /> },
       { path: "profile", exact: true, element: <ProfilePage /> },
     ],
-  }
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
 ];
 
 export default ThemeRoutes;
