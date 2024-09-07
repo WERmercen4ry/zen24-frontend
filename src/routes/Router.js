@@ -24,6 +24,8 @@ const ProfilePage = lazy(() => import("../views/ui/admin/ProfilePage .js"));
 const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
 
 // User
+const WorkoutHistory = lazy(() => import("../views/ui/user/WorkoutHistory.js"));
+const BookingScreen = lazy(() => import("../views/ui/user/BookingScreen.js"));
 
 const ThemeRoutes = [
   {
@@ -49,9 +51,9 @@ const ThemeRoutes = [
     path: "/",
     element: <UserFullLayout />,
     children: [
-      { path: "", element: <Navigate to="/dashboard" /> },
-      { path: "dashboard", exact: true, element: <Dashboard /> },
-      { path: "breadcrumbs", exact: true, element: <Subscription /> },
+      { path: "", element: <Navigate to="/booking" /> },
+      { path: "booking", exact: true, element: <BookingScreen /> },
+      { path: "history", exact: true, element: <WorkoutHistory /> },
       { path: "timetable", exact: true, element: <Timetable /> },
       { path: "timetables", exact: true, element: <Timetables /> },
       {

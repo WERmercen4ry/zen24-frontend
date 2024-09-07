@@ -8,12 +8,14 @@ import {
   Row,
   Col,
   Button,
+  Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label
 } from "reactstrap";
 import user1 from "../../../assets/images/users/user1.jpg";
 import user2 from "../../../assets/images/users/user2.jpg";
 import user3 from "../../../assets/images/users/user3.jpg";
 import "../../../assets/scss/layout/customersManager.scss";
 import { Link } from "react-router-dom";
+import React, { useState } from 'react';
 const tableData = [
   {
     avatar: user1,
@@ -128,8 +130,139 @@ const tableData = [
 ];
 
 const CustomersManager = () => {
+  const [modal, setModal] = useState(false);
+  const dummyData = [
+    {
+      trainer: 'Nguyễn Văn Thanh Dư',
+      totalStudents: 8,
+      studentCount: 5,
+      type: 'Pilates',
+      branch: '1. FOURT PILATES - Số 6, Đường 10, KĐT Hà Đô',
+      day: 'Thứ 2',
+      date: '26/09/2024',
+      startTime: '19:00',
+      endTime: '20:00',
+    },
+  ];
+  const toggle = () => setModal(!modal);
   return (
     <div>
+      <Modal isOpen={modal} toggle={toggle} size="xl">
+        <ModalHeader toggle={toggle}>Tạo Lịch Tập</ModalHeader>
+        <ModalBody>
+          <Row>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="branch">Lọc chi nhánh:</Label>
+                <Input type="select" name="branch" id="branch">
+                  <option>Ẩn tất cả</option>
+                  <option>Chi nhánh 1</option>
+                  <option>Chi nhánh 2</option>
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="trainer">Tìm kiếm huấn luyện viên:</Label>
+                <Input type="select" name="trainer" id="trainer">
+                  <option>Tất cả</option>
+                  <option>Nguyễn Văn A</option>
+                  <option>Trần Thị B</option>
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="classType">Lọc loại hình lớp:</Label>
+                <Input type="select" name="classType" id="classType">
+                  <option>Tất cả</option>
+                  <option>Pilates</option>
+                  <option>Yoga</option>
+                </Input>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="filterDate">Lọc ngày:</Label>
+                <Input type="date" name="filterDate" id="filterDate" />
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="filterTime">Lọc thời gian:</Label>
+                <Input type="select" name="filterTime" id="filterTime">
+                  <option>Tất cả</option>
+                  <option>Buổi sáng</option>
+                  <option>Buổi chiều</option>
+                  <option>Buổi tối</option>
+                </Input>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={10}>
+              <FormGroup check inline>
+                <Label className="px-4 ps-0" check><Input type="checkbox" /> Thứ 2</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Thứ 3</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Thứ 4</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Thứ 5</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Thứ 6</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Thứ 7</Label>
+                <Label className="px-4" check><Input type="checkbox" /> Chủ nhật</Label>
+              </FormGroup>
+            </Col>
+            <Col md={2} className="d-flex justify-content-end">
+              <Button color="primary" onClick={toggle}>Xác nhận</Button>
+            </Col>
+          </Row>
+          <div className="mt-4">
+            <h5 className="text-muted">Tạo lịch tập</h5>
+            <Table responsive borderless>
+              <thead>
+                <tr>
+                  <th>
+                    <Input type="checkbox" style={{ cursor: "pointer" }} />
+                  </th>
+                  <th className="text-muted" >Huấn luyện viên</th>
+                  <th className="text-muted" >Tổng học viên</th>
+                  <th className="text-muted" >Số học viên</th>
+                  <th className="text-muted" >Loại</th>
+                  <th className="text-muted" >Chi nhánh</th>
+                  <th className="text-muted" >Thứ</th>
+                  <th className="text-muted" >Ngày</th>
+                  <th className="text-muted" >Thời gian bắt đầu</th>
+                  <th className="text-muted" >Thời gian kết thúc</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dummyData.map((item, index) => (
+                  <tr key={index} className="border-top">
+                    <td>
+                      <Input type="checkbox" style={{ cursor: "pointer" }} />
+                    </td>
+                    <td className="column-table">{item.trainer}</td>
+                    <td className="column-table">{item.totalStudents}</td>
+                    <td className="column-table">{item.studentCount}</td>
+                    <td className="column-table">{item.type}</td>
+                    <td className="column-table">{item.branch}</td>
+                    <td className="column-table">{item.day}</td>
+                    <td className="column-table">{item.date}</td>
+                    <td className="column-table">{item.startTime}</td>
+                    <td className="column-table">{item.endTime}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={toggle}>Đóng</Button>
+          <Button color="primary" onClick={toggle}>Lưu thay đổi</Button>
+
+        </ModalFooter>
+      </Modal>
       <Card>
         <Row className="mt-3">
           <Col>
@@ -162,6 +295,9 @@ const CustomersManager = () => {
                   + Thêm mới
                 </Button>
               </Link>
+              <Button onClick={toggle} className="btn" color="primary" size="md">
+                + Tạo lịch tập
+              </Button>
               <Button className="btn" outline color="danger" size="md">
                 Tài khoản gần đến giới hạn
               </Button>
@@ -177,7 +313,7 @@ const CustomersManager = () => {
                 <th>
                   <Input type="checkbox" style={{ cursor: "pointer" }} />
                 </th>
-                <th>
+                <th >
                   <p className="text-muted" style={{ margin: "0px" }}>
                     Họ Tên
                   </p>
