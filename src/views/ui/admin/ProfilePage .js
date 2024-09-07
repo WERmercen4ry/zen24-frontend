@@ -61,28 +61,28 @@ const ProfilePage = () => {
                                 <button className="link-branches my-auto ms-2">LIÊN TẤN CÁC CHI NHÁNH</button>
                             </div>
                             <div className=" d-flex">
-                                <p className="infor-group my-auto"><i class="bi bi-telephone"></i> 903765607</p>
-                                <p className="infor-group my-auto"><i class="bi bi-geo-alt-fill"></i> cnhado@gmail.com</p>
-                                <p className="infor-group my-auto"><i class="bi bi-envelope"></i> cnhado@gmail.com</p>
+                                <p className="infor-group my-auto"><i className="bi bi-telephone"></i> 903765607</p>
+                                <p className="infor-group my-auto"><i className="bi bi-geo-alt-fill"></i> cnhado@gmail.com</p>
+                                <p className="infor-group my-auto"><i className="bi bi-envelope"></i> cnhado@gmail.com</p>
                             </div>
                             <div className="mt-3  d-flex">
                                 <div className="stats-box">
                                     <div className=" d-flex">
-                                        <i class="bi bi-people-fill me-1"></i>
+                                        <i className="bi bi-people-fill me-1"></i>
                                         <h5>1</h5>
                                     </div>
                                     <p>Nhóm</p>
                                 </div>
                                 <div className="stats-box">
                                     <div className=" d-flex">
-                                        <i class="bi bi-building me-1"></i>
+                                        <i className="bi bi-building me-1"></i>
                                         <h5>0</h5>
                                     </div>
                                     <p>Phòng ban</p>
                                 </div>
                                 <div className="stats-box">
                                     <div className=" d-flex">
-                                        <i class="bi bi-wrench-adjustable me-1"></i>
+                                        <i className="bi bi-wrench-adjustable me-1"></i>
                                         <h5>0/0</h5>
                                     </div>
                                     <p>Group/API Accesses/Denies</p>

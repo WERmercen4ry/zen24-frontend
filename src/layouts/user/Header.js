@@ -1,141 +1,35 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import {
-  Navbar,
-  Collapse,
-  Nav,
-  NavItem,
-  NavbarBrand,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Dropdown,
-  Button,
-  Breadcrumb,
-  BreadcrumbItem,
-} from "reactstrap";
+import React from 'react';
+import '../../assets/scss/layout/header_user.scss'; // Import file CSS cho Header
+import Logo from "./Logo";
 import user1 from "../../assets/images/users/user1.jpg";
-
 const Header = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const location = useLocation();
-  console.log(location.pathname);
-
-  const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
-
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
-
-  const Handletoggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const showMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
-  };
-
-  const handleLinkClick = (link) => {
-    setActiveLink(link);
-  };
   return (
-    <div>
-      <Navbar color="sec" dark expand="md">
-        <div className="d-flex align-items-center">
-          <NavbarBrand href="/" className="d-lg-none">
-            <DropdownToggle>
-              <img
-                src={user1}
-                alt="profile"
-                className="rounded-circle m-auto"
-                width="30"
-              ></img>
-            </DropdownToggle>
-          </NavbarBrand>
-          <Button
-            color="primary"
-            className="d-lg-none"
-            onClick={() => showMobilemenu()}
-          >
-            <i className="bi bi-list"></i>
-          </Button>
+    <header className="header">
+      <div className="header-container">
+        <div className="header-logo">
+          <Logo></Logo>
         </div>
+        <div className="header-search">
+          <p className="infor-name my-auto">Xin chào Nguyễn Văn A</p>
+          <p className="infor-user my-auto"><i className="bi bi-geo-alt-fill"></i> 1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô</p>
+        </div>
+        <div className="header-right">
+          <button className="inbox-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bell-fill" viewBox="0 0 16 16">
+              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+            </svg>
+            <span className="msg-count">99</span>
+          </button>
+          <img
+            src={user1}
+            alt="profile"
+            className="rounded-circle m-auto"
+            width="45"
+          ></img>
+        </div>
+      </div>
 
-        <Collapse navbar isOpen={isOpen}>
-          <Nav className="me-auto" navbar>
-            <NavItem>
-              <Link
-                to="/starter"
-                className={`text-secondary item-header ${
-                  activeLink === "/starter" ? "active-link" : ""
-                }`}
-                style={{ borderRadius: "10px" }}
-                onClick={() => handleLinkClick("/starter")}
-              >
-                Dashboard
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link
-                to="/customers-manager"
-                className={`text-secondary item-header ${
-                  activeLink === "/customers-manager" ? "active-link" : ""
-                }`}
-                style={{ borderRadius: "10px" }}
-                onClick={() => handleLinkClick("/customers-manager")}
-              >
-                Quản lý khách hàng
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link
-                to="/timetables"
-                className={`text-secondary item-header ${
-                  activeLink === "/timetables" ? "active-link" : ""
-                }`}
-                style={{ borderRadius: "10px" }}
-                onClick={() => handleLinkClick("/timetables")}
-              >
-                Thời khoá biểu
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link
-                to="/transactions"
-                className={`text-secondary item-header ${
-                  activeLink === "/transactions" ? "active-link" : ""
-                }`}
-                style={{ borderRadius: "10px" }}
-                onClick={() => handleLinkClick("/transactions")}
-              >
-                Giao dịch
-              </Link>
-            </NavItem>
-          </Nav>
-          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle className="avatar">
-              <img
-                src={user1}
-                alt="profile"
-                className="rounded-circle m-auto"
-                width="30"
-              ></img>
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Info</DropdownItem>
-              <DropdownItem>My Account</DropdownItem>
-              <Link to={"/profile"}>
-                <DropdownItem>Edit Profile</DropdownItem>
-              </Link>
-              <DropdownItem divider />
-              <DropdownItem>My Balance</DropdownItem>
-              <DropdownItem>Inbox</DropdownItem>
-              <DropdownItem>Logout</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </Collapse>
-      </Navbar>
-    </div>
+    </header>
   );
 };
-
 export default Header;

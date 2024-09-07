@@ -1,0 +1,102 @@
+@import "../variables";
+.header {
+    background-color: #343434;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0.7% 1.2%;
+  }
+  
+  .header-container {
+    display: flex;
+    max-width: $userWidth;
+    justify-content: space-between;
+    align-items: center;
+    margin   : 0 auto;
+  }
+
+  .header-logo img {
+    max-height: 50px;
+  }
+  
+  .header-search {
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .search-btn {
+    background-color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .price-check-btn {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .infor-user{
+    color: #E9E1D2 !important;
+    font-size: 12px;
+  }
+  .infor-name{
+    color: #E9E1D2 !important;
+    font-weight: bold;
+  }
+
+  .inbox-btn {
+    margin: 0 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #464646;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .inbox-btn svg path {
+    fill: white;
+  }
+  .inbox-btn svg {
+    height: 17px;
+    transition: all 0.3s;
+  }
+  .msg-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color:$danger;
+    border-radius: 50%;
+    font-size: 0.7em;
+    color:  $primary;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
