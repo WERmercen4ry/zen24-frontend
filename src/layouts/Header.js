@@ -14,13 +14,12 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
+import user1 from "../assets/images/users/user1.jpg";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const location = useLocation();
-  console.log(location.pathname);
 
   const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
 
@@ -64,12 +63,12 @@ const Header = () => {
           <Nav className="me-auto" navbar>
             <NavItem>
               <Link
-                to="/dashboard"
+                to="/starter"
                 className={`text-secondary item-header ${
-                  activeLink === "/dashboard" ? "active-link" : ""
+                  activeLink === "/starter" ? "active-link" : ""
                 }`}
                 style={{ borderRadius: "10px" }}
-                onClick={() => handleLinkClick("/dashboard")}
+                onClick={() => handleLinkClick("/starter")}
               >
                 Dashboard
               </Link>
