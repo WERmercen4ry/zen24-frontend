@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 import Header from "./Header";
 import { Container } from "reactstrap";
 
@@ -11,9 +11,10 @@ const FullLayout = () => {
           {/********header**********/}
           <Header />
           {/********Middle Content**********/}
-          <Container className="p-4 wrapper" fluid>
+          <Container className="wrapper-user " fluid>
             <Outlet />
           </Container>
+          <Footer></Footer>
         </div>
       </div>
     </main>
