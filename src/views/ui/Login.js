@@ -1,5 +1,5 @@
 import "../../assets/scss/layout/login.scss";
-import picture from "../../assets/images/logos/ZenLogo.png";
+import picture from "../../assets/images/logos/ZenLogo2.png";
 
 const Login = () => {
   return (
