@@ -73,7 +73,7 @@ const UserForm = () => {
 
             </div>
             <Form onSubmit={handleSubmit}>
-                <Row form>
+                <Row form="true">
                     <Col md={3} className="text-center">
                         <FormGroup>
                             <Label for="avatar">Avatar *</Label>

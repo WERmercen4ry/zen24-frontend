@@ -2,6 +2,7 @@ import { element } from "prop-types";
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Login from "../views/ui/Login.js";
+import UpdateUser from "../views/ui/user/UpdateUser.js";
 
 /****Layouts*****/
 const AdminFullLayout = lazy(() =>
@@ -54,16 +55,7 @@ const ThemeRoutes = [
       { path: "", element: <Navigate to="/booking" /> },
       { path: "booking", exact: true, element: <BookingScreen /> },
       { path: "history", exact: true, element: <WorkoutHistory /> },
-      { path: "timetable", exact: true, element: <Timetable /> },
-      { path: "timetables", exact: true, element: <Timetables /> },
-      {
-        path: "customers-manager",
-        exact: true,
-        element: <CustomersManager />,
-      },
-      { path: "transactions", exact: true, element: <Transactions /> },
-      { path: "create-user", exact: true, element: <UserForm /> },
-      { path: "profile", exact: true, element: <ProfilePage /> },
+      { path: "update-user", exact: true, element: <UpdateUser /> },
     ],
   },
   {
