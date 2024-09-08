@@ -60,16 +60,16 @@ const WorkoutHistory = () => {
 
             {/* Tabs */}
             <Row className="history-tabs">
-                <Col xs="3" className="text-center">
+                <Col xs="3" className="text-center px-2p">
                     <Button className="active-tab">Tất cả</Button>
                 </Col>
-                <Col xs="3" className="text-center">
+                <Col xs="3" className="text-center px-2p">
                     <Button className="inactive-tab">Ngày</Button>
                 </Col>
-                <Col xs="3" className="text-center">
+                <Col xs="3" className="text-center px-2p">
                     <Button className="inactive-tab">Tuần</Button>
                 </Col>
-                <Col xs="3" className="text-center">
+                <Col xs="3" className="text-center px-2p">
                     <Button className="inactive-tab">Tháng</Button>
                 </Col>
             </Row>

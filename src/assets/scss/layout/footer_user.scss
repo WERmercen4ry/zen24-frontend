@@ -5,14 +5,14 @@
     bottom: 0;
     width: 100%;
     z-index: 1000;
-    padding: 10px 0;
+    padding: 0.7%;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
   }
   
   .footer-container {
     max-width: $userWidth;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin   : 0 auto;
   }
@@ -29,3 +29,10 @@
   .footer-btn :hover{
     background-color: $secondary;;
   }
+
+  
+@media (max-width: 575.98px) {
+  .footer {
+    padding: 1%;
+  }
+}

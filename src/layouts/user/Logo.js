@@ -10,7 +10,7 @@ const Logo = () => {
         className=""
         width="60"
       ></img>
-      <p>Zen Pilates</p>
+      <p className="project-name">Zen Pilates</p>
     </Link>
   );
 };

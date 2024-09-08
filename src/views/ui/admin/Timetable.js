@@ -8,8 +8,7 @@ import {
     Form,
     FormGroup,
     Label,
-    Input,
-    FormText,
+    Input
 } from "reactstrap";
 import { Link } from "react-router-dom";
 const Timetable = () => {
