@@ -17,7 +17,7 @@ const Footer = () => {
           </Link>
         </div>
         <div>
-        <Link to={'/admin/timetable'}>
+        <Link to={'/account'}>
           <Button className="footer-btn"><i className="bi bi-person-fill me-1"></i>Tài khoản</Button>
           </Link>
         </div>
