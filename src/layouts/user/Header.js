@@ -86,7 +86,6 @@ const Header = () => {
               )}
             </DropdownMenu>
           </Dropdown>
-
           {/* Avatar người dùng */}
           <img
             src={user1}

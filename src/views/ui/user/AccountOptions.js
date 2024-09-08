@@ -4,7 +4,7 @@ import { BsPerson, BsArchive, BsShare, BsShield, BsPhone, BsKey, BsBoxArrowRight
 import '../../../assets/scss/layout/user_page.scss';
 const AccountOptions = () => {
   const options = [
-    { title: 'Thông tin cá nhân', icon: <BsPerson />, path: '/personal-info' }
+    { title: 'Thông tin cá nhân', icon: <BsPerson />, path: '/update-user' }
   ];
   const options2 = [
     { title: 'Bảo lưu', icon: <BsArchive />, path: '/reverse' },
