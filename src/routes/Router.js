@@ -3,6 +3,11 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Login from "../views/ui/Login.js";
 import UpdateUser from "../views/ui/user/UpdateUser.js";
+import TopCards from "../components/dashboard/TopCards.js";
+import Feeds from "../components/dashboard/Feeds.js";
+import ProjectTables from "../components/dashboard/ProjectTable.js";
+import SalesChart from "../components/dashboard/SalesChart.js";
+import Blog from "../components/dashboard/Blog.js";
 
 /****Layouts*****/
 const AdminFullLayout = lazy(() =>
