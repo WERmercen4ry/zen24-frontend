@@ -1,13 +1,8 @@
-import { element } from "prop-types";
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Login from "../views/ui/Login.js";
 import UpdateUser from "../views/ui/user/UpdateUser.js";
-import TopCards from "../components/dashboard/TopCards.js";
-import Feeds from "../components/dashboard/Feeds.js";
-import ProjectTables from "../components/dashboard/ProjectTable.js";
-import SalesChart from "../components/dashboard/SalesChart.js";
-import Blog from "../components/dashboard/Blog.js";
+import ProtectedRoute from "../utils/ProtectedRoute.js";
 
 /****Layouts*****/
 const AdminFullLayout = lazy(() =>
@@ -33,15 +28,20 @@ const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
 const WorkoutHistory = lazy(() => import("../views/ui/user/WorkoutHistory.js"));
 const BookingScreen = lazy(() => import("../views/ui/user/BookingScreen.js"));
 const Reverse = lazy(() => import("../views/ui/user/Reverse.js"));
-const NotificateDetail = lazy(() => import("../views/ui/user/NotificateDetail.js"));
+const NotificateDetail = lazy(() =>
+  import("../views/ui/user/NotificateDetail.js")
+);
 const AccountOptions = lazy(() => import("../views/ui/user/AccountOptions.js"));
 const ChangePassword = lazy(() => import("../views/ui/user/ChangePassword.js"));
-
 
 const ThemeRoutes = [
   {
     path: "/admin",
-    element: <AdminFullLayout />,
+    element: (
+      <ProtectedRoute allowedRoles={["Admin"]}>
+        <AdminFullLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "", element: <Navigate to="/admin/dashboard" /> },
       { path: "dashboard", exact: true, element: <Dashboard /> },
@@ -60,14 +60,22 @@ const ThemeRoutes = [
   },
   {
     path: "/",
-    element: <UserFullLayout />,
+    element: (
+      <ProtectedRoute allowedRoles={["Admin", "User"]}>
+        <UserFullLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "", element: <Navigate to="/booking" /> },
       { path: "booking", exact: true, element: <BookingScreen /> },
       { path: "history", exact: true, element: <WorkoutHistory /> },
       { path: "reverse", exact: true, element: <Reverse /> },
       { path: "account", exact: true, element: <AccountOptions /> },
-      { path: "notification-detail/:id", exact: true, element: <NotificateDetail /> },
+      {
+        path: "notification-detail/:id",
+        exact: true,
+        element: <NotificateDetail />,
+      },
       { path: "change-password", exact: true, element: <ChangePassword /> },
       { path: "update-user", exact: true, element: <UpdateUser /> },
     ],
