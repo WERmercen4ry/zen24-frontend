@@ -7,7 +7,7 @@
     width                     : 650px;
     border-bottom-left-radius : 20px;
     border-bottom-right-radius: 20px;
-    min-height                    : 600px;
+    height                    : 500px;
 }
 
 .form-img {
@@ -48,12 +48,11 @@
     height       : 50px;
     display      : flex;
     align-items  : center;
-    padding-left : 10px;
     transition   : 0.2s ease-in-out;
+    width        : 100%;
 }
 
 .input {
-    margin-left  : 10px;
     border-radius: 10px;
     border       : none;
     width        : 100%;
@@ -115,18 +114,18 @@
 }
 
 .btn-login {
-    margin-top      : 10px;
-    width           : 100%;
-    height          : 50px;
-    border-radius   : 10px;
-    display         : flex;
-    justify-content : center;
-    align-items     : center;
-    font-weight     : 500;
-    gap             : 10px;
-    border          : 1px solid #ededef;
-    cursor          : pointer;
-    transition      : 0.2s ease-in-out;
+    margin-top     : 10px;
+    width          : 100%;
+    height         : 50px;
+    border-radius  : 10px;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    font-weight    : 500;
+    gap            : 10px;
+    border         : 1px solid #ededef;
+    cursor         : pointer;
+    transition     : 0.2s ease-in-out;
 }
 
 .btn-login:hover {
@@ -141,4 +140,28 @@
     height         : 100vh;
     flex-direction : column;
     padding-bottom : 15vh;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-container {
+        width         : 100vw;
+        margin-top    : 30px;
+        padding-bottom: 0px;
+        height        : 90vh;
+    }
+
+    .form-img {
+        width : 90%;
+        height: 200px;
+    }
+
+    .form {
+        width: 90%;
+    }
 }
