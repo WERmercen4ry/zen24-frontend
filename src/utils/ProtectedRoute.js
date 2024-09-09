@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const userRole = localStorage.getItem('userRole');  // Lấy role của người dùng từ localStorage
@@ -9,6 +9,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         return <Navigate to="/login" />;
     }
     return children;  // Nếu hợp lệ, render component con
+
 };
 
 export default ProtectedRoute;

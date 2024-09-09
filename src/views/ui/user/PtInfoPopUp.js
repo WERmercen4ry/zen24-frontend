@@ -1,5 +1,6 @@
-import { Container, Row, Col, Button, Badge } from "reactstrap";
+import { Button } from "reactstrap";
 import picture from "../../../assets/images/logos/ZenLogo2.png";
+import "../../../assets/scss/layout/ptInfoPopUp.scss"; // Import CSS file
 
 const PtInfoPopUp = ({ show, handleClose, title, children }) => {
   const ptInfo = {
@@ -15,79 +16,50 @@ const PtInfoPopUp = ({ show, handleClose, title, children }) => {
   };
 
   if (!show) {
-    return null; // Nếu không có show thì không hiển thị pop-up
+    return null; // Không hiển thị pop-up nếu không có show
   }
 
   return (
-    <div style={popupStyles}>
-      <div style={popupContentStyles}>
-        <div style={{ marginBottom: "50px" }}>
-          <div>
-            <img
-              src={ptInfo.avt}
-              alt="avt"
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "20px",
-                marginBottom: "20px",
-              }}
-            ></img>
+    <div className="popup-overlay">
+      <div className="popup-content">
+        <div className="popup-header">
+          <img src={ptInfo.avt} alt="avt" className="popup-image" />
+          <strong className="popup-name">{ptInfo.name}</strong>
+        </div>
+        <div className="popup-body">
+          <div className="popup-info">
+            <i className="bi bi-geo-alt-fill icon-style"></i>
+            <span>{ptInfo.cityName}</span>
           </div>
-          <div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <strong style={{ fontSize: "20px" }}>{ptInfo.name}</strong>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-geo-alt-fill" style={iconStyle}></i>
-                <span>{ptInfo.cityName}</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-calendar" style={iconStyle}></i>
-                <span>{ptInfo.dayOfBirth}</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-gender-female" style={iconStyle}></i>
-                <span>{ptInfo.gender}</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-speedometer" style={iconStyle}></i>
-                <span>{ptInfo.weight} kg</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-rulers" style={iconStyle}></i>
-                <span>{ptInfo.height} cm</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-bullseye" style={iconStyle}></i>
-                <span>{ptInfo.targetTrain}</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ textAlign: "left", padding: "5px" }}>
-                <i class="bi bi-postcard-heart" style={iconStyle}></i>
-                <span>{ptInfo.medicalHistory}</span>
-              </div>
-            </div>
+          <div className="popup-info">
+            <i className="bi bi-calendar icon-style"></i>
+            <span>{ptInfo.dayOfBirth}</span>
+          </div>
+          <div className="popup-info">
+            <i className="bi bi-gender-female icon-style"></i>
+            <span>{ptInfo.gender}</span>
+          </div>
+          <div className="popup-info">
+            <i className="bi bi-speedometer icon-style"></i>
+            <span>{ptInfo.weight} kg</span>
+          </div>
+          <div className="popup-info">
+            <i className="bi bi-rulers icon-style"></i>
+            <span>{ptInfo.height} cm</span>
+          </div>
+          <div className="popup-info">
+            <i className="bi bi-bullseye icon-style"></i>
+            <span>{ptInfo.targetTrain}</span>
+          </div>
+          <div className="popup-info">
+            <i className="bi bi-postcard-heart icon-style"></i>
+            <span>{ptInfo.medicalHistory}</span>
           </div>
         </div>
         <Button
           color="primary"
           size="lg"
-          className="status-btn"
+          className="popup-close-btn"
           onClick={handleClose}
         >
           Đóng
@@ -95,33 +67,6 @@ const PtInfoPopUp = ({ show, handleClose, title, children }) => {
       </div>
     </div>
   );
-};
-
-const popupStyles = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const popupContentStyles = {
-  backgroundColor: "#fff",
-  padding: "20px",
-  borderRadius: "8px",
-  textAlign: "center",
-  width: "20vw",
-};
-
-const iconStyle = {
-  fontSize: "20px",
-  color: "#aa8a4f",
-  padding: "10px",
-  fontWeight: "900",
 };
 
 export default PtInfoPopUp;
