@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleLogoutAPI, handleRefreshTokenAPI } from "~/api";
+import { handleLogoutAPI, handleRefreshTokenAPI } from "./handleApi";
 import { toast } from "react-toastify";
 // tạo ra một instance của axios
 let authorizedAxiosinstance = axios.create();
