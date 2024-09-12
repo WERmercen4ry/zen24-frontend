@@ -4,22 +4,28 @@ import "../../assets/scss/layout/login.scss";
 import picture from "../../assets/images/logos/ZenLogo2.png";
 import authorizedAxiosinstance from "../../utils/authorizedAxios";
 import { useNavigate } from "react-router-dom";
+import { API_ROOT } from "../../utils/constant";
+import Loader from "../../layouts/loader/Loader";
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
   const submitLogIn = async (e) => {
     e.preventDefault();
-    try {
-      const res = await authorizedAxiosinstance.post(
-        `http://localhost:8017/v1/users/login`,
-        formData
-      );
 
+    const res = await authorizedAxiosinstance.post(
+      `${API_ROOT}v1/users/login`,
+      formData
+    );
+    console.log(res)
+    if (res.response?.status === 403) {
+      setError(res.response?.data?.message);
+    } else {
       const userProfile = {
         profile: res.data.profile,
       };
@@ -27,13 +33,12 @@ const Login = () => {
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       localStorage.setItem("userRole", res.data.role);
+      localStorage.setItem("userId", res.data.id);
       if (res.data.role === "Admin") {
         navigate("/admin");
       } else {
         navigate("/");
       }
-    } catch (error) {
-      setError("Tài khoản và mật khẩu không chính xác. Vui lòng thử lại.");
     }
   };
 
@@ -47,6 +52,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {loading && <Loader />}
       <div className="form-img">
         <img src={picture} alt="logo" className="img" />
         <span className="title">Zen Pilates</span>

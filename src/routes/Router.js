@@ -61,7 +61,7 @@ const ThemeRoutes = [
   {
     path: "/",
     element: (
-      <ProtectedRoute allowedRoles={["Admin", "User"]}>
+      <ProtectedRoute allowedRoles={["Student", "Trainer"]}>
         <UserFullLayout />
       </ProtectedRoute>
     ),
