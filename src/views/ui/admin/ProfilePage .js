@@ -21,7 +21,8 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import ChangePasswordModal from "./ChangePasswordModal";
-
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const {showLoader, hideLoader } = useContext(LoaderContext);
@@ -42,6 +43,7 @@ const ProfilePage = () => {
       date_of_birth: "", // Quyền thêm từ API
     },
   });
+  const { showToast } = useToast();
   const [initialProfileData, setInitialProfileData] = useState({
     avatar: "",
     name: "",
@@ -173,10 +175,11 @@ const ProfilePage = () => {
         `${API_ROOT}v1/users/updateUser?userId=${userId}`,
         profileData
       );
+      showToast('Thông báo', 'Cập nhập thành công', TOAST_TYPES.SUCCESS); 
       fetchProfileData();
     } catch (error) {
       hideLoader();
-      console.error("Lỗi khi gọi API:", error);
+      showToast('Thông báo', error, TOAST_TYPES.ERROR);
     }
   };
 
