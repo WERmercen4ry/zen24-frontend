@@ -19,7 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     const res = await authorizedAxiosinstance.post(
-      `${API_ROOT}v1/users/login`,
+      `${API_ROOT}/users/login`,
       formData
     );
     console.log(res)
