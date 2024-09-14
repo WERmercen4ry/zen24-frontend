@@ -25,6 +25,8 @@ import "../../../assets/scss/layout/customersManager.scss";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { API_ROOT } from "../../../utils/constant.js";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 // const tableData = [
 //   {
@@ -163,8 +165,6 @@ const CustomersManager = () => {
         user.profile.phone.includes(term)
     );
 
-    console.log(filtered);
-
     setFilteredData(filtered);
     console.log(filteredData);
   };
@@ -176,6 +176,8 @@ const CustomersManager = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const { showToast } = useToast();
 
   const fetchData = async (page, limit) => {
     try {
