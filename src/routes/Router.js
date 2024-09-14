@@ -45,7 +45,7 @@ const ThemeRoutes = [
     children: [
       { path: "", element: <Navigate to="/admin/dashboard" /> },
       { path: "dashboard", exact: true, element: <Dashboard /> },
-      { path: "breadcrumbs", exact: true, element: <Subscription /> },
+      { path: "packages", exact: true, element: <Subscription /> },
       { path: "timetable", exact: true, element: <Timetable /> },
       { path: "timetables", exact: true, element: <Timetables /> },
       {

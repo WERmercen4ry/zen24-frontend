@@ -12,8 +12,17 @@ import React, { useEffect, useState } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import TimetablePopup from "./Timetable";
-
+import ConfirmPopup from "../../../layouts/admin/ConfirmPopup";
 const Timetables = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleConfirm = () => {
+    // Xử lý sự kiện khi người dùng nhấn "Delete"
+    console.log("Item deleted");
+    togglePopup();
+  };
   const [ClassesData, setClassesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -83,6 +92,11 @@ const Timetables = () => {
         timetable={currentTimeTable}
       />
       <Row>
+        <ConfirmPopup
+          isOpen={isOpen}
+          toggle={togglePopup}
+          onConfirm={handleConfirm}
+        />
         <Col>
           <div className="timetable-content">
             <div className="timetable-header">
@@ -132,10 +146,18 @@ const Timetables = () => {
                       )}
                     </td>
                     <td>
-                      <Button color="secondary m-auto" size="sm" onClick={() => openEdit(Classes)}>
+                      <Button
+                        color="secondary m-auto"
+                        size="sm"
+                        onClick={() => openEdit(Classes)}
+                      >
                         Edit
                       </Button>{" "}
-                      <Button color="danger m-auto" size="sm">
+                      <Button
+                        color="danger m-auto"
+                        size="sm"
+                        onClick={togglePopup}
+                      >
                         Delete
                       </Button>
                     </td>
