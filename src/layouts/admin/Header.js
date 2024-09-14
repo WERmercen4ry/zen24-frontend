@@ -39,7 +39,7 @@ const Header = () => {
     e.preventDefault();
 
     const res = await authorizedAxiosinstance.delete(
-      `${API_ROOT}v1/users/logout`
+      `${API_ROOT}users/logout`
     );
     localStorage.removeItem("profile");
     localStorage.removeItem("accessToken");

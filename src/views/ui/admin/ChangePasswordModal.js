@@ -87,7 +87,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
       return;
     }
     const res = await authorizedAxiosinstance.post(
-      `${API_ROOT}v1/users/change-password`,
+      `${API_ROOT}users/change-password`,
       passwordData
     );
     console.log(res);

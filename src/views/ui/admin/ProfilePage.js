@@ -123,7 +123,7 @@ const ProfilePage = () => {
     const userId = localStorage.getItem("userId");
     try {
       const res = await authorizedAxiosinstance.get(
-        `${API_ROOT}v1/users/getUserById?userId=${userId}`
+        `${API_ROOT}users/getUserById?userId=${userId}`
       );
       const userProfile = res.data;
       setProfileData({
@@ -172,7 +172,7 @@ const ProfilePage = () => {
     const userId = localStorage.getItem("userId");
     try {
       const res = await authorizedAxiosinstance.put(
-        `${API_ROOT}v1/users/updateUser?userId=${userId}`,
+        `${API_ROOT}users/updateUser?userId=${userId}`,
         profileData
       );
       showToast('Thông báo', 'Cập nhập thành công', TOAST_TYPES.SUCCESS); 
