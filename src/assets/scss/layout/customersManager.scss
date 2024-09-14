@@ -34,9 +34,51 @@
     align-items    : center;
     gap            : 10px;
 }
-.modal-content{
+
+.modal-content {
     background-color: white;
 }
-.column-table{
+
+.column-table {
     max-width: 200px;
+}
+
+.pagination-container {
+    display         : flex;
+    align-items     : center;
+    justify-content : flex-start;
+    padding         : 10px;
+    background-color: #f8f9fa;
+    /* Màu nền nhẹ */
+    border-radius   : 8px;
+    margin-top      : 10px;
+}
+
+.pagination-container select {
+    margin-left     : 10px;
+    padding         : 5px 10px;
+    border          : 1px solid #ccc;
+    border-radius   : 5px;
+    background-color: white;
+    font-size       : 1rem;
+    color           : #333;
+    cursor          : pointer;
+}
+
+.pagination-container select:focus {
+    outline     : none;
+    border-color: #007bff;
+    /* Màu xanh khi chọn */
+    box-shadow  : 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.pagination-container select:hover {
+    background-color: #e9ecef;
+    /* Màu nền khi hover */
+}
+
+.pagination-container label {
+    font-size   : 1rem;
+    color       : #333;
+    margin-right: 5px;
 }
