@@ -36,7 +36,7 @@ const ChangePassword = () => {
         </div>
         <div className="d-flex mb-3  align-items-center justify-content-between">
           <p className="my-auto me-2 selected-date">
-            Nhập lại mật khẩu cũ<span>*</span>
+            Nhập lại mật khẩu mới<span>*</span>
           </p>
           <Input
             placeholder="Nhập lại mật khẩu mới"

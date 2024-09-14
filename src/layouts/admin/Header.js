@@ -10,20 +10,22 @@ import {
   DropdownMenu,
   DropdownItem,
   Dropdown,
-  Button
+  Button,
 } from "reactstrap";
 import user1 from "../../assets/images/users/user1.jpg";
+import authorizedAxiosinstance from "../../utils/authorizedAxios";
+import { useNavigate } from "react-router-dom";
+import { API_ROOT } from "../../utils/constant";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const location = useLocation();
-  console.log(location.pathname);
+  const navigate = useNavigate();
 
   const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-
 
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
@@ -32,11 +34,25 @@ const Header = () => {
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
+
+  const logout = async (e) => {
+    e.preventDefault();
+
+    const res = await authorizedAxiosinstance.delete(
+      `${API_ROOT}v1/users/logout`
+    );
+    localStorage.removeItem("profile");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
+
   return (
     <div>
       <Navbar color="sec" dark expand="md">
         <div className="d-flex align-items-center">
-          <NavbarBrand href="/" className="d-lg-none">
+          <NavbarBrand href="/" className="d-lg-none m-auto">
             <DropdownToggle>
               <img
                 src={user1}
@@ -48,7 +64,7 @@ const Header = () => {
           </NavbarBrand>
           <Button
             color="primary"
-            className="d-lg-none"
+            className="d-lg-none m-auto"
             onClick={() => showMobilemenu()}
           >
             <i className="bi bi-list"></i>
@@ -117,14 +133,11 @@ const Header = () => {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
-              <DropdownItem>My Account</DropdownItem>
               <Link to={"/admin/profile"}>
                 <DropdownItem>Edit Profile</DropdownItem>
               </Link>
               <DropdownItem divider />
-              <DropdownItem>My Balance</DropdownItem>
-              <DropdownItem>Inbox</DropdownItem>
-              <DropdownItem>Logout</DropdownItem>
+              <DropdownItem onClick={logout}>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Collapse>

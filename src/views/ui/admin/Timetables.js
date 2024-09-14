@@ -1,8 +1,20 @@
 import { Table, Button, Pagination, PaginationItem, PaginationLink, Row, Col } from 'reactstrap';
 import { Link } from "react-router-dom";
+import ConfirmPopup from '../../../layouts/admin/ConfirmPopup';
+import React, { useState } from 'react';
 const Timetables = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleConfirm = () => {
+    // Xử lý sự kiện khi người dùng nhấn "Delete"
+    console.log("Item deleted");
+    togglePopup();
+  };
     return (
         <Row>
+          <ConfirmPopup isOpen={isOpen} toggle={togglePopup} onConfirm={handleConfirm} />
             <Col>
                 <div className="timetable-content">
                     <div className="timetable-header">
@@ -38,7 +50,7 @@ const Timetables = () => {
                                 <td>26-08-2024 20:20</td>
                                 <td>
                                     <Button color="secondary m-auto" size="sm">Edit</Button>{' '}
-                                    <Button color="danger m-auto" size="sm">Delete</Button>
+                                    <Button color="danger m-auto" size="sm" onClick={togglePopup}>Delete</Button>
                                 </td>
                             </tr>
                             {/* Các dòng dữ liệu khác có thể được map từ một mảng dữ liệu */}

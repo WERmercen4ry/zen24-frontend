@@ -182,3 +182,106 @@
         padding: 1%;
     }
   }
+
+.modal-content{
+    background-color: #fff;
+}
+.custom-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 350px;
+  }
+  
+  .toast-body-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  }
+  
+  .icon-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .text-container {
+    flex-grow: 1;
+  }
+  
+  .toast-success {
+    border-left: 4px solid green;
+  }
+  
+  .toast-info {
+    border-left: 4px solid blue;
+  }
+  
+  .toast-warning {
+    border-left: 4px solid orange;
+  }
+  
+  .toast-error {
+    border-left: 4px solid red;
+  }
+  
+  .toast-header {
+    font-weight: bold;
+  }
+  
+  .toast-icon {
+    font-size: 24px;
+  }
+
+  .confirm-popup {
+    .modal-content {
+      border-radius: 12px;
+      padding: 10px;
+      max-width: 400px;
+      margin: auto;
+      text-align: center;
+    }
+  
+    .confirm-popup-header {
+        padding: 5px;
+      font-weight: bold;
+      font-size: 20px;
+      text-align: center;
+      border-bottom: none;
+    }
+  
+    .confirm-popup-body {
+        padding: 5px;
+      font-size: 16px;
+      color: #6b6b6b;
+    }
+  
+    .confirm-popup-footer {
+      display: flex;
+      justify-content: space-between;
+      border-top: none;
+  
+      .cancel-button {
+        border: 1px solid #000;
+        background-color: #fff;
+        color: #000;
+        font-weight: bold;
+  
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+  
+      .delete-button {
+        background-color: #ff3b30;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+  }
+  
