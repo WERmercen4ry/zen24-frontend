@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Button,
@@ -16,6 +16,8 @@ import user3 from "../../../assets/images/users/user3.jpg";
 import "../../../assets/scss/layout/dashboard.scss";
 import trainer from "../../../assets/images/logos/student-icon.png";
 import student from "../../../assets/images/logos/trainer-logo.png";
+import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
+import { API_ROOT } from "../../../utils/constant.js";
 
 const tableData = [
   {
@@ -36,6 +38,10 @@ const tableData = [
 ];
 
 const Dashboard = () => {
+  const [totalTrainer, setTotalTrainer] = useState(0);
+  const [totalStudent, setTotalStudent] = useState(0);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   const [formData, setFormData] = useState({
     startDate: "",
     endDate: "",
@@ -47,6 +53,36 @@ const Dashboard = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  useEffect(() => {
+    fetchDataUsers();
+  }, []);
+
+  const fetchDataUsers = async () => {
+    try {
+      const res = await authorizedAxiosinstance.get(
+        `${API_ROOT}users/getAllUser`,
+        {
+          params: {
+            page: 1,
+            limit: 10000,
+          },
+        }
+      );
+
+      if (res && res.data && res.data.users.length > 0) {
+        setTotalTrainer(
+          res.data.users.filter((user) => user.role === "Trainer").length
+        );
+
+        setTotalStudent(
+          res.data.users.filter((user) => user.role === "Student").length
+        );
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -177,7 +213,8 @@ const Dashboard = () => {
                 </div>
                 <div style={{ padding: "10px" }}>
                   <span style={{ padding: "5px" }}>
-                    Cập nhật lúc: 20:37 26/08/2024
+                    Cập nhật lúc: {currentDate.toLocaleTimeString()}{" "}
+                    {currentDate.toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -208,7 +245,7 @@ const Dashboard = () => {
                     </div>
                   </Col>
                   <Col md={3} className="num">
-                    <span>0</span>
+                    <span>{totalTrainer}</span>
                   </Col>
                 </Row>
                 <Row>
@@ -237,7 +274,7 @@ const Dashboard = () => {
                     </div>
                   </Col>
                   <Col md={3} className="num">
-                    <span>0</span>
+                    <span>{totalStudent}</span>
                   </Col>
                 </Row>
               </div>

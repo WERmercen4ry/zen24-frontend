@@ -177,8 +177,6 @@ const Subscription = () => {
         price: formData.amount,
         totalDays: formData.sessions,
       };
-      console.log("price", formData.price);
-      console.log("price", reqBody);
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/registerPackageForUser?userId=${userId}`,
         reqBody
