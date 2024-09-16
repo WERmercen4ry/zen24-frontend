@@ -54,7 +54,7 @@ const ThemeRoutes = [
         element: <CustomersManager />,
       },
       { path: "transactions", exact: true, element: <Transactions /> },
-      { path: "create-user", exact: true, element: <UserForm /> },
+      { path: "user", exact: true, element: <UserForm /> },
       { path: "profile", exact: true, element: <ProfilePage /> },
     ],
   },

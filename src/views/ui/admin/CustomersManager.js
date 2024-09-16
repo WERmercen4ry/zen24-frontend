@@ -239,10 +239,9 @@ const CustomersManager = () => {
         latestPackage = pkg;
       }
     }
-
     console.log(latestPackage[0]?.end_date);
 
-    return latestPackage?.end_date.split("T")[0];
+    return latestPackage?.end_date?.split("T")[0];
   };
   const dummyData = [
     {
@@ -433,7 +432,7 @@ const CustomersManager = () => {
               </CardSubtitle>
             </div>
             <div className="button-user">
-              <Link to={"/admin/create-user"}>
+              <Link to={"/admin/user"}>
                 <Button className="btn" color="primary" size="md">
                   + Thêm mới
                 </Button>
@@ -622,7 +621,12 @@ const CustomersManager = () => {
                         {getLatestEndDatePackage(tData.register_package)}
                       </strong>
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        textAlign: "center",
+                        verticalAlign: "middle",
+                      }}
+                    >
                       {tData.role === "Student" && (
                         <div>
                           <i
@@ -644,6 +648,13 @@ const CustomersManager = () => {
                           </i>
                         </div>
                       )}
+                    </td>
+                    <td>
+                      <Link to="/admin/user" state={{ userUpdateId: tData._id }}>
+                        <Button color="secondary m-auto" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
                     </td>
                     {/* <td>
                     {tData.status === "pending" ? (

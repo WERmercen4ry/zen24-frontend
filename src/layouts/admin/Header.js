@@ -134,7 +134,7 @@ const Header = () => {
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
               <Link to={"/admin/profile"}>
-                <DropdownItem>Edit Profile</DropdownItem>
+                <DropdownItem className="mt-0">Edit Profile</DropdownItem>
               </Link>
               <DropdownItem divider />
               <DropdownItem onClick={logout}>Logout</DropdownItem>
