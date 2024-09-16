@@ -215,16 +215,16 @@ const CustomersManager = () => {
 
     for (const pkg of packages) {
       const latestEndDate = new Date(
-        latestPackage.register_package[0].end_date
+        latestPackage.register_package[0]?.end_date
       );
-      const currentEndDate = new Date(pkg.register_package[0].end_date);
+      const currentEndDate = new Date(pkg.register_package[0]?.end_date);
 
       if (currentEndDate > latestEndDate) {
         latestPackage = pkg;
       }
     }
 
-    return latestPackage.register_package[0].end_date.split("T")[0];
+    return latestPackage.register_package[0]?.end_date?.split("T")[0];
   };
   const dummyData = [
     {
@@ -415,7 +415,7 @@ const CustomersManager = () => {
               </CardSubtitle>
             </div>
             <div className="button-user">
-              <Link to={"/admin/create-user"}>
+              <Link to={"/admin/user"}>
                 <Button className="btn" color="primary" size="md">
                   + Thêm mới
                 </Button>
@@ -590,7 +590,12 @@ const CustomersManager = () => {
                     <td>
                       <strong>{getLatestEndDatePackage(tData.packages)}</strong>
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        textAlign: "center",
+                        verticalAlign: "middle",
+                      }}
+                    >
                       {tData.role === "Student" && (
                         <div>
                           <i
@@ -612,6 +617,13 @@ const CustomersManager = () => {
                           </i>
                         </div>
                       )}
+                    </td>
+                    <td>
+                      <Link to="/admin/user" state={{ userUpdateId: tData._id }}>
+                        <Button color="secondary m-auto" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
                     </td>
                     {/* <td>
                     {tData.status === "pending" ? (
