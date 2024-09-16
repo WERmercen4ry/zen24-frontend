@@ -25,6 +25,8 @@ import "../../../assets/scss/layout/customersManager.scss";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { API_ROOT } from "../../../utils/constant.js";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 // const tableData = [
 //   {
@@ -151,6 +153,7 @@ const CustomersManager = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(5); // State to manage the selected limit
   const [totalPayments, setTotalPayments] = useState(0);
+  const [textUrl, setTextUrl] = useState("users/getAllUser");
 
   // Hàm tìm kiếm
   const searchByNameOrPhone = (event) => {
@@ -163,8 +166,6 @@ const CustomersManager = () => {
         user.profile.phone.includes(term)
     );
 
-    console.log(filtered);
-
     setFilteredData(filtered);
     console.log(filteredData);
   };
@@ -175,19 +176,23 @@ const CustomersManager = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [textUrl]);
+
+  const { showToast } = useToast();
 
   const fetchData = async (page, limit) => {
     try {
-      const res = await authorizedAxiosinstance.get(
-        `${API_ROOT}users/getAllUser`,
-        {
-          params: {
-            page: page,
-            limit: limit,
-          },
-        }
-      );
+      const res = await authorizedAxiosinstance.get(`${API_ROOT}${textUrl}`, {
+        params: {
+          page: page,
+          limit: limit,
+        },
+      });
+
+      if (textUrl === "dashboards/overdue-packages") {
+        console.log(res);
+      }
+
       setData(res.data.users);
       setFilteredData(res.data.users);
       setTotalPages(res.data.totalPages);
@@ -195,6 +200,14 @@ const CustomersManager = () => {
     } catch (error) {
       throw error;
     }
+  };
+
+  const getExpiringUsersClick = () => {
+    setTextUrl("dashboards/expiring-packages");
+  };
+
+  const getOverDueUsersClick = () => {
+    setTextUrl("dashboards/overdue-packages");
   };
 
   useEffect(() => {
@@ -211,20 +224,24 @@ const CustomersManager = () => {
       return null;
     }
 
+    console.log(packages);
+
     let latestPackage = packages[0];
 
+    console.log(latestPackage);
+
     for (const pkg of packages) {
-      const latestEndDate = new Date(
-        latestPackage.register_package[0]?.end_date
-      );
-      const currentEndDate = new Date(pkg.register_package[0]?.end_date);
+      const latestEndDate = new Date(latestPackage?.end_date);
+
+      const currentEndDate = new Date(pkg?.end_date);
 
       if (currentEndDate > latestEndDate) {
         latestPackage = pkg;
       }
     }
+    console.log(latestPackage[0]?.end_date);
 
-    return latestPackage.register_package[0]?.end_date?.split("T")[0];
+    return latestPackage?.end_date?.split("T")[0];
   };
   const dummyData = [
     {
@@ -428,10 +445,22 @@ const CustomersManager = () => {
               >
                 + Tạo lịch tập
               </Button>
-              <Button className="btn" outline color="danger" size="md">
+              <Button
+                className="btn"
+                outline
+                color="danger"
+                size="md"
+                onClick={() => getExpiringUsersClick()}
+              >
                 Tài khoản gần đến giới hạn
               </Button>
-              <Button className="btn" outline color="secondary" size="md">
+              <Button
+                className="btn"
+                outline
+                color="secondary"
+                size="md"
+                onClick={() => getOverDueUsersClick()}
+              >
                 Quá ngày không tham gia
               </Button>
             </div>
@@ -519,7 +548,7 @@ const CustomersManager = () => {
                           <strong>{agency.name}</strong>
                         ))
                       ) : (
-                        <div style={{ color: "red" }}>Chưa có có chi nhánh</div>
+                        <div style={{ color: "red" }}>Chưa có chi nhánh</div>
                       )}
                     </td>
                     <td>
@@ -588,7 +617,9 @@ const CustomersManager = () => {
                       )}
                     </td>
                     <td>
-                      <strong>{getLatestEndDatePackage(tData.packages)}</strong>
+                      <strong>
+                        {getLatestEndDatePackage(tData.register_package)}
+                      </strong>
                     </td>
                     <td
                       style={{
