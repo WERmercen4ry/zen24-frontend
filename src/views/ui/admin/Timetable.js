@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const TimetablePopup = ({
   isOpen,
@@ -27,6 +28,7 @@ const TimetablePopup = ({
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
   const [listPackageData, setlistPackageData] = useState([]);
+  const [errorAPI, setErrorAPI] = useState("");
 
   const [formData, setFormData] = useState({
     packages: "",
@@ -35,9 +37,9 @@ const TimetablePopup = ({
     schedule: [
       {
         location: "",
-        day: "",
-        start_time: "",
-        end_time: "",
+        day: moment().format("YYYY-MM-DD"),
+        start_time: "15:00",
+        end_time: "16:00",
         instructor: [""],
       },
     ],
@@ -134,7 +136,6 @@ const TimetablePopup = ({
 
   const submitForm = async (event) => {
     event.preventDefault();
-
     try {
       if (isEdit) {
         // Gọi API update thời khoá biểu cần edit
@@ -144,10 +145,17 @@ const TimetablePopup = ({
           `${API_ROOT}dashboards/createClass`,
           formData
         );
-        console.log("Create response:", res);
+        console.log("res", res);
+
+        if (res.status === 201) {
+          window.location.reload();
+          toggle();
+        }
+        console.log("res", res);
+        if (res.status === 207) {
+          console.log(`Huấn luyện viên đã có lịch học vào thời gian này.`);
+        }
       }
-      navigate("/admin/timetables");
-      toggle();
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("Có lỗi xảy ra, vui lòng thử lại.");

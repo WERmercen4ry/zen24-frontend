@@ -31,7 +31,6 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
     fetchPackage();
     setFormData(timetable);
   }, [timetable]);
-  console.log("cc", formData);
   const fetchTrainer = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/users/getUsersByRole`, {
@@ -92,7 +91,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
   const updateScheduleInstructor = (event) => {
     const { value } = event.target;
     const newSchedule = [...formData.schedule];
-    newSchedule[0].instructor[0] = value;
+    newSchedule[0].instructor._id = value;
     setFormData({ ...formData, schedule: newSchedule });
   };
 
@@ -119,6 +118,27 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
     console.log("formData++++++++++", formData);
     try {
       //TODO
+      const body = {
+        type: formData.type,
+        packages: formData.packages,
+        schedule: [
+          {
+            location: formData.schedule[0].location,
+            instructor: formData.schedule[0].instructor._id,
+            day: formData.schedule[0].day,
+            start_time: formData.schedule[0].start_time,
+            end_time: formData.schedule[0].end_time,
+          },
+        ],
+      };
+      console.log("body", body);
+      const res = await authorizedAxiosinstance.put(
+        `${API_ROOT}dashboards/updateClass?classId=${formData._id}`,
+        body
+      );
+      if (res.status === 200) {
+        window.location.reload();
+      }
       toggle();
     } catch (error) {
       console.error("Error submitting form:", error);

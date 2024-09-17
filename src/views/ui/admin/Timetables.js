@@ -17,13 +17,21 @@ import TimetablePopupEdit from "./TimetableEdit";
 
 const Timetables = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const togglePopup = () => {
+  const togglePopup = (currentTimeTable) => {
+    if (currentTimeTable) {
+      setCurrentTimeTable(currentTimeTable);
+    }
     setIsOpen(!isOpen);
   };
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     // Xử lý sự kiện khi người dùng nhấn "Delete"
-    console.log("Item deleted");
     togglePopup();
+    const res = await authorizedAxiosinstance.delete(
+      `${API_ROOT}dashboards/deleteClasses?classId=${currentTimeTable._id}`
+    );
+    if (res.status === 200) {
+      window.location.reload();
+    }
   };
   const [ClassesData, setClassesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,7 +58,6 @@ const Timetables = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.classes);
         // Set the transaction data from the API response
         setClassesData(res.data.classes);
         setTotalPages(res.data.totalPages);
@@ -160,7 +167,7 @@ const Timetables = () => {
                       <Button
                         color="danger m-auto"
                         size="sm"
-                        onClick={togglePopup}
+                        onClick={() => togglePopup(Classes)}
                       >
                         Delete
                       </Button>
