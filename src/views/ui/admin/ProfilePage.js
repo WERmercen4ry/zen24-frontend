@@ -380,9 +380,11 @@ const ProfilePage = () => {
               className="border-top profile-overview mt-2 px-4 py-2"
             >
               <FormGroup className="profile-detail-edit">
-                <Label for="avatar my-auto">Avatar <span className="require-input">*</span></Label>
+                <Label for="avatar my-auto">
+                  Avatar <span className="require-input">*</span>
+                </Label>
                 <div className="avatar-upload ms-0">
-                <Input
+                  <Input
                     type="file"
                     id="avatar"
                     name="avatar"
@@ -391,7 +393,11 @@ const ProfilePage = () => {
                   />
                   <label className="avatar-placeholder" htmlFor="avatar">
                     <img
-                      src={previewImage || profileData.avatar || "https://via.placeholder.com/150"}
+                      src={
+                        previewImage ||
+                        profileData.avatar ||
+                        "https://via.placeholder.com/150"
+                      }
                       alt="Avatar"
                       className="avatar-image"
                     />
@@ -470,7 +476,9 @@ const ProfilePage = () => {
               </FormGroup>
 
               <FormGroup tag="fieldset" className="profile-detail-edit">
-                <Label className="my-auto">Giới tính <span className="require-input">*</span></Label>
+                <Label className="my-auto">
+                  Giới tính <span className="require-input">*</span>
+                </Label>
                 <div className="w-100">
                   <FormGroup check inline>
                     <Label check>
