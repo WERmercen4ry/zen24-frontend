@@ -16,40 +16,22 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { useNavigate } from "react-router-dom";
 
-const TimetablePopup = ({
-  isOpen,
-  toggle,
-  isEdit = false,
-  timetable = null,
-}) => {
+const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
   const [listPackageData, setlistPackageData] = useState([]);
 
-  const [formData, setFormData] = useState({
-    packages: "",
-    type: "",
-    max_members: 0,
-    schedule: [
-      {
-        location: "",
-        day: "",
-        start_time: "",
-        end_time: "",
-        instructor: [""],
-      },
-    ],
-  });
-
+  const [formData, setFormData] = useState(timetable);
   // Fetch dữ liệu cần thiết khi mở modal
   useEffect(() => {
     fetchTrainer();
     fetchLocation();
     fetchPackage();
-  }, []);
-
+    setFormData(timetable);
+  }, [timetable]);
+  console.log("cc", formData);
   const fetchTrainer = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/users/getUsersByRole`, {
@@ -134,19 +116,9 @@ const TimetablePopup = ({
 
   const submitForm = async (event) => {
     event.preventDefault();
-
+    console.log("formData++++++++++", formData);
     try {
-      if (isEdit) {
-        // Gọi API update thời khoá biểu cần edit
-      } else {
-        // Gọi API thêm mới khi ở chế độ thêm mới
-        const res = await authorizedAxiosinstance.post(
-          `${API_ROOT}dashboards/createClass`,
-          formData
-        );
-        console.log("Create response:", res);
-      }
-      navigate("/admin/timetables");
+      //TODO
       toggle();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -156,9 +128,7 @@ const TimetablePopup = ({
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="lg">
-      <ModalHeader toggle={toggle}>
-        {isEdit ? "Chỉnh sửa thời khoá biểu" : "Thêm thời khoá biểu mới"}
-      </ModalHeader>
+      <ModalHeader toggle={toggle}>{"Chỉnh sửa thời khoá biểu"}</ModalHeader>
       <ModalBody>
         <Row>
           <Col>
@@ -172,7 +142,7 @@ const TimetablePopup = ({
                       name="location"
                       type="select"
                       placeholder="Chọn chi nhánh"
-                      value={formData.schedule[0].location}
+                      value={formData ? formData.schedule[0].location._id : ""}
                       onChange={updateScheduleLocation}
                     >
                       <option value="" disabled>
@@ -194,7 +164,9 @@ const TimetablePopup = ({
                       name="Trainer"
                       type="select"
                       placeholder="Chọn Trainer"
-                      value={formData.schedule[0].instructor[0]}
+                      value={
+                        formData ? formData.schedule[0].instructor._id : ""
+                      }
                       onChange={updateScheduleInstructor}
                     >
                       <option value="" disabled>
@@ -218,7 +190,7 @@ const TimetablePopup = ({
                       name="packages"
                       type="select"
                       placeholder="Chọn gói"
-                      value={formData.packages}
+                      value={formData ? formData.packages[0]._id : ""}
                       onChange={handleSelectChange}
                     >
                       <option value="" disabled>
@@ -240,7 +212,7 @@ const TimetablePopup = ({
                     <Input
                       type="text"
                       placeholder="15:00"
-                      value={formData.schedule[0].start_time}
+                      value={formData ? formData.schedule[0].start_time : ""}
                       onChange={(e) =>
                         updateScheduleStartTime(0, e.target.value)
                       }
@@ -253,7 +225,7 @@ const TimetablePopup = ({
                     <Input
                       type="text"
                       placeholder="16:00"
-                      value={formData.schedule[0].end_time}
+                      value={formData ? formData.schedule[0].end_time : ""}
                       onChange={(e) => updateScheduleEndTime(0, e.target.value)}
                     />
                   </FormGroup>
@@ -265,7 +237,11 @@ const TimetablePopup = ({
                     <Label>Ngày</Label>
                     <Input
                       type="date"
-                      value={formData.schedule[0].day}
+                      value={
+                        formData
+                          ? formData.schedule[0].day.substring(0, 10)
+                          : ""
+                      }
                       onChange={(e) => updateScheduleDay(e.target.value)}
                     />
                   </FormGroup>
@@ -273,7 +249,7 @@ const TimetablePopup = ({
               </Row>
               <ModalFooter>
                 <Button color="primary" type="submit">
-                  {isEdit ? "Cập nhật" : "Thêm mới"}
+                  {"Cập nhật"}
                 </Button>
                 <Button color="secondary" onClick={toggle}>
                   Hủy
@@ -287,4 +263,4 @@ const TimetablePopup = ({
   );
 };
 
-export default TimetablePopup;
+export default TimetablePopupEdit;

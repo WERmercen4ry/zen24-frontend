@@ -13,6 +13,8 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import TimetablePopup from "./Timetable";
 import ConfirmPopup from "../../../layouts/admin/ConfirmPopup";
+import TimetablePopupEdit from "./TimetableEdit";
+
 const Timetables = () => {
   const [isOpen, setIsOpen] = useState(false);
   const togglePopup = () => {
@@ -29,13 +31,15 @@ const Timetables = () => {
   const [limit, setLimit] = useState(5); // State to manage the selected limit
   const [totalPayments, setTotalPayments] = useState(0); // State to manage total number of payments
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEdit, setIsEdit] = useState(false); // Quản lý trạng thái "add" hoặc "edit"
+  const [isModalOpenEdit, setisModalOpenEdit] = useState(false);
+
   const [currentTimeTable, setCurrentTimeTable] = useState(null);
   useEffect(() => {
     fetchClasses(currentPage, limit);
   }, [currentPage, limit]);
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const toggleModalEdit = () => setisModalOpenEdit(!isModalOpenEdit);
 
   const fetchClasses = (page, limit) => {
     authorizedAxiosinstance
@@ -57,14 +61,12 @@ const Timetables = () => {
       });
   };
   const openAddNew = () => {
-    setIsEdit(false); // Mở popup ở trạng thái "add"
     setCurrentTimeTable(null); // Không có dữ liệu lớp học khi thêm mới
     toggleModal();
   };
   const openEdit = (classData) => {
-    setIsEdit(true); // Mở popup ở trạng thái "edit"
     setCurrentTimeTable(classData); // Truyền dữ liệu lớp học cần chỉnh sửa
-    toggleModal();
+    toggleModalEdit();
   };
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -75,8 +77,6 @@ const Timetables = () => {
   };
   const handleFormatTime = (Date, house) => {
     const formatDate = Date.split("T")[0];
-    console.log(Date);
-    console.log(house);
     // return `11111111`;
     return `${formatDate} ${house}`;
   };
@@ -88,7 +88,11 @@ const Timetables = () => {
       <TimetablePopup
         isOpen={isModalOpen}
         toggle={toggleModal}
-        isEdit={isEdit}
+        timetable={currentTimeTable}
+      />
+      <TimetablePopupEdit
+        isOpen={isModalOpenEdit}
+        toggle={toggleModalEdit}
         timetable={currentTimeTable}
       />
       <Row>
@@ -165,27 +169,7 @@ const Timetables = () => {
                 ))}
               </tbody>
             </Table>
-            {/* <div className="timetable-footer">
-            <div>Các mục trên mỗi trang: 5</div>
-            <Pagination>
-              <PaginationItem>
-                <PaginationLink first href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink previous href="#" />
-              </PaginationItem>
-              <PaginationItem active>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink next href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink last href="#" />
-              </PaginationItem>
-            </Pagination>
-            <div>1 - 5 of 1608</div>
-          </div> */}
+
             <div className="timetable-footer">
               <div className="pagination-container">
                 Các mục trên mỗi trang:
