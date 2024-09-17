@@ -24,6 +24,8 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
   const [listPackageData, setlistPackageData] = useState([]);
 
   const [formData, setFormData] = useState(timetable);
+  const [errors, setErrors] = useState({});
+
   // Fetch dữ liệu cần thiết khi mở modal
   useEffect(() => {
     fetchTrainer();
@@ -31,6 +33,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
     fetchPackage();
     setFormData(timetable);
   }, [timetable]);
+
   const fetchTrainer = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/users/getUsersByRole`, {
@@ -113,11 +116,34 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
     setFormData({ ...formData, schedule: newSchedule });
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+    if (!formData.packages) newErrors.packages = "Vui lòng chọn gói";
+    if (!formData.schedule[0].location)
+      newErrors.location = "Vui lòng chọn chi nhánh";
+    if (!formData.schedule[0].instructor._id)
+      newErrors.instructor = "Vui lòng chọn Trainer";
+    if (!formData.schedule[0].start_time)
+      newErrors.start_time = "Vui lòng nhập thời gian bắt đầu";
+    else if (!timeRegex.test(formData.schedule[0].start_time))
+      newErrors.start_time = "Thời gian bắt đầu không hợp lệ (hh:mm)";
+    if (!formData.schedule[0].end_time)
+      newErrors.end_time = "Vui lòng nhập thời gian kết thúc";
+    else if (!timeRegex.test(formData.schedule[0].end_time))
+      newErrors.end_time = "Thời gian kết thúc không hợp lệ (hh:mm)";
+    if (!formData.schedule[0].day) newErrors.day = "Vui lòng chọn ngày";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const submitForm = async (event) => {
     event.preventDefault();
-    console.log("formData++++++++++", formData);
+    if (!validateForm()) return;
+
     try {
-      //TODO
       const body = {
         type: formData.type,
         packages: formData.packages,
@@ -131,7 +157,6 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
           },
         ],
       };
-      console.log("body", body);
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}dashboards/updateClass?classId=${formData._id}`,
         body
@@ -174,6 +199,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                         </option>
                       ))}
                     </Input>
+                    {errors.location && (
+                      <div style={{ color: "red" }}>{errors.location}</div>
+                    )}
                   </FormGroup>
                 </Col>
                 <Col>
@@ -198,6 +226,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                         </option>
                       ))}
                     </Input>
+                    {errors.instructor && (
+                      <div style={{ color: "red" }}>{errors.instructor}</div>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
@@ -222,6 +253,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                         </option>
                       ))}
                     </Input>
+                    {errors.packages && (
+                      <div style={{ color: "red" }}>{errors.packages}</div>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
@@ -237,6 +271,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                         updateScheduleStartTime(0, e.target.value)
                       }
                     />
+                    {errors.start_time && (
+                      <div style={{ color: "red" }}>{errors.start_time}</div>
+                    )}
                   </FormGroup>
                 </Col>
                 <Col>
@@ -248,6 +285,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                       value={formData ? formData.schedule[0].end_time : ""}
                       onChange={(e) => updateScheduleEndTime(0, e.target.value)}
                     />
+                    {errors.end_time && (
+                      <div style={{ color: "red" }}>{errors.end_time}</div>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
@@ -264,6 +304,9 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                       }
                       onChange={(e) => updateScheduleDay(e.target.value)}
                     />
+                    {errors.day && (
+                      <div style={{ color: "red" }}>{errors.day}</div>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
