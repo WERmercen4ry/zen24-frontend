@@ -21,7 +21,7 @@ const CustomersManager = lazy(() =>
 const Transactions = lazy(() => import("../views/ui/admin/Transactions.js"));
 const Subscription = lazy(() => import("../views/ui/admin/Subscription.js"));
 const UserForm = lazy(() => import("../views/ui/admin/UserForm.js"));
-const ProfilePage = lazy(() => import("../views/ui/admin/ProfilePage .js"));
+const ProfilePage = lazy(() => import("../views/ui/admin/ProfilePage.js"));
 const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
 
 // User
@@ -54,7 +54,7 @@ const ThemeRoutes = [
         element: <CustomersManager />,
       },
       { path: "transactions", exact: true, element: <Transactions /> },
-      { path: "create-user", exact: true, element: <UserForm /> },
+      { path: "user", exact: true, element: <UserForm /> },
       { path: "profile", exact: true, element: <ProfilePage /> },
     ],
   },

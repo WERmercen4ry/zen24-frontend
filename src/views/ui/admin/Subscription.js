@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Table,
   Button,
@@ -18,7 +18,10 @@ import "../../../assets/scss/layout/subscription.scss";
 import { Link, useLocation } from "react-router-dom";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
-import { logDOM } from "@testing-library/react";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+
 const Subscription = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [listPackages, setListPackages] = useState([]);
@@ -26,6 +29,7 @@ const Subscription = () => {
   const [packageSelected, setPackageSelected] = useState([]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const { showLoader, hideLoader } = useContext(LoaderContext);
 
   const location = useLocation();
   const { packages, userId } = location.state || {};
@@ -34,9 +38,11 @@ const Subscription = () => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const { showToast } = useToast();
+
   useEffect(() => {
     fetchPackage();
-    setListPackages(packages);
+    fetchPackageForUser();
   }, []);
 
   // Dữ liệu mẫu cho form đăng ký
@@ -49,9 +55,20 @@ const Subscription = () => {
     amountPerSession: 0,
   });
 
+  const fetchPackageForUser = () => {
+    authorizedAxiosinstance
+      .get(`${API_ROOT}users/getUserRegisteredPackages?userId=${userId}`)
+      .then((res) => {
+        setListPackages(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching package data in user:", error);
+      });
+  };
+
   const fetchPackage = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/packages`)
+      .get(`${API_ROOT}dashboards/packages`)
       .then((res) => {
         setListPackageData(res.data);
       })
@@ -148,25 +165,44 @@ const Subscription = () => {
     });
   };
 
-  const addPackageForUser = async () => {
-    console.log(userId);
+  const addPackageForUser = async (e) => {
+    e.preventDefault();
+    showLoader();
     try {
       const reqBody = {
         packageId: formData.package,
         startDate: new Date(formData.startDate),
         endDate: new Date(formData.endDate),
+        price_perday: formData.amountPerSession,
+        price: formData.amount,
+        totalDays: formData.sessions,
       };
-
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/registerPackageForUser?userId=${userId}`,
-        {
-          reqBody,
-        }
+        reqBody
       );
 
-      console.log(res);
+      hideLoader();
+      if (res?.status === 403 || res?.status === 500) {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      }
+
+      if (res?.status === 200) {
+        setFormData({
+          package: "",
+          startDate: "",
+          endDate: "",
+          amount: 0,
+          sessions: 1,
+          amountPerSession: 0,
+        });
+        showToast("Thông báo", "Đăng kí gói thành công", TOAST_TYPES.SUCCESS);
+        fetchPackageForUser();
+        setActiveTab("2");
+      }
     } catch (error) {
-      throw error;
+      hideLoader();
+      showToast("Thông báo", error, TOAST_TYPES.ERROR);
     }
   };
 
@@ -306,9 +342,7 @@ const Subscription = () => {
                     <Button
                       color="primary"
                       className="mt-2 btn"
-                      onClick={() => {
-                        addPackageForUser();
-                      }}
+                      onClick={addPackageForUser}
                     >
                       Thêm mới
                     </Button>
@@ -333,19 +367,19 @@ const Subscription = () => {
                       listPackages.length > 0 &&
                       listPackages.map((pkg, index) => (
                         <tr key={index}>
-                          <td>{pkg.type}</td>
-                          <td>{pkg.duration_in_months}</td>
-                          <td>{pkg.register_package[0].remaining_ressons}</td>
-                          <td>{pkg.name}</td>
+                          <td>{pkg.package_id.type}</td>
+                          <td>{pkg.remaining_lessons}</td>
+                          <td>{pkg.remaining_lessons}</td>
+                          <td>{pkg.package_id.name}</td>
                           <td>{pkg.price}</td>
                           <td>
-                            {pkg.register_package[0].start_date != null
-                              ? pkg.register_package[0].start_date.split("T")[0]
+                            {pkg.start_date != null
+                              ? pkg.start_date.split("T")[0]
                               : ""}
                           </td>
                           <td>
-                            {pkg.register_package[0].end_date != null
-                              ? pkg.register_package[0].end_date.split("T")[0]
+                            {pkg.end_date != null
+                              ? pkg.end_date.split("T")[0]
                               : ""}
                           </td>
                         </tr>

@@ -12,17 +12,17 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const submitLogIn = async (e) => {
     e.preventDefault();
 
     const res = await authorizedAxiosinstance.post(
-      `${API_ROOT}/users/login`,
+      `${API_ROOT}users/login`,
       formData
     );
-    console.log(res)
+    console.log(res);
     if (res.response?.status === 403) {
       setError(res.response?.data?.message);
     } else {
