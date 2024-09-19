@@ -264,7 +264,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                   <FormGroup>
                     <Label>Thời gian bắt đầu</Label>
                     <Input
-                      type="text"
+                      type="time"
                       placeholder="15:00"
                       value={formData ? formData.schedule[0].start_time : ""}
                       onChange={(e) =>
@@ -280,7 +280,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
                   <FormGroup>
                     <Label>Thời gian kết thúc</Label>
                     <Input
-                      type="text"
+                      type="time"
                       placeholder="16:00"
                       value={formData ? formData.schedule[0].end_time : ""}
                       onChange={(e) => updateScheduleEndTime(0, e.target.value)}
