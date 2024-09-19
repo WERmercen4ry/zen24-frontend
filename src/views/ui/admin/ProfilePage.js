@@ -17,16 +17,21 @@ import {
   FormFeedback,
 } from "reactstrap";
 import classnames from "classnames";
+import ChangePasswordModal from "./ChangePasswordModal";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
-import ChangePasswordModal from "./ChangePasswordModal";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
+import { uploadFileToFirebase } from "../../../utils/firebaseConfig";
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(""); // State để giữ URL của ảnh preview
   const {showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [profileData, setProfileData] = useState({
     username: "",
     password: "",
@@ -43,7 +48,7 @@ const ProfilePage = () => {
       date_of_birth: "", // Quyền thêm từ API
     },
   });
-  const { showToast } = useToast();
+
   const [initialProfileData, setInitialProfileData] = useState({
     avatar: "",
     name: "",
@@ -166,23 +171,28 @@ const ProfilePage = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      return; // Nếu validate không thành công, dừng việc submit
+      return;
     }
     showLoader();
-    const userId = localStorage.getItem("userId");
+
     try {
+      let avatarUrl = profileData.avatar;
+      if (selectedFile) {
+        avatarUrl = await uploadFileToFirebase(selectedFile); // Upload file và lấy URL
+      }
+
+      const userId = localStorage.getItem("userId");
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/updateUser?userId=${userId}`,
-        profileData
+        { ...profileData, avatar: avatarUrl } // Cập nhật URL ảnh vào profileData
       );
-      showToast('Thông báo', 'Cập nhập thành công', TOAST_TYPES.SUCCESS); 
+      showToast("Thông báo", "Cập nhập thành công", TOAST_TYPES.SUCCESS);
       fetchProfileData();
     } catch (error) {
       hideLoader();
-      showToast('Thông báo', error, TOAST_TYPES.ERROR);
+      showToast("Thông báo", error, TOAST_TYPES.ERROR);
     }
   };
-
   // init data
   useEffect(() => {
     fetchProfileData();
@@ -197,6 +207,20 @@ const ProfilePage = () => {
         [name]: value,
       },
     });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file); // Lưu file đã chọn vào state
+
+    // Tạo URL để preview hình ảnh
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const groupsData = [
@@ -330,7 +354,6 @@ const ProfilePage = () => {
                 <span className="label form-label">Quyền:</span>
                 <p>{initialProfileData.role}</p>
               </div>{" "}
-              {/* Quyền thêm từ API */}
               <div className="d-flex">
                 <span className="label form-label">Giới tính:</span>
                 <p>{initialProfileData.sex}</p>
@@ -339,7 +362,6 @@ const ProfilePage = () => {
                 <span className="label form-label">Địa chỉ:</span>
                 <p>{initialProfileData.address}</p>
               </div>{" "}
-              {/* Địa chỉ thêm từ API */}
               <div className="d-flex">
                 <span className="label form-label">Liên lạc:</span>
                 <p>Email, Phone</p>
@@ -359,18 +381,23 @@ const ProfilePage = () => {
               className="border-top profile-overview mt-2 px-4 py-2"
             >
               <FormGroup className="profile-detail-edit">
-                <Label for="avatar my-auto">Avatar *</Label>
+                <Label for="avatar my-auto">
+                  Avatar <span className="require-input">*</span>
+                </Label>
                 <div className="avatar-upload ms-0">
                   <Input
                     type="file"
                     id="avatar"
                     name="avatar"
                     className="d-none"
+                    onChange={handleFileChange} // Gán hàm xử lý khi chọn file
                   />
                   <label className="avatar-placeholder" htmlFor="avatar">
                     <img
                       src={
-                        profileData.avatar || "https://via.placeholder.com/150"
+                        previewImage ||
+                        profileData.avatar ||
+                        "https://via.placeholder.com/150"
                       }
                       alt="Avatar"
                       className="avatar-image"
@@ -380,7 +407,7 @@ const ProfilePage = () => {
               </FormGroup>
               <FormGroup className="profile-detail-edit">
                 <Label className="my-auto" for="name">
-                  Họ tên *
+                  Họ tên <span className="require-input">*</span>
                 </Label>
                 <div className="w-100">
                   <Input
@@ -398,7 +425,7 @@ const ProfilePage = () => {
 
               <FormGroup className="profile-detail-edit">
                 <Label className="my-auto" for="phone">
-                  Số điện thoại *
+                  Số điện thoại <span className="require-input">*</span>
                 </Label>
                 <div className="w-100">
                   <Input
@@ -416,7 +443,7 @@ const ProfilePage = () => {
 
               <FormGroup className="profile-detail-edit">
                 <Label className="my-auto" for="email">
-                  Email *
+                  Email <span className="require-input">*</span>
                 </Label>
                 <div className="w-100">
                   <Input
@@ -434,7 +461,7 @@ const ProfilePage = () => {
 
               <FormGroup className="profile-detail-edit">
                 <Label className="my-auto" for="birthDate">
-                  Ngày sinh
+                  Ngày sinh <span className="require-input">*</span>
                 </Label>
                 <div className="w-100">
                   <Input
@@ -450,7 +477,9 @@ const ProfilePage = () => {
               </FormGroup>
 
               <FormGroup tag="fieldset" className="profile-detail-edit">
-                <Label className="my-auto">Giới tính *</Label>
+                <Label className="my-auto">
+                  Giới tính <span className="require-input">*</span>
+                </Label>
                 <div className="w-100">
                   <FormGroup check inline>
                     <Label check>
@@ -515,7 +544,12 @@ const ProfilePage = () => {
                 <span className="label form-label">Mật khẩu:</span>
                 <div className="d-flex w-100 justify-content-between">
                   <p className="my-auto">**********</p>{" "}
-                  <Button className="btn" color="primary" size="sm" onClick={toggleModal}>
+                  <Button
+                    className="btn"
+                    color="primary"
+                    size="sm"
+                    onClick={toggleModal}
+                  >
                     Cập nhập mật khẩu
                   </Button>
                 </div>

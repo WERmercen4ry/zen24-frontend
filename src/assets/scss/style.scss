@@ -7,281 +7,280 @@
 @import "./layout/header";
 
 .page-link {
-    color: $secondary !important;
+  color: $secondary !important;
 }
 
 .contentArea {
-    background-color: rgba(233, 225, 210, 0.5) !important;
-    min-height: 100vh;
+  background-color: rgba(233, 225, 210, 0.5) !important;
+  min-height: 100vh;
 }
 
 .logo {
-    display        : flex;
-    align-items    : center;
-    text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  text-decoration: none !important;
 }
 
 .logo p {
-    margin      : auto;
-    padding-left: 10px;
-    font-size   : x-large;
-    font-weight : bold;
-
+  margin: auto;
+  padding-left: 10px;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 .logo img {
-    border-radius: 5px;
-
+  border-radius: 5px;
 }
 
 .breadcrumbs {
-    height    : 35px;
-    border-top: 1px solid $gray-500;
+  height: 35px;
+  border-top: 1px solid $gray-500;
 }
 
 .breadcrumb {
-    margin: auto;
+  margin: auto;
 }
 
 .wrapper {
-    max-width: 1400px;
+  max-width: 1400px;
 }
 
 .btn-form {
-    display        : flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 }
 
 // Thời khoá biển
 .timetable-container {
-    padding         : 20px;
-    background-color: #f9f9f9;
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
 .timetable-content {
-    background-color: #ffffff;
-    padding         : 20px;
-    border-radius   : 8px;
-    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .timetable-header {
-    display        : flex;
-    justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .timetable-footer {
-    display        : flex;
-    justify-content: space-between;
-    align-items    : center;
-    margin-top     : 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
 // Giao dịch
 
 .transactions-content {
-    background-color: #ffffff;
-    padding         : 20px;
-    border-radius   : 8px;
-    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .transactions-header {
-    display        : flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .transactions-footer {
-    display        : flex;
-    justify-content: space-between;
-    align-items    : center;
-    margin-top     : 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .label-method,
 .label-status,
 .label-type {
-    padding      : 5px 10px;
-    border-radius: 5px;
-    color        : white;
-    font-weight  : bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
 }
 
 .label-method {
-    background-color: #9b59b6;
+  background-color: #9b59b6;
 }
 
 .label-status.pending {
-    background-color: #f1c40f;
-    /* Màu vàng cho Chờ duyệt */
+  background-color: #f1c40f;
+  /* Màu vàng cho Chờ duyệt */
 }
 
 .label-status.completed {
-    background-color: #2ecc71;
-    /* Màu xanh lá cho Hoàn thành */
+  background-color: #2ecc71;
+  /* Màu xanh lá cho Hoàn thành */
 }
 
 .label-status.cancelled {
-    background-color: #e74c3c;
-    /* Màu đỏ cho Huỷ */
+  background-color: #e74c3c;
+  /* Màu đỏ cho Huỷ */
 }
 
 .label-type {
-    background-color: #8e44ad;
+  background-color: #8e44ad;
 }
 
 /* Chữ đậm cho nội dung bảng */
 .table td,
 .table th {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* Định kích thước cố định cho hình ảnh */
 .image-cell {
-    width : 100px;
-    height: 80px;
-
+  width: 100px;
+  height: 80px;
 }
 
 .image-cell img {
-    width        : 100%;
-    height       : 100%;
-    object-fit   : cover;
-    border-radius: 7px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
 }
 
 .nav-tabs .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 .form-label {
-    font-weight      : bold;
-    --bs-text-opacity: 1;
-    color            : var(--bs-secondary-color) !important;
+  font-weight: bold;
+  --bs-text-opacity: 1;
+  color: var(--bs-secondary-color) !important;
 }
-.wrapper-user{
-    max-width: $userWidth;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    padding: 1%;
+.wrapper-user {
+  max-width: $userWidth;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  padding: 1%;
 }
 
 .card-content {
-    background-color: #ffffff;
-    border-radius   : 8px;
-    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 
 @media (max-width: 575.98px) {
-    .wrapper-user{
-        margin-top: 15%;
-        margin-bottom: 15%;
-        padding: 1%;
-    }
+  .wrapper-user {
+    margin-top: 15%;
+    margin-bottom: 15%;
+    padding: 1%;
   }
+}
 
-.modal-content{
-    background-color: #fff;
+.modal-content {
+  background-color: #fff;
 }
 .custom-toast-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1050;
-    width: 350px;
-  }
-  
-  .toast-body-container {
-    display: flex;
-    align-items: center;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2050;
+  width: 350px;
+}
+
+.toast-body-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 1.5rem;
+}
+
+.text-container {
+  flex-grow: 1;
+}
+
+.toast-success {
+  border-left: 4px solid green;
+}
+
+.toast-info {
+  border-left: 4px solid blue;
+}
+
+.toast-warning {
+  border-left: 4px solid orange;
+}
+
+.toast-error {
+  border-left: 4px solid red;
+}
+
+.toast-header {
+  font-weight: bold;
+}
+
+.toast-icon {
+  font-size: 24px;
+}
+
+.confirm-popup {
+  .modal-content {
+    border-radius: 12px;
     padding: 10px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-  }
-  
-  .icon-container {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 1.5rem;
-  }
-  
-  .text-container {
-    flex-grow: 1;
-  }
-  
-  .toast-success {
-    border-left: 4px solid green;
-  }
-  
-  .toast-info {
-    border-left: 4px solid blue;
-  }
-  
-  .toast-warning {
-    border-left: 4px solid orange;
-  }
-  
-  .toast-error {
-    border-left: 4px solid red;
-  }
-  
-  .toast-header {
-    font-weight: bold;
-  }
-  
-  .toast-icon {
-    font-size: 24px;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
   }
 
-  .confirm-popup {
-    .modal-content {
-      border-radius: 12px;
-      padding: 10px;
-      max-width: 400px;
-      margin: auto;
-      text-align: center;
-    }
-  
-    .confirm-popup-header {
-        padding: 5px;
+  .confirm-popup-header {
+    padding: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .confirm-popup-body {
+    padding: 5px;
+    font-size: 16px;
+    color: #6b6b6b;
+  }
+
+  .confirm-popup-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: none;
+
+    .cancel-button {
+      border: 1px solid #000;
+      background-color: #fff;
+      color: #000;
       font-weight: bold;
-      font-size: 20px;
-      text-align: center;
-      border-bottom: none;
-    }
-  
-    .confirm-popup-body {
-        padding: 5px;
-      font-size: 16px;
-      color: #6b6b6b;
-    }
-  
-    .confirm-popup-footer {
-      display: flex;
-      justify-content: space-between;
-      border-top: none;
-  
-      .cancel-button {
-        border: 1px solid #000;
-        background-color: #fff;
-        color: #000;
-        font-weight: bold;
-  
-        &:hover {
-          background-color: #f8f9fa;
-        }
+
+      &:hover {
+        background-color: #f8f9fa;
       }
-  
-      .delete-button {
-        background-color: #ff3b30;
-        color: #fff;
-        font-weight: bold;
-      }
+    }
+
+    .delete-button {
+      background-color: #ff3b30;
+      color: #fff;
+      font-weight: bold;
     }
   }
-  
+}
+.require-input {
+  color: #ff3b30;
+}
+.form-check-input:checked{
+  background-color: #b9872a !important;
+}

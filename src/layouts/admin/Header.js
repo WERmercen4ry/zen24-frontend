@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Navbar,
@@ -26,11 +26,24 @@ const Header = () => {
   const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+  // State để lưu avatar URL
+  const [avatar, setAvatar] = React.useState("");
 
+  // Lấy avatar từ localStorage sau khi component đã được render
+  useEffect(() => {
+    const avatarUrl = localStorage.getItem("avatar");
+    if (avatarUrl) {
+      setAvatar(avatarUrl);
+    } else {
+      setAvatar("/default-avatar.png"); // Avatar mặc định nếu không có trong localStorage
+    }
+  }, []);
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
-
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
@@ -38,9 +51,7 @@ const Header = () => {
   const logout = async (e) => {
     e.preventDefault();
 
-    const res = await authorizedAxiosinstance.delete(
-      `${API_ROOT}users/logout`
-    );
+    const res = await authorizedAxiosinstance.delete(`${API_ROOT}users/logout`);
     localStorage.removeItem("profile");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -55,15 +66,15 @@ const Header = () => {
           <NavbarBrand href="/" className="d-lg-none m-auto">
             <DropdownToggle>
               <img
-                src={user1}
+                src={avatar}
                 alt="profile"
                 className="rounded-circle m-auto"
-                width="30"
+                width="40"
+                height="40"
               ></img>
             </DropdownToggle>
           </NavbarBrand>
           <Button
-            color="primary"
             className="d-lg-none m-auto"
             onClick={() => showMobilemenu()}
           >
@@ -125,16 +136,17 @@ const Header = () => {
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle className="avatar">
               <img
-                src={user1}
+                src={avatar}
                 alt="profile"
                 className="rounded-circle m-auto"
-                width="30"
+                width="40"
+                height="40"
               ></img>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Info</DropdownItem>
               <Link to={"/admin/profile"}>
-                <DropdownItem>Edit Profile</DropdownItem>
+                <DropdownItem className="mt-0">Edit Profile</DropdownItem>
               </Link>
               <DropdownItem divider />
               <DropdownItem onClick={logout}>Logout</DropdownItem>

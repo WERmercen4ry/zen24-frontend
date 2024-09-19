@@ -28,6 +28,7 @@ import { API_ROOT } from "../../../utils/constant.js";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
+import CreateMultiClass from "./CreateMultiClass.js";
 // const tableData = [
 //   {
 //     avatar: user1,
@@ -142,8 +143,6 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 // ];
 
 const CustomersManager = () => {
-  const [modal, setModal] = useState(false);
-
   const [data, setData] = useState([]);
 
   const [filteredData, setFilteredData] = useState(data);
@@ -181,7 +180,8 @@ const CustomersManager = () => {
     fetchData();
   }, [textUrl]);
 
-  const { showToast } = useToast();
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
 
   const fetchData = async (page, limit) => {
     try {
@@ -234,8 +234,9 @@ const CustomersManager = () => {
         latestPackage = pkg;
       }
     }
+    console.log(latestPackage[0]?.end_date);
 
-    return latestPackage?.end_date.split("T")[0];
+    return latestPackage?.end_date?.split("T")[0];
   };
   const dummyData = [
     {
@@ -264,141 +265,7 @@ const CustomersManager = () => {
 
   return (
     <div>
-      <Modal isOpen={modal} toggle={toggle} size="xl">
-        <ModalHeader toggle={toggle}>Tạo Lịch Tập</ModalHeader>
-        <ModalBody>
-          <Row>
-            <Col md={4}>
-              <FormGroup>
-                <Label for="branch">Lọc chi nhánh:</Label>
-                <Input type="select" name="branch" id="branch">
-                  <option>Ẩn tất cả</option>
-                  <option>Chi nhánh 1</option>
-                  <option>Chi nhánh 2</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col md={4}>
-              <FormGroup>
-                <Label for="trainer">Tìm kiếm huấn luyện viên:</Label>
-                <Input type="select" name="trainer" id="trainer">
-                  <option>Tất cả</option>
-                  <option>Nguyễn Văn A</option>
-                  <option>Trần Thị B</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col md={4}>
-              <FormGroup>
-                <Label for="classType">Lọc loại hình lớp:</Label>
-                <Input type="select" name="classType" id="classType">
-                  <option>Tất cả</option>
-                  <option>Pilates</option>
-                  <option>Yoga</option>
-                </Input>
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={4}>
-              <FormGroup>
-                <Label for="filterDate">Lọc ngày:</Label>
-                <Input type="date" name="filterDate" id="filterDate" />
-              </FormGroup>
-            </Col>
-            <Col md={4}>
-              <FormGroup>
-                <Label for="filterTime">Lọc thời gian:</Label>
-                <Input type="select" name="filterTime" id="filterTime">
-                  <option>Tất cả</option>
-                  <option>Buổi sáng</option>
-                  <option>Buổi chiều</option>
-                  <option>Buổi tối</option>
-                </Input>
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={10}>
-              <FormGroup check inline>
-                <Label className="px-4 ps-0" check>
-                  <Input type="checkbox" /> Thứ 2
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Thứ 3
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Thứ 4
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Thứ 5
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Thứ 6
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Thứ 7
-                </Label>
-                <Label className="px-4" check>
-                  <Input type="checkbox" /> Chủ nhật
-                </Label>
-              </FormGroup>
-            </Col>
-            <Col md={2} className="d-flex justify-content-end">
-              <Button color="primary" onClick={toggle}>
-                Xác nhận
-              </Button>
-            </Col>
-          </Row>
-          <div className="mt-4">
-            <h5 className="text-muted">Tạo lịch tập</h5>
-            <Table responsive borderless>
-              <thead>
-                <tr>
-                  <th>
-                    <Input type="checkbox" style={{ cursor: "pointer" }} />
-                  </th>
-                  <th className="text-muted">Huấn luyện viên</th>
-                  <th className="text-muted">Tổng học viên</th>
-                  <th className="text-muted">Số học viên</th>
-                  <th className="text-muted">Loại</th>
-                  <th className="text-muted">Chi nhánh</th>
-                  <th className="text-muted">Thứ</th>
-                  <th className="text-muted">Ngày</th>
-                  <th className="text-muted">Thời gian bắt đầu</th>
-                  <th className="text-muted">Thời gian kết thúc</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dummyData.map((item, index) => (
-                  <tr key={index} className="border-top">
-                    <td>
-                      <Input type="checkbox" style={{ cursor: "pointer" }} />
-                    </td>
-                    <td className="column-table">{item.trainer}</td>
-                    <td className="column-table">{item.totalStudents}</td>
-                    <td className="column-table">{item.studentCount}</td>
-                    <td className="column-table">{item.type}</td>
-                    <td className="column-table">{item.branch}</td>
-                    <td className="column-table">{item.day}</td>
-                    <td className="column-table">{item.date}</td>
-                    <td className="column-table">{item.startTime}</td>
-                    <td className="column-table">{item.endTime}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggle}>
-            Đóng
-          </Button>
-          <Button color="primary" onClick={toggle}>
-            Lưu thay đổi
-          </Button>
-        </ModalFooter>
-      </Modal>
+      <CreateMultiClass isOpen={modal} toggle={toggleModal}></CreateMultiClass>
       <Card>
         <Row className="mt-3">
           <Col>
@@ -426,7 +293,7 @@ const CustomersManager = () => {
               </CardSubtitle>
             </div>
             <div className="button-user">
-              <Link to={"/admin/create-user"}>
+              <Link to={"/admin/user"}>
                 <Button className="btn" color="primary" size="md">
                   + Thêm mới
                 </Button>
@@ -615,7 +482,12 @@ const CustomersManager = () => {
                         {getLatestEndDatePackage(tData.register_package)}
                       </strong>
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        textAlign: "center",
+                        verticalAlign: "middle",
+                      }}
+                    >
                       {tData.role === "Student" && (
                         <div>
                           <i
@@ -637,6 +509,16 @@ const CustomersManager = () => {
                           </i>
                         </div>
                       )}
+                    </td>
+                    <td>
+                      <Link
+                        to="/admin/user"
+                        state={{ userUpdateId: tData._id }}
+                      >
+                        <Button color="secondary m-auto" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
                     </td>
                     {/* <td>
                     {tData.status === "pending" ? (
