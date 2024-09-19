@@ -341,9 +341,10 @@ const UserForm = () => {
         }
       }
     } catch (error) {
-      hideLoader();
+
       showToast("Thông báo", error, TOAST_TYPES.ERROR);
     }
+    hideLoader();
   };
 
   useEffect(() => {

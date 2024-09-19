@@ -29,6 +29,7 @@ const Login = () => {
       const userProfile = {
         profile: res.data.profile,
       };
+      localStorage.setItem("avatar", res.data.avatar);
       localStorage.setItem("profile", JSON.stringify(userProfile));
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);

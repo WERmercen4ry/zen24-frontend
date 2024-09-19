@@ -120,7 +120,7 @@ const Timetables = () => {
                 + Thêm mới
               </Button>
             </div>
-            <Table borderless>
+            <Table responsive borderless>
               <thead>
                 <tr>
                   <th className="text-muted">Trainer</th>

@@ -28,7 +28,8 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(""); // State để giữ URL của ảnh preview
-  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const {showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [profileData, setProfileData] = useState({
@@ -47,7 +48,7 @@ const ProfilePage = () => {
       date_of_birth: "", // Quyền thêm từ API
     },
   });
-  const { showToast } = useToast();
+
   const [initialProfileData, setInitialProfileData] = useState({
     avatar: "",
     name: "",

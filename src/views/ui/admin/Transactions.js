@@ -67,7 +67,7 @@ const Transactions = () => {
       <div className="transactions-header">
         <h4>Giao dịch</h4>
       </div>
-      <Table borderless>
+      <Table responsive borderless>
         <thead>
           <tr>
             <th className="text-muted">Người dùng</th>
