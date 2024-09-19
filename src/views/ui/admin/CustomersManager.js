@@ -143,7 +143,6 @@ import CreateMultiClass from "./CreateMultiClass.js";
 // ];
 
 const CustomersManager = () => {
-
   const [data, setData] = useState([]);
 
   const [filteredData, setFilteredData] = useState(data);
@@ -167,12 +166,15 @@ const CustomersManager = () => {
     );
 
     setFilteredData(filtered);
-    console.log(filteredData);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     fetchData();
@@ -189,10 +191,6 @@ const CustomersManager = () => {
           limit: limit,
         },
       });
-
-      if (textUrl === "dashboards/overdue-packages") {
-        console.log(res);
-      }
 
       setData(res.data.users);
       setFilteredData(res.data.users);
@@ -225,11 +223,7 @@ const CustomersManager = () => {
       return null;
     }
 
-    console.log(packages);
-
     let latestPackage = packages[0];
-
-    console.log(latestPackage);
 
     for (const pkg of packages) {
       const latestEndDate = new Date(latestPackage?.end_date);
@@ -271,7 +265,7 @@ const CustomersManager = () => {
 
   return (
     <div>
-      <CreateMultiClass  isOpen={modal} toggle={toggleModal} ></CreateMultiClass>
+      <CreateMultiClass isOpen={modal} toggle={toggleModal}></CreateMultiClass>
       <Card>
         <Row className="mt-3">
           <Col>
@@ -517,7 +511,10 @@ const CustomersManager = () => {
                       )}
                     </td>
                     <td>
-                      <Link to="/admin/user" state={{ userUpdateId: tData._id }}>
+                      <Link
+                        to="/admin/user"
+                        state={{ userUpdateId: tData._id }}
+                      >
                         <Button color="secondary m-auto" size="sm">
                           Edit
                         </Button>
