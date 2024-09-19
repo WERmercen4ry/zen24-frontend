@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Table,
   Button,
@@ -18,6 +18,10 @@ import trainer from "../../../assets/images/logos/student-icon.png";
 import student from "../../../assets/images/logos/trainer-logo.png";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 import { API_ROOT } from "../../../utils/constant.js";
+import * as XLSX from "xlsx";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 
 const tableData = [
   {
@@ -40,12 +44,162 @@ const tableData = [
 const Dashboard = () => {
   const [totalTrainer, setTotalTrainer] = useState(0);
   const [totalStudent, setTotalStudent] = useState(0);
+  const [totalUsers, setTotalUsers] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [trainingHistory, setTrainingHistory] = useState([]);
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+
+  const { showToast } = useToast();
 
   const [formData, setFormData] = useState({
     startDate: "",
-    endDate: "",
   });
+
+  const handleExport = () => {
+    showLoader();
+    const listAgency = [];
+
+    if (totalUsers && totalUsers.length > 0) {
+      for (let i = 0; i < totalUsers.length; i++) {
+        if (totalUsers[i] && totalUsers[i].agency.length > 0) {
+          for (let j = 0; j < totalUsers[i].agency.length; j++) {
+            if (!listAgency.includes(totalUsers[i].agency[j].name)) {
+              listAgency.push(totalUsers[i].agency[j].name);
+            }
+          }
+        }
+      }
+    }
+
+    let isError = true;
+
+    const wb = XLSX.utils.book_new();
+    for (let i = 0; i < listAgency.length; i++) {
+      const data = getDataForExcel(totalUsers, listAgency[i]);
+      if (data && Array.isArray(data) && data.length > 0) {
+        const ws = XLSX.utils.json_to_sheet(data);
+
+        const sheetName = listAgency[i] || `Sheet${i + 1}`;
+
+        XLSX.utils.book_append_sheet(wb, ws, sheetName);
+        isError = false;
+      }
+    }
+
+    if (isError) {
+      showToast("Thông báo", "Không có dữ liệu", TOAST_TYPES.ERROR);
+      hideLoader();
+      return;
+    }
+
+    XLSX.writeFile(wb, "Du_lieu_nguoi_dung_theo_chi_nhanh.xlsx");
+    showToast("Thông báo", "Xuất file thành công", TOAST_TYPES.SUCCESS);
+    hideLoader();
+  };
+
+  const downloadFile = (base64Data, flg) => {
+    try {
+      // Xử lý base64
+      const base64String = base64Data.replace(
+        /^data:application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,/,
+        ""
+      ); // Xóa prefix nếu có
+      const byteCharacters = atob(base64String);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      }); // MIME type cho file XLSX
+      const url = URL.createObjectURL(blob);
+
+      // Tạo liên kết tải xuống và kích hoạt
+      const link = document.createElement("a");
+      link.href = url;
+      link.download =
+        flg === true ? "Lich_su_luyen_tap.xlsx" : "Tong_hop_lop_day.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Giải phóng URL sau khi tải xuống
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Lỗi khi tải file từ base64:", error);
+    }
+  };
+
+  const getDataForExcel = (totalUsers, agencyNm) => {
+    const dataSplit = [];
+    if (totalUsers && totalUsers.length > 0) {
+      for (let i = 0; i < totalUsers.length; i++) {
+        if (totalUsers[i] && totalUsers[i].agency.length > 0) {
+          for (let j = 0; j < totalUsers[i].agency.length; j++) {
+            if (agencyNm === totalUsers[i].agency[j].name) {
+              dataSplit.push({
+                name: totalUsers[i].profile.name,
+                phone: totalUsers[i].profile.phone,
+                gender: totalUsers[i].profile.sex,
+                address: totalUsers[i].profile.address,
+                role: totalUsers[i].role,
+                agencyName: totalUsers[i].agency[j].name,
+              });
+            }
+          }
+        }
+      }
+    }
+
+    return dataSplit;
+  };
+
+  useEffect(() => {
+    const { start, end } = getStartAndEndOfMonth(formData.startDate);
+
+    fetchTrainingHistoryByMonth(start, end);
+  }, [formData]);
+
+  const fetchTrainingHistoryByMonth = async (startDate, endDate) => {
+    try {
+      const res = await authorizedAxiosinstance.get(
+        `${API_ROOT}dashboards/getTrainingHistory`,
+        {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        }
+      );
+      setTrainingHistory(res?.data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  function getStartAndEndOfMonth(dateString) {
+    let year, month;
+    if (!dateString) {
+      const currentDate = new Date();
+      year = currentDate.getFullYear();
+      month = currentDate.getMonth() + 1; // getMonth() trả về giá trị từ 0-11, nên +1
+    } else {
+      [year, month] = dateString.split("-").map(Number);
+    }
+
+    // Ngày bắt đầu của tháng
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+
+    // Ngày kết thúc của tháng
+    const endDate = new Date(Date.UTC(year, month, 0));
+
+    // Định dạng lại thành yyyy-mm-dd
+    const start = startDate.toISOString().split("T")[0];
+    const end = endDate.toISOString().split("T")[0];
+
+    return { start, end };
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,7 +211,61 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchDataUsers();
+    fetchTrainingHistory();
   }, []);
+
+  const fetchTrainingHistory = async () => {
+    try {
+      const res = await authorizedAxiosinstance.get(
+        `${API_ROOT}dashboards/getTrainingHistory`
+      );
+      setTrainingHistory(res.data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const exportExcelTrainingHistoryClick = async () => {
+    try {
+      showLoader();
+      const res = await authorizedAxiosinstance.get(
+        `${API_ROOT}dashboards/exportTrainingHistory`
+      );
+
+      if (res && res.data) {
+        downloadFile(res.data.base64, true);
+        showToast("Thông báo", "Xuất file thành công", TOAST_TYPES.SUCCESS);
+        hideLoader();
+      } else {
+        showToast("Thông báo", "Không có dữ liệu", TOAST_TYPES.ERROR);
+        hideLoader();
+      }
+    } catch (error) {
+      hideLoader();
+      throw error;
+    }
+  };
+
+  const exportExcelClassTrainerClick = async () => {
+    try {
+      showLoader();
+      const res = await authorizedAxiosinstance.get(
+        `${API_ROOT}dashboards/exportExcel`
+      );
+
+      if (res && res.data) {
+        downloadFile(res.data, false);
+        showToast("Thông báo", "Xuất file thành công", TOAST_TYPES.SUCCESS);
+        hideLoader();
+      } else {
+        showToast("Thông báo", "Không có dữ liệu", TOAST_TYPES.ERROR);
+        hideLoader();
+      }
+    } catch (error) {
+      hideLoader();
+      throw error;
+    }
+  };
 
   const fetchDataUsers = async () => {
     try {
@@ -72,6 +280,8 @@ const Dashboard = () => {
       );
 
       if (res && res.data && res.data.users.length > 0) {
+        setTotalUsers(res.data.users);
+
         setTotalTrainer(
           res.data.users.filter((user) => user.role === "Trainer").length
         );
@@ -94,10 +304,10 @@ const Dashboard = () => {
               <Row>
                 <Col md={3}>
                   <FormGroup>
-                    <Label for="startDate">Ngày Bắt Đầu</Label>
+                    <Label for="startDate">Chọn tháng</Label>
                     <Input
                       className="date-time"
-                      type="date"
+                      type="month"
                       name="startDate"
                       id="startDate"
                       value={formData.startDate}
@@ -105,30 +315,25 @@ const Dashboard = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md={3}>
-                  <FormGroup>
-                    <Label for="endDate">Ngày Kết Thúc</Label>
-                    <Input
-                      className="date-time"
-                      type="date"
-                      name="endDate"
-                      id="endDate"
-                      value={formData.endDate}
-                      onChange={handleInputChange}
-                    />
-                  </FormGroup>
-                </Col>
               </Row>
               <div className="desc-total">
                 <div className="button-month">
-                  <Button color="primary" className="mt-2 btn">
+                  <Button
+                    color="primary"
+                    className="mt-2 btn"
+                    onClick={exportExcelTrainingHistoryClick}
+                  >
                     <i
                       className="bi bi-folder-check"
                       style={{ paddingRight: "7px" }}
                     ></i>
                     Xuất file lịch sử tập luyện
                   </Button>
-                  <Button color="primary" className="mt-2 btn">
+                  <Button
+                    color="primary"
+                    className="mt-2 btn"
+                    onClick={exportExcelClassTrainerClick}
+                  >
                     <i
                       className="bi bi-folder-check"
                       style={{ paddingRight: "7px" }}
@@ -140,9 +345,9 @@ const Dashboard = () => {
                   Lịch sử luyện tập trong tháng
                 </span>
               </div>
-              <Button color="primary" className="mt-2 btn">
+              {/* <Button color="primary" className="mt-2 btn">
                 Tháng
-              </Button>
+              </Button> */}
               <Table
                 className="no-wrap mt-3 align-middle"
                 responsive
@@ -169,27 +374,29 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData.map((tData, index) => (
-                    <tr key={index} className="border-top">
-                      <td>
-                        <div className="d-flex align-items-center p-2">
-                          <img
-                            src={tData.avatar}
-                            className="rounded-circle"
-                            alt="avatar"
-                            width="45"
-                            height="45"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <strong>{tData.name}</strong>
-                      </td>
-                      <td>
-                        <strong>{tData.dayTrainer} buổi</strong>
-                      </td>
-                    </tr>
-                  ))}
+                  {trainingHistory &&
+                    trainingHistory.length > 0 &&
+                    trainingHistory.map((tData, index) => (
+                      <tr key={index} className="border-top">
+                        <td>
+                          <div className="d-flex align-items-center p-2">
+                            <img
+                              src={tData.profile.avatar}
+                              className="rounded-circle"
+                              alt="avatar"
+                              width="45"
+                              height="45"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <strong>{tData.profile.name}</strong>
+                        </td>
+                        <td>
+                          <strong>{tData.totalClasses} buổi</strong>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </Table>
             </CardBody>
@@ -203,7 +410,11 @@ const Dashboard = () => {
                   <span className="title-month">Thống kê tài khoản</span>
                 </div>
                 <div>
-                  <Button color="primary" className="mt-2 btn">
+                  <Button
+                    color="primary"
+                    className="mt-2 btn"
+                    onClick={handleExport}
+                  >
                     <i
                       className="bi bi-folder-check"
                       style={{ paddingRight: "7px" }}

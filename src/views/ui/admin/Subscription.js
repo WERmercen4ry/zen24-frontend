@@ -360,6 +360,7 @@ const Subscription = () => {
                       <th>Số tiền</th>
                       <th>Ngày Bắt Đầu</th>
                       <th>Ngày Kết Thúc</th>
+                      <th>Trạng Thái Gói</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -381,6 +382,44 @@ const Subscription = () => {
                             {pkg.end_date != null
                               ? pkg.end_date.split("T")[0]
                               : ""}
+                          </td>
+                          <td>
+                            {pkg.status === "Suspended" && (
+                              <span
+                                style={{
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  padding: "5px",
+                                  borderRadius: "20px",
+                                }}
+                              >
+                                Đã bảo lưu
+                              </span>
+                            )}
+                            {pkg.status === "Active" && (
+                              <span
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                  padding: "5px",
+                                  borderRadius: "20px",
+                                }}
+                              >
+                                Đang hoạt động
+                              </span>
+                            )}
+                            {pkg.status === "Expired" && (
+                              <span
+                                style={{
+                                  backgroundColor: "gray",
+                                  color: "white",
+                                  padding: "5px",
+                                  borderRadius: "20px",
+                                }}
+                              >
+                                Hết hạn
+                              </span>
+                            )}
                           </td>
                         </tr>
                       ))}

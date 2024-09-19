@@ -167,12 +167,15 @@ const CustomersManager = () => {
     );
 
     setFilteredData(filtered);
-    console.log(filteredData);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     fetchData();
@@ -188,10 +191,6 @@ const CustomersManager = () => {
           limit: limit,
         },
       });
-
-      if (textUrl === "dashboards/overdue-packages") {
-        console.log(res);
-      }
 
       setData(res.data.users);
       setFilteredData(res.data.users);
@@ -224,11 +223,7 @@ const CustomersManager = () => {
       return null;
     }
 
-    console.log(packages);
-
     let latestPackage = packages[0];
-
-    console.log(latestPackage);
 
     for (const pkg of packages) {
       const latestEndDate = new Date(latestPackage?.end_date);
@@ -239,8 +234,6 @@ const CustomersManager = () => {
         latestPackage = pkg;
       }
     }
-
-    console.log(latestPackage[0]?.end_date);
 
     return latestPackage?.end_date.split("T")[0];
   };
