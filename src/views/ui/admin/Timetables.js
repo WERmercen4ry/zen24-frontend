@@ -107,6 +107,7 @@ const Timetables = () => {
           isOpen={isOpen}
           toggle={togglePopup}
           onConfirm={handleConfirm}
+          message={"Are you sure you want to delete this item? This action cannot be undone."}
         />
         <Col>
           <div className="timetable-content">
