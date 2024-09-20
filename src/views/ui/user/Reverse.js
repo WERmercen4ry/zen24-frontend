@@ -9,10 +9,8 @@ import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
 
 const Reverse = () => {
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(5);
   const [expiredPackages, setExpiredPackages] = useState([]);
   const [otherPackages, setOtherPackage] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +18,8 @@ const Reverse = () => {
 
   const currentUser = localStorage.getItem("userId");
   useEffect(() => {
-    fetchTransactions(currentPage, limit);
-  }, [currentPage, limit]);
+    fetchTransactions();
+  }, []);
   const togglePopup = (currentPackage) => {
     if (currentPackage) {
       setCurrentPackage(currentPackage);
@@ -42,11 +40,9 @@ const Reverse = () => {
         body
       );
       if (res.status === 200) {
-        showToast("Thông báo", "thành công", TOAST_TYPES.SUCCESS);
+        // showToast("Thông báo", "thành công", TOAST_TYPES.SUCCESS);
         // ddowij 2 second
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        fetchTransactions();
       } else {
       }
     } else if (currentPackage.status === "Suspended") {
@@ -54,14 +50,14 @@ const Reverse = () => {
         `${API_ROOT}users/resume-course?RegisterPackageId=${currentPackage._id}`
       );
       if (res.status === 200) {
-        window.location.reload();
+        fetchTransactions();
       } else {
       }
     }
 
     togglePopup();
   };
-  const fetchTransactions = (page, limit) => {
+  const fetchTransactions = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/users/getUserRegisteredPackages`, {
         params: {
