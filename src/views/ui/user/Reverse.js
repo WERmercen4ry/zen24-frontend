@@ -40,8 +40,7 @@ const Reverse = () => {
         body
       );
       if (res.status === 200) {
-        // showToast("Thông báo", "thành công", TOAST_TYPES.SUCCESS);
-        // ddowij 2 second
+        // TODO: show toast
         fetchTransactions();
       } else {
       }
@@ -50,6 +49,7 @@ const Reverse = () => {
         `${API_ROOT}users/resume-course?RegisterPackageId=${currentPackage._id}`
       );
       if (res.status === 200) {
+        // TODO: show toast
         fetchTransactions();
       } else {
       }
