@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import '../../assets/scss/layout/header_user.scss'; // Import file CSS cho Header
 import Logo from "./Logo";
@@ -10,11 +10,20 @@ const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
-
-  const userInfo = {
-    name: 'Nguyễn Văn A',
-    address: '1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô',
-  };
+  const [avatar, setAvatar] = React.useState("");
+  const [userInfo, setUserInfo] = React.useState("");
+  // Lấy avatar từ localStorage sau khi component đã được render
+  useEffect(() => {
+    const avatarUrl = localStorage.getItem("avatar");
+    const userInfoGet = localStorage.getItem("profile");
+    if (avatarUrl) {
+      setAvatar(avatarUrl);
+      console.log(JSON.parse(userInfoGet));
+      setUserInfo(JSON.parse(userInfoGet))
+    } else {
+      setAvatar("/default-avatar.png"); // Avatar mặc định nếu không có trong localStorage
+    }
+  }, []);
 
   // Danh sách thông báo mẫu
   const notifications = [
@@ -42,10 +51,10 @@ const Header = () => {
           <Logo />
         </div>
         <div className="header-search d-xs-none">
-          <p className="infor-name my-auto">Xin chào {userInfo.name}</p>
+          <p className="infor-name my-auto">Xin chào {userInfo?.profile?.name || ""}</p>
           <p className="infor-user my-auto d-flex">
             <i className="bi bi-geo-alt-fill me-1"></i>
-            <TextWithTooltip text={userInfo.address} maxChars={70} />
+            <TextWithTooltip text={userInfo?.profile?.address || ""} maxChars={70} />
           </p>
         </div>
         <div className="header-right">
@@ -70,7 +79,6 @@ const Header = () => {
                 notifications.map((notification) => (
                   <div onClick={() => handleNotificationClick(notification.id)} className="notification-item" key={notification.id} >
                     <img
-                      src={user1}
                       alt="notification icon"
                       className="notification-icon"
                     />
@@ -88,10 +96,11 @@ const Header = () => {
           </Dropdown>
           {/* Avatar người dùng */}
           <img
-            src={user1}
+            src={avatar}
             alt="profile"
             className="rounded-circle m-auto avatar"
             width="45"
+            height="45"
           />
         </div>
       </div>

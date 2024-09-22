@@ -177,6 +177,13 @@
   }
 }
 
+// @media (max-width: 1100px) {
+//   .wrapper-user {
+//     margin-top: 7%;
+//     margin-bottom: 7%;
+//     padding: 1%;
+//   }
+// }
 .modal-content {
   background-color: #fff;
 }
@@ -257,9 +264,13 @@
 
   .confirm-popup-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     border-top: none;
-
+    
+    .btn{
+      min-width: 100px;
+      margin: 0px 20px;
+    }
     .cancel-button {
       border: 1px solid #000;
       background-color: #fff;
@@ -283,4 +294,8 @@
 }
 .form-check-input:checked{
   background-color: #b9872a !important;
+}
+.text-center{
+  display: flex;
+  justify-content: center;
 }
