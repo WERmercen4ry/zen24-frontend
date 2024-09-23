@@ -1,8 +1,7 @@
 import "../../../assets/scss/layout/user_page.scss";
 
 import React from "react";
-import { Container, Row, Col, Button, Badge } from "reactstrap";
-import user3 from "../../../assets/images/users/user3.jpg";
+import { Container, Row, Col, Button } from "reactstrap";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -20,7 +19,7 @@ const WorkoutHistory = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  });
   const togglePopup = (currentClass) => {
     if (currentClass) {
       setCurrentClass(currentClass);
@@ -99,13 +98,13 @@ const WorkoutHistory = () => {
       .delete(`${API_ROOT}/users/cancelClassRegistration`, {
         params: {
           userId: currentUser,
-          classId: currentClass._id
+          classId: currentClass._id,
         },
-      }).then((res) => {
-
-        // TODO: show toasts
-        handleTabClick(activeTab)
       })
+      .then((res) => {
+        // TODO: show toasts
+        handleTabClick(activeTab);
+      });
   };
 
   const handleConfirm = async () => {
