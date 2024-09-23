@@ -19,7 +19,7 @@ const WorkoutHistory = () => {
 
   useEffect(() => {
     fetchTransactions();
-  });
+  }, []);
   const togglePopup = (currentClass) => {
     if (currentClass) {
       setCurrentClass(currentClass);
