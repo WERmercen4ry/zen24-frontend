@@ -2,7 +2,13 @@ import React from 'react';
 import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import { BsPerson, BsArchive, BsShare, BsShield, BsPhone, BsKey, BsBoxArrowRight } from 'react-icons/bs'; // Bootstrap icons
 import '../../../assets/scss/layout/user_page.scss';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import authorizedAxiosinstance from "../../../utils/authorizedAxios";
+import { API_ROOT } from "../../../utils/constant";
+
 const AccountOptions = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const options = [
     { title: 'Thông tin cá nhân', icon: <BsPerson />, path: '/update-user' }
   ];
@@ -16,6 +22,16 @@ const AccountOptions = () => {
   const options3 = [
     { title: 'Đăng xuất', icon: <BsBoxArrowRight />, path: '/logout' },
   ];
+  const logout = async (e) => {
+    e.preventDefault();
+
+    const res = await authorizedAxiosinstance.delete(`${API_ROOT}users/logout`);
+    localStorage.removeItem("profile");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
   return (
     <Container className="workout-history mt-2 card-content">
             <Row>
@@ -63,7 +79,7 @@ const AccountOptions = () => {
             key={index}
             className="opption-items d-flex justify-content-between align-items-center py-3"
             tag="a"
-            href={option.path}
+            onClick={logout}
             style={{ cursor: 'pointer' }}
           >
             <div className="d-flex align-items-center">
