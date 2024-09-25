@@ -1,54 +1,84 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import '../../../assets/scss/layout/user_page.scss';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import { Container, Row, Col } from "reactstrap";
+import "../../../assets/scss/layout/user_page.scss";
+import authorizedAxiosinstance from "../../../utils/authorizedAxios";
+import { API_ROOT } from "../../../utils/constant";
+import { useLocation } from "react-router-dom";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 const NotificateDetail = () => {
-    const { id } = useParams(); // Lấy id từ URL
-    const notifications = [
-        {
-            id: 1,
-            title: 'Lớp học sắp bắt đầu',
-            message: 'Lớp học của Quý khách viên sẽ diễn ra sau 24 giờ nữa.',
-            time: '17:55 - 05/09/2024',
-        },
-        {
-            id: 2,
-            title: 'Lớp học sắp bắt đầu',
-            message: 'Lớp học của Quý khách viên sẽ diễn ra sau 12 giờ nữa.',
-            time: '09:00 - 04/09/2024',
-        },
-    ];
-    const notification = notifications.find((n) => n.id === parseInt(id));
-
-    if (!notification) {
-
-        return (<Container className="workout-history mt-2 card-content">
-            <Row>
-                <Col className="text-center">
-                    <h2 className="history-title">Thông báo không tồn tại</h2>
-                </Col>
-            </Row>
-            {/* Gói tập */}
-        </Container>)
+  const location = useLocation();
+  const { notiId } = location.state || {};  // Kiểm tra state truyền vào
+  const [notification, setNotification] = useState();
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  useEffect(() => {
+    if (notiId) {
+      fetchNotificationDetail();
     }
+  }, [notiId]);
 
+  const fetchNotificationDetail = () => {
+    showLoader();
+    authorizedAxiosinstance
+      .get(`${API_ROOT}users/notification-by-id?NotificationId=${notiId}`)
+      .then((res) => {
+        setNotification(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching notifications:", error);
+      });
+    hideLoader();
+  };
+
+  if (!notiId) {
     return (
-        <Container className="workout-history mt-2 card-content">
-            <Row>
-                <Col className="text-center">
-                    <h2 className="history-title">Chi tiết thông báo</h2>
-                </Col>
-            </Row>
-            {/* Gói tập */}
-            <div className="package-info pb-4">
-                <div className="notification-detail">
-                    <h2>{notification.title}</h2>
-                    <p>{notification.message}</p>
-                    <span>{notification.time}</span>
-                </div>
-            </div>
-        </Container>
+      <Container className="workout-history mt-2 card-content">
+        <Row>
+          <Col className="text-center">
+            <h2 className="history-title">Thông báo không tồn tại</h2>
+          </Col>
+        </Row>
+      </Container>
     );
+  }
+
+  if (!notification) {
+    return (
+      <Container className="workout-history mt-2 card-content">
+        <Row>
+          <Col className="text-center">
+            <h2 className="history-title">Đang tải thông báo...</h2>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  return (
+    <Container className="workout-history mt-2 card-content">
+      <Row>
+        <Col className="text-center">
+          <h2 className="history-title">Chi tiết thông báo</h2>
+        </Col>
+      </Row>
+      <div className="package-info pb-4">
+        <div className="notification-detail">
+          <h2>{notification.title || "Thông báo"}</h2>
+          <p>{notification.message}</p>
+          <span>
+            {new Date(notification.created_at).toLocaleString("vi-VN", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+            })}
+          </span>
+        </div>
+      </div>
+    </Container>
+  );
 };
 
 export default NotificateDetail;

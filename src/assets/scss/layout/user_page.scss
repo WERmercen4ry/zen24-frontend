@@ -1,8 +1,12 @@
 @import "../variables";
 
 .workout-history {
-  padding: 2% 2%;
+  padding: 3% 2%;
+  margin-top: 0px !important;
 }
+  
+
+
 
 .history-title {
   font-size: 24px;
@@ -261,4 +265,18 @@
 }
 .input-password{
   max-width: 60%;
+}
+/* Tablet (Từ 768px đến 1024px) */
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+
+}
+@media (max-width: 767px) {
+  .type-package{
+    padding: 5px;
+    text-align: center;
+    border-radius: 7px;
+    margin-top: 10px;
+    width: 110%;
+    font-size: 13px;
+  }
 }
