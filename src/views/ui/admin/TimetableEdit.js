@@ -36,7 +36,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
 
   const fetchTrainer = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/users/getUsersByRole`, {
+      .get(`${API_ROOT}users/getUsersByRole`, {
         params: {
           role: "Trainer",
         },
@@ -51,7 +51,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
 
   const fetchLocation = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/getListLocations`)
+      .get(`${API_ROOT}dashboards/getListLocations`)
       .then((res) => {
         setlistLocationData(res.data);
       })
@@ -62,7 +62,7 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
 
   const fetchPackage = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/packages`)
+      .get(`${API_ROOT}dashboards/packages`)
       .then((res) => {
         setlistPackageData(res.data);
       })

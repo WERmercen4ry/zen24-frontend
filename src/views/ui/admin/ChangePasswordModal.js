@@ -91,7 +91,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
       passwordData
     );
     console.log(res);
-    if (res.response?.status === 403 || res.response?.status === 500) {
+    if (res.status !== 200) {
       setErrorAPI(res.response?.data?.message);
     } else {
       toggle();

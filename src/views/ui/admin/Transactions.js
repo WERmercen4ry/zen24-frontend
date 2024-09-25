@@ -18,7 +18,7 @@ const Transactions = () => {
 
   const fetchTransactions = (page, limit) => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/getListPayments`, {
+      .get(`${API_ROOT}dashboards/getListPayments`, {
         params: {
           page: page,
           limit: limit,

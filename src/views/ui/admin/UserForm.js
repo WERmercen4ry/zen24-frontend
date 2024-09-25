@@ -40,7 +40,7 @@ const UserForm = () => {
       phone: "",
       address: "",
       date_of_birth: "",
-      goals: "", // Thêm trường mục tiêu
+      training_goals: "", // Thêm trường mục tiêu
       Province: "",
       District: "",
       Commune: "",
@@ -96,7 +96,7 @@ const UserForm = () => {
             : "",
           sex: userProfile.profile.sex,
           address: userProfile.profile.address || "",
-          goals: userProfile.profile.goals || "",
+          training_goals: userProfile.profile.training_goals || "",
           weight: userProfile.profile.weight || "",
           height: userProfile.profile.height || "",
           Province: userProfile.profile.Province || "",
@@ -187,7 +187,7 @@ const UserForm = () => {
         "phone",
         "address",
         "date_of_birth",
-        "goals",
+        "training_goals",
         "Commune",
         "District",
         "Province",
@@ -321,7 +321,7 @@ const UserForm = () => {
         );
       }
       hideLoader();
-      if (res.response?.status === 403 || res.response?.status === 500) {
+      if (res.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
         if (isEdit) {
@@ -562,16 +562,16 @@ const UserForm = () => {
             <Row>
               <Col md={12}>
                 <FormGroup>
-                  <Label for="goals">Mô Tả Mục Tiêu</Label>
+                  <Label for="training_goals">Mô Tả Mục Tiêu</Label>
                   <Input
                     type="textarea"
-                    name="goals"
-                    id="goals"
-                    value={formData.profile.goals}
+                    name="training_goals"
+                    id="training_goals"
+                    value={formData.profile.training_goals}
                     onChange={handleInputChange}
-                    invalid={!!errors.goals}
+                    invalid={!!errors.training_goals}
                   />
-                  {errors.goals && <FormFeedback>{errors.goals}</FormFeedback>}
+                  {errors.training_goals && <FormFeedback>{errors.training_goals}</FormFeedback>}
                 </FormGroup>
               </Col>
             </Row>

@@ -8,6 +8,7 @@
   z-index: 1000;
   padding: 0.7% 1.2%;
   max-height: 80px;
+  min-height: 70px;
 }
 
 .header-container {
@@ -93,20 +94,6 @@
   transition: all 0.3s;
 }
 
-.msg-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: $danger;
-  border-radius: 50%;
-  font-size: 0.7em;
-  color: $primary;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 @media (max-width: 575.98px) {
 
@@ -123,6 +110,7 @@
 }
 .notification-menu {
   max-width: 400px;
+  overflow-y: auto; 
   padding: 10px;
   border: 1px solid #ccc;
 }
@@ -132,17 +120,17 @@
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
-
+.notification-item:hover {
+  background-color: #f0f0f0; /* Hiệu ứng hover */
+}
 .notification-item:last-child {
   border-bottom: none;
 }
 
 .notification-icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  background-color: #f3f3f3;
 }
 
 .notification-content {
@@ -178,6 +166,26 @@
   border-radius: 50%;
   padding: 3px 6px;
   font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.msg-count-detail {
+  position: absolute;
+  top: -3px;
+  right: 0px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 6px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .notification-arrow {
   position: absolute;
@@ -190,4 +198,12 @@
   border-right: 10px solid transparent;
   border-bottom: 10px solid #fff; /* Màu của mũi tên */
   z-index: 1;
+}
+.unread-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  margin-right: 5px;
 }

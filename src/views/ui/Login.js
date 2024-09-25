@@ -23,7 +23,7 @@ const Login = () => {
       formData
     );
     console.log(res);
-    if (res.response?.status === 403) {
+    if (res.status !== 200) {
       setError(res.response?.data?.message);
     } else {
       const userProfile = {

@@ -72,7 +72,7 @@ const ThemeRoutes = [
       { path: "reverse", exact: true, element: <Reverse /> },
       { path: "account", exact: true, element: <AccountOptions /> },
       {
-        path: "notification-detail/:id",
+        path: "notification-detail",
         exact: true,
         element: <NotificateDetail />,
       },
