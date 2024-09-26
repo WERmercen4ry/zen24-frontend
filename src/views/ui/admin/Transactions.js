@@ -73,9 +73,7 @@ const Transactions = () => {
             <th className="text-muted">Người dùng</th>
             <th className="text-muted">Phương Thức</th>
             <th className="text-muted">Trạng Thái</th>
-            <th className="text-muted">Loại</th>
             <th className="text-muted">Số Tiền</th>
-            <th className="text-muted">Hình Ảnh</th>
           </tr>
         </thead>
         <tbody>
@@ -94,23 +92,9 @@ const Transactions = () => {
                   {transaction.status}
                 </span>
               </td>
-              <td>
-                <span className="label-type">{transaction.type}</span>
-              </td>
+     
               <td>{transaction.amount}</td>
-              <td className="image-cell">
-                {transaction.image ? (
-                  <img src={transaction.image} alt="Hình ảnh" />
-                ) : (
-                  <div
-                    style={{
-                      backgroundColor: "#eaeaea",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  ></div>
-                )}
-              </td>
+
             </tr>
           ))}
         </tbody>
