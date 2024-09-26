@@ -87,6 +87,7 @@ const UpdateUser = () => {
       })
       .catch((error) => {
         console.error("Error fetching users data:", error);
+        throw error;
       });
   };
 
