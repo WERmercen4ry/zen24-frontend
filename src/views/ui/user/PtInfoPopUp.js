@@ -1,9 +1,12 @@
 import { Button } from "reactstrap";
 import picture from "../../../assets/images/logos/ZenLogo2.png";
 import "../../../assets/scss/layout/ptInfoPopUp.scss"; // Import CSS file
+import React, { useState, useEffect } from "react";
+import { API_ROOT } from "../../../utils/constant";
+import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 
-const PtInfoPopUp = ({ show, handleClose, title, children }) => {
-  const ptInfo = {
+const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
+  const [ptInfo, setPtInfo] = useState({
     avt: picture,
     name: "Phạm Vũ Tuyên",
     cityName: "Thành phố Hồ Chí Minh",
@@ -13,6 +16,38 @@ const PtInfoPopUp = ({ show, handleClose, title, children }) => {
     height: 160,
     targetTrain: "Giảm cân, Giảm mỡ",
     medicalHistory: "Không có",
+  });
+
+  useEffect(() => {
+    fetchDataUser();
+  }, []);
+
+  const fetchDataUser = () => {
+    authorizedAxiosinstance
+      .get(`${API_ROOT}users/getUserById?userId=${userInfo}`)
+      .then((res) => {
+        console.log(res);
+
+        if (res && res.data && res.data.profile) {
+          setPtInfo({
+            avt: res.data.avatar,
+            name: res.data.profile.name,
+            cityName: res.data.profile.address,
+            dayOfBirth:
+              res.data.profile.date_of_birth !== ""
+                ? res.data.profile.date_of_birth.split("T")[0]
+                : "",
+            gender: res.data.profile.sex === "male" ? "Nam" : "Nữ",
+            weight: res.data.profile.weight,
+            height: res.data.profile.height,
+            targetTrain: res.data.profile.training_goals,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users data:", error);
+        throw error;
+      });
   };
 
   if (!show) {
@@ -23,7 +58,9 @@ const PtInfoPopUp = ({ show, handleClose, title, children }) => {
     <div className="popup-overlay">
       <div className="popup-content">
         <div className="popup-header">
-          <img src={ptInfo.avt} alt="avt" className="popup-image" />
+          <div className="div-image">
+            <img src={ptInfo.avt} alt="avt" className="popup-image" />
+          </div>
           <strong className="popup-name">{ptInfo.name}</strong>
         </div>
         <div className="popup-body">
@@ -51,10 +88,10 @@ const PtInfoPopUp = ({ show, handleClose, title, children }) => {
             <i className="bi bi-bullseye icon-style"></i>
             <span>{ptInfo.targetTrain}</span>
           </div>
-          <div className="popup-info">
+          {/* <div className="popup-info">
             <i className="bi bi-postcard-heart icon-style"></i>
             <span>{ptInfo.medicalHistory}</span>
-          </div>
+          </div> */}
         </div>
         <Button
           color="primary"
