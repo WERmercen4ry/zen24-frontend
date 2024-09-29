@@ -35,8 +35,13 @@ const Login = () => {
       localStorage.setItem("refreshToken", res.data.refreshToken);
       localStorage.setItem("userRole", res.data.role);
       localStorage.setItem("userId", res.data.id);
+
       if (res.data.role === "Admin") {
+        console.log("123123");
+
         navigate("/admin");
+      } else if (res.data.role === "Trainer") {
+        navigate("/calendar");
       } else {
         navigate("/");
       }

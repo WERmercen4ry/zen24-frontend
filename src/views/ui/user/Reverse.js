@@ -1,34 +1,51 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import "../../../assets/scss/layout/user_page.scss";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { useEffect, useState } from "react";
 import { API_ROOT } from "../../../utils/constant";
-import ConfirmPopup from "../../../layouts/admin/ConfirmPopup";
-import { useToast } from "../../../layouts/admin/ToastContext";
-import { TOAST_TYPES } from "../../../utils/constant";
+import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 
 const Reverse = () => {
-  // const { showToast } = useToast();
-
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const [isConfirm, setIsConfirm] = useState(true);
   const [expiredPackages, setExpiredPackages] = useState([]);
   const [otherPackages, setOtherPackage] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [currentPackage, setCurrentPackage] = useState(null);
-
+  const [formPopupConfirm, setFormPopupConfirm] = useState({
+    message: "",
+    title: "",
+  });
+  const toggle = () => setIsOpen(!isOpen);
   const currentUser = localStorage.getItem("userId");
   useEffect(() => {
     fetchTransactions();
   }, []);
-  const togglePopup = (currentPackage) => {
+  const showNotification = (message) => {
+    setIsConfirm(false);
+    setFormPopupConfirm({
+      ...formPopupConfirm,
+      message: message,
+      title: "Thông báo",
+    });
+    setIsOpen(true);
+  };
+  const handleReverseClick = (currentPackage) => {
     if (currentPackage) {
       setCurrentPackage(currentPackage);
     }
-    setIsOpen(!isOpen);
+    setIsConfirm(true);
+    setFormPopupConfirm({
+      ...formPopupConfirm,
+      message: "Bạn có muốn bảo lưu gói này không?",
+      title: "Xác nhận",
+    });
+    toggle();
   };
   const handleConfirm = async () => {
-    togglePopup();
-
+    showLoader();
     if (currentPackage.status === "Active") {
       const body = {
         userId: currentUser,
@@ -51,11 +68,12 @@ const Reverse = () => {
       if (res.status === 200) {
         // TODO: show toast
         fetchTransactions();
+        showNotification("Bảo lưu gói thành công");
       } else {
+        showNotification(res.response.data.message);
       }
     }
-
-    togglePopup();
+    hideLoader();
   };
   const fetchTransactions = () => {
     authorizedAxiosinstance
@@ -97,13 +115,14 @@ const Reverse = () => {
   return (
     <Container className="workout-history mt-2 card-content">
       <Row>
-        <ConfirmPopup
-          isOpen={isOpen}
-          toggle={togglePopup}
-          onConfirm={handleConfirm}
-          message={"Bạn có chắc chắn muốn bảo lưu/tiếp tục khoá học không?"}
-          button={"Xác nhận "}
-        />
+      <ConfirmPopup
+        isOpen={isOpen}
+        toggle={toggle}
+        onConfirm={handleConfirm}
+        isConfirm={isConfirm}
+        title={formPopupConfirm.title}
+        message={formPopupConfirm.message}
+      />
         <Col className="text-center">
           <h2 className="history-title">BẢO LƯU</h2>
         </Col>
@@ -138,7 +157,7 @@ const Reverse = () => {
               <Col xs="12" className="d-flex justify-content-center">
                 <Button
                   className="btn-reverse mx-auto"
-                  onClick={() => togglePopup(session)}
+                  onClick={() => handleReverseClick(session)}
                 >
                   {session.status != "Suspended" ? "Bảo lưu" : "Tiếp tục"}
                 </Button>

@@ -131,7 +131,7 @@ const BookingScreen = () => {
       showNotification("Đăng ký lớp học thành công");
       fetchClassForUser();
     } else {
-      showNotification("Đang xảy ra lỗi vui lòng liên hệ quản trị viên");
+      showNotification(res.response.data.message);
     }
     hideLoader();
   };
