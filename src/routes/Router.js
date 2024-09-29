@@ -33,8 +33,14 @@ const NotificateDetail = lazy(() =>
 );
 const AccountOptions = lazy(() => import("../views/ui/user/AccountOptions.js"));
 const ChangePassword = lazy(() => import("../views/ui/user/ChangePassword.js"));
+const TrainnerCalendar = lazy(() => import("../views/ui/user/TrainnerCalendar.js"));
+const Support = lazy(() => import("../views/ui/user/Support.js"));
+const Policy = lazy(() => import("../views/ui/user/Policy.js"));
+
+
 
 const ThemeRoutes = [
+
   {
     path: "/admin",
     element: (
@@ -61,7 +67,7 @@ const ThemeRoutes = [
   {
     path: "/",
     element: (
-      <ProtectedRoute allowedRoles={["Student", "Trainer"]}>
+      <ProtectedRoute allowedRoles={["Student"]}>
         <UserFullLayout />
       </ProtectedRoute>
     ),
@@ -69,15 +75,40 @@ const ThemeRoutes = [
       { path: "", element: <Navigate to="/booking" /> },
       { path: "booking", exact: true, element: <BookingScreen /> },
       { path: "history", exact: true, element: <WorkoutHistory /> },
-      { path: "reverse", exact: true, element: <Reverse /> },
-      { path: "account", exact: true, element: <AccountOptions /> },
+      { path: "account/reverse", exact: true, element: <Reverse /> },
       {
         path: "notification-detail",
         exact: true,
         element: <NotificateDetail />,
-      },
+      }
+    ],
+  },
+  {
+    path: "/account",
+    element: (
+      <ProtectedRoute allowedRoles={["Student", "Trainer"]}>
+        <UserFullLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: "", exact: true, element: <AccountOptions /> },
       { path: "change-password", exact: true, element: <ChangePassword /> },
       { path: "update-user", exact: true, element: <UpdateUser /> },
+      { path: "policy", exact: true, element: <Policy /> },
+      { path: "support", exact: true, element: <Support /> },
+
+    ],
+  },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute allowedRoles={["Trainer"]}>
+        <UserFullLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: "", element: <Navigate to="/calendar" /> },
+      { path: "calendar", exact: true, element: <TrainnerCalendar /> },
     ],
   },
   {

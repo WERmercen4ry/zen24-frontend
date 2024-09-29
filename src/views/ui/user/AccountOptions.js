@@ -10,14 +10,13 @@ const AccountOptions = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const options = [
-    { title: 'Thông tin cá nhân', icon: <BsPerson />, path: '/update-user' }
+    { title: 'Thông tin cá nhân', icon: <BsPerson />, path: '/account/update-user' }
   ];
   const options2 = [
-    { title: 'Bảo lưu', icon: <BsArchive />, path: '/reverse' },
-    { title: 'Chia sẻ', icon: <BsShare />, path: '/share' },
-    { title: 'Các chính sách khác', icon: <BsShield />, path: '/policies' },
-    { title: 'Hỗ trợ', icon: <BsPhone />, path: '/support' },
-    { title: 'Đổi mật khẩu', icon: <BsKey />, path: '/change-password' },
+    { title: 'Bảo lưu', icon: <BsArchive />, path: '/account/reverse' },
+    { title: 'Các chính sách khác', icon: <BsShield />, path: '/account/policy' },
+    { title: 'Hỗ trợ', icon: <BsPhone />, path: '/account/support' },
+    { title: 'Đổi mật khẩu', icon: <BsKey />, path: '/account/change-password' },
   ];
   const options3 = [
     { title: 'Đăng xuất', icon: <BsBoxArrowRight />, path: '/logout' },

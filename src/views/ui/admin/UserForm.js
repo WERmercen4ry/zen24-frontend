@@ -321,7 +321,8 @@ const UserForm = () => {
         );
       }
       hideLoader();
-      if (res.status !== 200) {
+      console.log("ádas", res);
+      if (res?.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
         if (isEdit) {
@@ -341,8 +342,7 @@ const UserForm = () => {
         }
       }
     } catch (error) {
-
-      showToast("Thông báo", error, TOAST_TYPES.ERROR);
+      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
     }
     hideLoader();
   };
@@ -418,7 +418,7 @@ const UserForm = () => {
                     type="password"
                     name="password"
                     id="password"
-                    value={formData.password || isEdit ? "********" : ""}
+                    value={formData.password || (isEdit ? "********" : "")}
                     onChange={handleInputChange}
                     invalid={!!errors.password}
                     disabled={isEdit}
@@ -569,9 +569,7 @@ const UserForm = () => {
                     id="training_goals"
                     value={formData.profile.training_goals}
                     onChange={handleInputChange}
-                    invalid={!!errors.training_goals}
                   />
-                  {errors.training_goals && <FormFeedback>{errors.training_goals}</FormFeedback>}
                 </FormGroup>
               </Col>
             </Row>

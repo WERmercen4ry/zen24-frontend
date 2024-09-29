@@ -3,29 +3,29 @@ import "../../../assets/scss/layout/user_page.scss";
 import React from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import moment from "moment";
-import ConfirmPopup from "../../../layouts/admin/ConfirmPopup";
-
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
 import { API_ROOT } from "../../../utils/constant";
 const WorkoutHistory = () => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
   const [trainingHistory, settrainingHistory] = useState([]);
   const [activeTab, setActiveTab] = useState("Tất cả");
   const [currentClass, setCurrentClass] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [trainingHistoryFuture, settrainingHistoryFuture] = useState([]);
-
+  const [isConfirm, setIsConfirm] = useState(true);
   const currentUser = localStorage.getItem("userId");
-
+  const [formPopupConfirm, setFormPopupConfirm] = useState({
+    message: "",
+    title: "",
+  });
+  const toggle = () => setIsOpen(!isOpen);
   useEffect(() => {
     fetchTransactions();
   }, []);
-  const togglePopup = (currentClass) => {
-    if (currentClass) {
-      setCurrentClass(currentClass);
-    }
-    setIsOpen(!isOpen);
-  };
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     if (tab === "Ngày") {
@@ -51,6 +51,7 @@ const WorkoutHistory = () => {
     }
   };
   const fetchTransactions = (startDate, endDate) => {
+    showLoader();
     authorizedAxiosinstance
       .get(`${API_ROOT}/users/training-history`, {
         params: {
@@ -70,6 +71,7 @@ const WorkoutHistory = () => {
       .catch((error) => {
         console.error("Error fetching transaction data:", error);
       });
+      hideLoader();
   };
   function filterSchedules(data) {
     const pastSchedules = [];
@@ -91,7 +93,15 @@ const WorkoutHistory = () => {
       futureSchedules: futureSchedules,
     };
   }
-
+  const showNotification = (message) => {
+    setIsConfirm(false);
+    setFormPopupConfirm({
+      ...formPopupConfirm,
+      message: message,
+      title: "Thông báo",
+    });
+    setIsOpen(true);
+  };
   const cancleClass = (currentClass) => {
     console.log(currentClass);
     authorizedAxiosinstance
@@ -104,24 +114,39 @@ const WorkoutHistory = () => {
       .then((res) => {
         // TODO: show toasts
         handleTabClick(activeTab);
+        if(res.status !== 200){
+          showNotification("Đang xảy ra lỗi vui lòng liên hệ quản trị viên");
+        } else {
+          showNotification("Huỷ đăng ký lớp học thành công");
+        }
       });
   };
-
+  const handleCancelClick = (currentClass) => {
+    if (currentClass) {
+      setCurrentClass(currentClass);
+    }
+    setIsConfirm(true);
+    setFormPopupConfirm({
+      ...formPopupConfirm,
+      message: "Bạn có muốn huỷ đăng ký lớp học không?",
+      title: "Xác nhận",
+    });
+    toggle();
+  };
   const handleConfirm = async () => {
     // Xử lý sự kiện khi người dùng nhấn "Delete"
-    togglePopup();
     cancleClass(currentClass);
-    console.log(currentClass);
+    setIsOpen(false);
   };
   return (
     <div>
       <ConfirmPopup
         isOpen={isOpen}
-        toggle={togglePopup}
+        toggle={toggle}
         onConfirm={handleConfirm}
-        message={
-          "Are you sure you want to delete this item? This action cannot be undone."
-        }
+        isConfirm={isConfirm}
+        title={formPopupConfirm.title}
+        message={formPopupConfirm.message}
       />
       <Container className="workout-history mt-2 card-content">
         {/* Tiêu đề */}
@@ -208,7 +233,7 @@ const WorkoutHistory = () => {
                       color="danger"
                       size="lg"
                       className="status-btn"
-                      onClick={() => togglePopup(session)}
+                      onClick={() => handleCancelClick(session)}
                     >
                       Hủy
                     </Button>
