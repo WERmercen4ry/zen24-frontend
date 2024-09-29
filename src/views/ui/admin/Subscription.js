@@ -13,6 +13,7 @@ import {
   NavLink,
   TabContent,
   TabPane,
+  FormFeedback,
 } from "reactstrap";
 import "../../../assets/scss/layout/subscription.scss";
 import { Link, useLocation } from "react-router-dom";
@@ -30,6 +31,7 @@ const Subscription = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const { showLoader, hideLoader } = useContext(LoaderContext);
+  const [errors, setErrors] = useState({});
 
   const location = useLocation();
   const { packages, userId } = location.state || {};
@@ -53,7 +55,43 @@ const Subscription = () => {
     amount: 0,
     sessions: 1,
     amountPerSession: 0,
+    method: "",
   });
+
+  const validate = () => {
+    let newErrors = {};
+
+    if (!formData.package) newErrors.package = "Vui lòng chọn gói";
+
+    if (!formData.method)
+      newErrors.method = "Vui lòng chọn phương thức thanh toán";
+
+    if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày bắt dầu";
+
+    if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày kết thúc";
+
+    const start = new Date(formData.startDate);
+    const end = new Date(formData.endDate);
+
+    const differenceInTime = end.getTime() - start.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    console.log(formData);
+
+    if (end <= start) {
+      newErrors.startDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu";
+      newErrors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu";
+    } else if (differenceInDays < 30) {
+      console.log("test");
+
+      newErrors.startDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
+      newErrors.endDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
+    } else {
+      console.log("cccc");
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const fetchPackageForUser = () => {
     authorizedAxiosinstance
@@ -167,6 +205,11 @@ const Subscription = () => {
 
   const addPackageForUser = async (e) => {
     e.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
+
     showLoader();
     try {
       const reqBody = {
@@ -176,6 +219,7 @@ const Subscription = () => {
         price_perday: formData.amountPerSession,
         price: formData.amount,
         totalDays: formData.sessions,
+        method: formData.method,
       };
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/registerPackageForUser?userId=${userId}`,
@@ -258,6 +302,7 @@ const Subscription = () => {
                           id="package"
                           value={formData.package}
                           onChange={handleInputChange}
+                          invalid={!!errors.package}
                         >
                           <option value="" disabled>
                             Chọn gói
@@ -268,8 +313,35 @@ const Subscription = () => {
                             </option>
                           ))}
                         </Input>
+                        {errors.package && (
+                          <FormFeedback>{errors.package}</FormFeedback>
+                        )}
                       </FormGroup>
                     </Col>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="method">Phương Thức Thanh Toán *</Label>
+                        <Input
+                          type="select"
+                          name="method"
+                          id="method"
+                          value={formData.method}
+                          onChange={handleInputChange}
+                          invalid={!!errors.method}
+                        >
+                          <option value="" disabled>
+                            Phương thức thanh toán
+                          </option>
+                          <option value="Tiền mặt">Tiền mặt</option>
+                          <option value="Chuyển khoản">Chuyển khoản</option>
+                        </Input>
+                        {errors.method && (
+                          <FormFeedback>{errors.method}</FormFeedback>
+                        )}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
                     <Col md={6}>
                       <FormGroup>
                         <Label for="startDate">Ngày Bắt Đầu *</Label>
@@ -279,11 +351,13 @@ const Subscription = () => {
                           id="startDate"
                           value={formData.startDate}
                           onChange={handleInputChange}
+                          invalid={!!errors.startDate}
                         />
+                        {errors.startDate && (
+                          <FormFeedback>{errors.startDate}</FormFeedback>
+                        )}
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col md={6}>
                       <FormGroup>
                         <Label for="endDate">Ngày Kết Thúc *</Label>
@@ -293,9 +367,15 @@ const Subscription = () => {
                           id="endDate"
                           value={formData.endDate}
                           onChange={handleInputChange}
+                          invalid={!!errors.endDate}
                         />
+                        {errors.endDate && (
+                          <FormFeedback>{errors.endDate}</FormFeedback>
+                        )}
                       </FormGroup>
                     </Col>
+                  </Row>
+                  <Row>
                     <Col md={6}>
                       <FormGroup>
                         <Label for="amount">Số Tiền</Label>
@@ -309,8 +389,6 @@ const Subscription = () => {
                         />
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col md={6}>
                       <FormGroup>
                         <Label for="sessions">Số Buổi</Label>
@@ -324,6 +402,8 @@ const Subscription = () => {
                         />
                       </FormGroup>
                     </Col>
+                  </Row>
+                  <Row>
                     <Col md={6}>
                       <FormGroup>
                         <Label for="amountPerSession">Số tiền/Buổi</Label>
