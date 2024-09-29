@@ -26,6 +26,7 @@ const Transactions = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
+        console.log(res);
         setTransactionData(res.data.payments);
         setTotalPages(res.data.totalPages);
         setTotalPayments(res.data.totalpayments); // Set the total number of payments
@@ -71,9 +72,10 @@ const Transactions = () => {
         <thead>
           <tr>
             <th className="text-muted">Người dùng</th>
-            <th className="text-muted">Phương Thức</th>
+            <th className="text-muted">Phương Thức Thanh Toán</th>
             <th className="text-muted">Trạng Thái</th>
             <th className="text-muted">Số Tiền</th>
+            <th className="text-muted">Ngày Thanh Toán</th>
           </tr>
         </thead>
         <tbody>
@@ -92,9 +94,14 @@ const Transactions = () => {
                   {transaction.status}
                 </span>
               </td>
-     
               <td>{transaction.amount}</td>
-
+              <td>
+                {transaction.payment_date ? (
+                  <span>{transaction.payment_date.split("T")[0]}</span>
+                ) : (
+                  <span></span>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

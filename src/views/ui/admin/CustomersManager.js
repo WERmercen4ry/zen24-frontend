@@ -330,9 +330,9 @@ const CustomersManager = () => {
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>
+                {/* <th>
                   <Input type="checkbox" style={{ cursor: "pointer" }} />
-                </th>
+                </th> */}
                 <th>
                   <p className="text-muted" style={{ margin: "0px" }}>
                     Họ Tên
@@ -395,9 +395,9 @@ const CustomersManager = () => {
                       </div>
                     </div>
                   </td> */}
-                    <td>
+                    {/* <td>
                       <Input type="checkbox" style={{ cursor: "pointer" }} />
-                    </td>
+                    </td> */}
                     <td>
                       <strong>{tData.profile.name}</strong>
                     </td>
