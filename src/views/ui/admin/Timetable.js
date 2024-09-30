@@ -11,18 +11,22 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 const TimetablePopup = ({
   isOpen,
   toggle,
-  isEdit = false,
+  onCreateDone,
   timetable = null,
 }) => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
@@ -164,25 +168,28 @@ const TimetablePopup = ({
     if (!validateForm()) return;
 
     try {
-      if (isEdit) {
-        // Gọi API update thời khoá biểu cần edit
-      } else {
-        // Gọi API thêm mới khi ở chế độ thêm mới
+
         const res = await authorizedAxiosinstance.post(
           `${API_ROOT}dashboards/createClass`,
           formData
         );
-        console.log("res", res);
-
         if (res.status === 201) {
-          window.location.reload();
+          showToast(
+            "Thông báo",
+            "Tạo lịch tập thành công!",
+            TOAST_TYPES.SUCCESS
+          );
           toggle();
+          onCreateDone();
         }
-        console.log("res", res);
         if (res.status === 207) {
-          console.log(`Huấn luyện viên đã có lịch học vào thời gian này.`);
+          showToast(
+            "Thông báo",
+            "Huấn luyện viên đã có lịch học vào thời gian này.",
+            TOAST_TYPES.ERROR
+          );
         }
-      }
+      
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("Có lỗi xảy ra, vui lòng thử lại.");
@@ -192,7 +199,7 @@ const TimetablePopup = ({
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="lg">
       <ModalHeader toggle={toggle}>
-        {isEdit ? "Chỉnh sửa thời khoá biểu" : "Thêm thời khoá biểu mới"}
+        "Thêm thời khoá biểu mới"
       </ModalHeader>
       <ModalBody>
         <Row>
@@ -326,7 +333,7 @@ const TimetablePopup = ({
               </Row>
               <ModalFooter>
                 <Button color="primary" type="submit">
-                  {isEdit ? "Cập nhật" : "Thêm mới"}
+                  Thêm mới
                 </Button>
                 <Button color="secondary" onClick={toggle}>
                   Hủy

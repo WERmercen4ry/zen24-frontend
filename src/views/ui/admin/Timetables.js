@@ -8,14 +8,19 @@ import {
   Col,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import TimetablePopup from "./Timetable";
 import ConfirmPopup from "../../../layouts/admin/ConfirmPopup";
 import TimetablePopupEdit from "./TimetableEdit";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 
 const Timetables = () => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const togglePopup = (currentTimeTable) => {
     if (currentTimeTable) {
@@ -30,7 +35,12 @@ const Timetables = () => {
       `${API_ROOT}dashboards/deleteClasses?classId=${currentTimeTable._id}`
     );
     if (res.status === 200) {
-      window.location.reload();
+      showToast(
+        "Thông báo",
+        "Xoá lịch tập thành công!",
+        TOAST_TYPES.SUCCESS
+      );
+      fetchClasses(currentPage, limit);
     }
   };
   const [ClassesData, setClassesData] = useState([]);
@@ -67,6 +77,9 @@ const Timetables = () => {
         console.error("Error fetching transaction data:", error);
       });
   };
+  const handleCreate = () =>{
+    fetchClasses(currentPage, limit);
+  }
   const openAddNew = () => {
     setCurrentTimeTable(null); // Không có dữ liệu lớp học khi thêm mới
     toggleModal();
@@ -96,11 +109,13 @@ const Timetables = () => {
         isOpen={isModalOpen}
         toggle={toggleModal}
         timetable={currentTimeTable}
+        onCreateDone={handleCreate}
       />
       <TimetablePopupEdit
         isOpen={isModalOpenEdit}
         toggle={toggleModalEdit}
         timetable={currentTimeTable}
+        onEditDone={handleCreate}
       />
       <Row>
         <ConfirmPopup
