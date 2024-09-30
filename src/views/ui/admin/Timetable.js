@@ -191,7 +191,6 @@ const TimetablePopup = ({
         }
       
     } catch (error) {
-      console.error("Error submitting form:", error);
       setError("Có lỗi xảy ra, vui lòng thử lại.");
     }
   };

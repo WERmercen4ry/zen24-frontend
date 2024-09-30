@@ -239,7 +239,7 @@ const UserForm = () => {
 
     // Name validation
     if (!formData.profile.name) newErrors.name = "Vui lòng nhập họ tên";
-
+    if (!formData.profile.date_of_birth) newErrors.date_of_birth = "Vui lòng nhập ngày tháng năm sinh";
     // Phone number validation
     if (!formData.profile.phone) {
       newErrors.phone = "Vui lòng nhập số điện thoại";
@@ -520,7 +520,7 @@ const UserForm = () => {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="date_of_birth">Ngày Sinh</Label>
+                  <Label for="date_of_birth">Ngày Sinh <span className="require-input">*</span></Label>
                   <Input
                     type="date"
                     name="date_of_birth"
