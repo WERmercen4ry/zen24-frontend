@@ -1,4 +1,6 @@
 import "../../../assets/scss/layout/profilePage.scss";
+import uploadDefault from "../../../assets/images/users/upload_default.jpg";
+import avatarDefault from "../../../assets/images/users/avatar_default.jpg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   TabContent,
@@ -28,7 +30,7 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(""); // State để giữ URL của ảnh preview
-  const {showLoader, hideLoader } = useContext(LoaderContext);
+  const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -48,7 +50,13 @@ const ProfilePage = () => {
       date_of_birth: "", // Quyền thêm từ API
     },
   });
-
+  const validateImage = (file) => {
+    const validFormats = ["image/jpeg", "image/png", "image/gif"];
+    if (file && !validFormats.includes(file.type)) {
+      return false;
+    }
+    return true;
+  };
   const [initialProfileData, setInitialProfileData] = useState({
     avatar: "",
     name: "",
@@ -176,12 +184,11 @@ const ProfilePage = () => {
     showLoader();
 
     try {
+      const userId = localStorage.getItem("userId");
       let avatarUrl = profileData.avatar;
       if (selectedFile) {
-        avatarUrl = await uploadFileToFirebase(selectedFile); // Upload file và lấy URL
+        avatarUrl = await uploadFileToFirebase(selectedFile, userId); // Upload file và lấy URL
       }
-
-      const userId = localStorage.getItem("userId");
       const res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/updateUser?userId=${userId}`,
         { ...profileData, avatar: avatarUrl } // Cập nhật URL ảnh vào profileData
@@ -211,37 +218,34 @@ const ProfilePage = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file); // Lưu file đã chọn vào state
-
-    // Tạo URL để preview hình ảnh
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (file && validateImage(file)) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); 
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } else {
+      showToast(
+        "Thông báo",
+        "Vui lòng chọn tệp hình ảnh có định dạng JPG, PNG hoặc GIF.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
-
-  const groupsData = [
-    {
-      id: "638f63b7ce76f68a5cdebeb3",
-      name: "Lễ tân các chi nhánh",
-      createdAt: "01:23:31 07/12/2022",
-      action: "Chỉnh sửa",
-    },
-  ];
 
   return (
     <div>
       <ChangePasswordModal isOpen={isModalOpen} toggle={toggleModal} />
       <div className="profile-page-container mb-3 pb-0">
         <div className="overview-section">
-          <Row className="align-items-center">
+          <Row className="">
             <Col md={2} className="text-center">
               <img
                 src={
-                  initialProfileData.avatar || "https://via.placeholder.com/150"
+                  initialProfileData.avatar || avatarDefault
                 }
                 alt="Avatar"
                 className="profile-avatar"
@@ -252,30 +256,18 @@ const ProfilePage = () => {
                 <h5 className="my-auto">
                   {initialProfileData.name || "CN - Hà Đô"}
                 </h5>
-                <button className="link-branches my-auto ms-2">
-                  LIÊN TẤN CÁC CHI NHÁNH
-                </button>
               </div>
-              <div className=" d-flex">
-                <p className="infor-group my-auto">
+              <div className="">
+                <p className="infor-group mb-1">
                   <i className="bi bi-telephone"></i> {initialProfileData.phone}
                 </p>
-                <p className="infor-group my-auto">
+                <p className="infor-group mb-1">
                   <i className="bi bi-envelope"></i> {initialProfileData.email}
                 </p>
-                <p className="infor-group my-auto">
+                <p className="infor-group mb-1">
                   <i className="bi bi-geo-alt-fill"></i>
                   {initialProfileData.address}
                 </p>
-              </div>
-              <div className="mt-3 d-flex">
-                <div className="stats-box">
-                  <div className=" d-flex">
-                    <i className="bi bi-people-fill me-1"></i>
-                    <h5>1</h5>
-                  </div>
-                  <p>Nhóm</p>
-                </div>
               </div>
             </Col>
           </Row>
@@ -304,18 +296,6 @@ const ProfilePage = () => {
               }}
             >
               Cài đặt
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={
-                classnames({ active: activeTab === "3" }) + " form-label"
-              }
-              onClick={() => {
-                toggleTab("3");
-              }}
-            >
-              Các nhóm
             </NavLink>
           </NavItem>
         </Nav>
@@ -397,7 +377,7 @@ const ProfilePage = () => {
                       src={
                         previewImage ||
                         profileData.avatar ||
-                        "https://via.placeholder.com/150"
+                        uploadDefault
                       }
                       alt="Avatar"
                       className="avatar-image"
@@ -554,41 +534,6 @@ const ProfilePage = () => {
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </TabPane>
-
-        {/* Tab Các nhóm */}
-        <TabPane tabId="3">
-          <div className="profile-detail-container">
-            <div className="profile-header">
-              <h5 className="my-auto">Nhóm</h5>
-            </div>
-            <div className="px-4">
-              <Table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Tiêu đề</th>
-                    <th>Ngày tạo</th>
-                    <th>Hành động</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {groupsData.map((group, index) => (
-                    <tr key={index}>
-                      <td>{group.id}</td>
-                      <td>{group.name}</td>
-                      <td>{group.createdAt}</td>
-                      <td>
-                        <Button color="secondary m-auto" size="sm">
-                          Edit
-                        </Button>{" "}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
             </div>
           </div>
         </TabPane>

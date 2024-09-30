@@ -144,12 +144,12 @@ const Header = () => {
               ></img>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem header>Info</DropdownItem>
+              <DropdownItem header>Thông tin</DropdownItem>
               <Link to={"/admin/profile"}>
-                <DropdownItem className="mt-0">Edit Profile</DropdownItem>
+                <DropdownItem className="mt-0">Hồ sơ</DropdownItem>
               </Link>
               <DropdownItem divider />
-              <DropdownItem onClick={logout}>Logout</DropdownItem>
+              <DropdownItem className="mt-1" onClick={logout}>Đăng xuất</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Collapse>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import uploadDefault from "../../../assets/images/users/upload_default.jpg";
+import avatarDefault from "../../../assets/images/users/avatar_default.jpg";
 import {
   Form,
   FormGroup,
@@ -41,9 +43,9 @@ const UserForm = () => {
       address: "",
       date_of_birth: "",
       training_goals: "", // Thêm trường mục tiêu
-      Province: "",
-      District: "",
-      Commune: "",
+      province: "",
+      district: "",
+      commune: "",
     },
     agency: [],
   });
@@ -54,8 +56,8 @@ const UserForm = () => {
   const [errors, setErrors] = useState({});
 
   const [cities, setCities] = useState([]); // Danh sách tỉnh
-  const [Districts, setDistricts] = useState([]); // Danh sách quận/huyện
-  const [Communes, setWards] = useState([]); // Danh sách xã/phường
+  const [districts, setdistricts] = useState([]); // Danh sách quận/huyện
+  const [communes, setWards] = useState([]); // Danh sách xã/phường
   const isEdit = !!userUpdateId;
   // Lấy danh sách tỉnh
   useEffect(() => {
@@ -74,6 +76,13 @@ const UserForm = () => {
       fetchProfileData();
     }
   }, []);
+  const validateImage = (file) => {
+    const validFormats = ["image/jpeg", "image/png", "image/gif"];
+    if (file && !validFormats.includes(file.type)) {
+      return false;
+    }
+    return true;
+  };
   // Get user infor API
   const fetchProfileData = async () => {
     showLoader();
@@ -99,17 +108,17 @@ const UserForm = () => {
           training_goals: userProfile.profile.training_goals || "",
           weight: userProfile.profile.weight || "",
           height: userProfile.profile.height || "",
-          Province: userProfile.profile.Province || "",
-          District: userProfile.profile.District || "",
-          Commune: userProfile.profile.Commune || "",
+          province: userProfile.profile.province || "",
+          district: userProfile.profile.district || "",
+          commune: userProfile.profile.commune || "",
         },
         role: userProfile.role || "",
         agency: [userProfile.agency.length > 0 && userProfile.agency[0]._id],
       });
-      if (userProfile.profile.District) {
+      if (userProfile.profile.district) {
         await axios
           .get(
-            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.District}.htm`
+            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
           )
           .then((res) => {
             setWards(res.data.data);
@@ -125,27 +134,27 @@ const UserForm = () => {
   };
   // Lấy danh sách quận/huyện khi tỉnh được chọn
   useEffect(() => {
-    if (formData.profile.Province) {
+    if (formData.profile.province) {
       axios
         .get(
-          `https://esgoo.net/api-tinhthanh/2/${formData.profile.Province}.htm`
+          `https://esgoo.net/api-tinhthanh/2/${formData.profile.province}.htm`
         )
         .then((res) => {
-          setDistricts(res.data.data);
+          setdistricts(res.data.data);
           setWards([]); // Reset danh sách xã/phường khi chọn tỉnh khác
         })
         .catch((error) => {
           console.error("Lỗi khi lấy danh sách quận/huyện:", error);
         });
     }
-  }, [formData.profile.Province]);
+  }, [formData.profile.province]);
 
   // Lấy danh sách xã/phường khi quận/huyện được chọn
   useEffect(() => {
-    if (formData.profile.District) {
+    if (formData.profile.district) {
       axios
         .get(
-          `https://esgoo.net/api-tinhthanh/3/${formData.profile.District}.htm`
+          `https://esgoo.net/api-tinhthanh/3/${formData.profile.district}.htm`
         )
         .then((res) => {
           setWards(res.data.data);
@@ -154,19 +163,25 @@ const UserForm = () => {
           console.error("Lỗi khi lấy danh sách xã/phường:", error);
         });
     }
-  }, [formData.profile.District]);
+  }, [formData.profile.district]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file); // Lưu file đã chọn vào state
-
-    // Tạo URL để preview hình ảnh
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (file && validateImage(file)) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } else {
+      showToast(
+        "Thông báo",
+        "Vui lòng chọn tệp hình ảnh có định dạng JPG, PNG hoặc GIF.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 
@@ -188,9 +203,9 @@ const UserForm = () => {
         "address",
         "date_of_birth",
         "training_goals",
-        "Commune",
-        "District",
-        "Province",
+        "commune",
+        "district",
+        "province",
       ].includes(name)
     ) {
       setFormData({
@@ -224,7 +239,7 @@ const UserForm = () => {
 
     // Name validation
     if (!formData.profile.name) newErrors.name = "Vui lòng nhập họ tên";
-
+    if (!formData.profile.date_of_birth) newErrors.date_of_birth = "Vui lòng nhập ngày tháng năm sinh";
     // Phone number validation
     if (!formData.profile.phone) {
       newErrors.phone = "Vui lòng nhập số điện thoại";
@@ -240,14 +255,14 @@ const UserForm = () => {
     }
 
     // Address validation
-    if (!formData.profile.Province)
-      newErrors.Province = "Vui lòng chọn thành phố";
+    if (!formData.profile.province)
+      newErrors.province = "Vui lòng chọn thành phố";
 
     if (!formData.agency[0]) newErrors.agency = "Vui lòng chọn thành phố";
-    if (!formData.profile.District)
-      newErrors.District = "Vui lòng chọn quận/huyện";
-    if (!formData.profile.Commune)
-      newErrors.Commune = "Vui lòng chọn xã/phường";
+    if (!formData.profile.district)
+      newErrors.district = "Vui lòng chọn quận/huyện";
+    if (!formData.profile.commune)
+      newErrors.commune = "Vui lòng chọn xã/phường";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -268,13 +283,13 @@ const UserForm = () => {
   };
 
   const getCityById = (id) => {
-    return cities.find((Province) => Province.id === id);
+    return cities.find((province) => province.id === id);
   };
-  const getDistrictById = (id) => {
-    return Districts.find((District) => District.id === id);
+  const getdistrictById = (id) => {
+    return districts.find((district) => district.id === id);
   };
   const getWardById = (id) => {
-    return Communes.find((Commune) => Commune.id === id);
+    return communes.find((commune) => commune.id === id);
   };
 
   const handleSubmit = async (e) => {
@@ -286,18 +301,17 @@ const UserForm = () => {
     try {
       let avatarUrl = formData.avatar;
       if (selectedFile) {
-        avatarUrl = await uploadFileToFirebase(selectedFile); // Upload file và lấy URL
+        avatarUrl = await uploadFileToFirebase(selectedFile, userUpdateId); // Upload file và lấy URL
       }
-      const Province = getCityById(formData.profile.Province);
-      const District = getDistrictById(formData.profile.District);
-      const Commune = getWardById(formData.profile.Commune);
+      const province = getCityById(formData.profile.province);
+      const district = getdistrictById(formData.profile.district);
+      const commune = getWardById(formData.profile.commune);
       const fullAddress =
-        Province.full_name +
+        province.full_name +
         ", " +
-        District.full_name +
+        district.full_name +
         ", " +
-        Commune.full_name;
-      console.log(fullAddress);
+        commune.full_name;
       const updatedFormData = {
         ...formData,
         profile: {
@@ -320,9 +334,7 @@ const UserForm = () => {
           updatedFormData
         );
       }
-      hideLoader();
-      console.log("ádas", res);
-      if (res?.status !== 200) {
+      if ((!isEdit && res?.status !== 201) || (isEdit && res?.status !== 200)) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
         if (isEdit) {
@@ -342,7 +354,11 @@ const UserForm = () => {
         }
       }
     } catch (error) {
-      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
     hideLoader();
   };
@@ -376,11 +392,7 @@ const UserForm = () => {
                 />
                 <label className="avatar-placeholder" htmlFor="avatar">
                   <img
-                    src={
-                      previewImage ||
-                      formData.avatar ||
-                      "https://via.placeholder.com/150"
-                    }
+                    src={previewImage || formData.avatar || uploadDefault}
                     alt="Avatar"
                     className="avatar-image"
                   />
@@ -508,7 +520,7 @@ const UserForm = () => {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="date_of_birth">Ngày Sinh</Label>
+                  <Label for="date_of_birth">Ngày Sinh <span className="require-input">*</span></Label>
                   <Input
                     type="date"
                     name="date_of_birth"
@@ -661,75 +673,75 @@ const UserForm = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="Province">
+              <Label for="province">
                 Thành Phố <span className="require-input">*</span>
               </Label>
               <Input
                 type="select"
-                name="Province"
-                id="Province"
-                value={formData.profile.Province}
+                name="province"
+                id="province"
+                value={formData.profile.province}
                 onChange={handleInputChange}
-                invalid={!!errors.Province}
+                invalid={!!errors.province}
               >
                 <option value="">Chọn thành phố</option>
-                {cities.map((Province) => (
-                  <option key={Province.id} value={Province.id}>
-                    {Province.full_name}
+                {cities.map((province) => (
+                  <option key={province.id} value={province.id}>
+                    {province.full_name}
                   </option>
                 ))}
               </Input>
-              {errors.Province && (
-                <FormFeedback>{errors.Province}</FormFeedback>
+              {errors.province && (
+                <FormFeedback>{errors.province}</FormFeedback>
               )}
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="District">
+              <Label for="district">
                 Quận, Huyện <span className="require-input">*</span>
               </Label>
               <Input
                 type="select"
-                name="District"
-                id="District"
-                value={formData.profile.District}
+                name="district"
+                id="district"
+                value={formData.profile.district}
                 onChange={handleInputChange}
-                invalid={!!errors.District}
+                invalid={!!errors.district}
               >
                 <option value="">Chọn quận, huyện</option>
-                {Districts.map((District) => (
-                  <option key={District.id} value={District.id}>
-                    {District.full_name}
+                {districts.map((district) => (
+                  <option key={district.id} value={district.id}>
+                    {district.full_name}
                   </option>
                 ))}
               </Input>
-              {errors.District && (
-                <FormFeedback>{errors.District}</FormFeedback>
+              {errors.district && (
+                <FormFeedback>{errors.district}</FormFeedback>
               )}
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="Commune">
+              <Label for="commune">
                 Xã, Phường <span className="require-input">*</span>
               </Label>
               <Input
                 type="select"
-                name="Commune"
-                id="Commune"
-                value={formData.profile.Commune}
+                name="commune"
+                id="commune"
+                value={formData.profile.commune}
                 onChange={handleInputChange}
-                invalid={!!errors.Commune}
+                invalid={!!errors.commune}
               >
                 <option value="">Chọn xã, phường</option>
-                {Communes.map((Commune) => (
-                  <option key={Commune.id} value={Commune.id}>
-                    {Commune.full_name}
+                {communes.map((commune) => (
+                  <option key={commune.id} value={commune.id}>
+                    {commune.full_name}
                   </option>
                 ))}
               </Input>
-              {errors.Commune && <FormFeedback>{errors.Commune}</FormFeedback>}
+              {errors.commune && <FormFeedback>{errors.commune}</FormFeedback>}
             </FormGroup>
           </Col>
         </Row>

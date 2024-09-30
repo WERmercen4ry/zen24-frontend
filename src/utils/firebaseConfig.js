@@ -21,7 +21,16 @@ const firebaseConfig = {
   appId: "1:499469769988:web:d552b026604df05f254451",
   measurementId: "G-RJZYXMHGQB",
 };
-
+function generateRandomString(length) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+  
+  for (let i = 0; i < length; i++) {
+    randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  
+  return randomString;
+}
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
@@ -32,9 +41,12 @@ const storage = getStorage(app);
  * @param {String} folder - Tên thư mục (nếu có)
  * @returns {Promise<String>} - Trả về URL của file sau khi upload thành công
  */
-export const uploadFileToFirebase = (file, folder = "uploads") => {
+export const uploadFileToFirebase = (file, folder = "uploads", userId) => {
+  if(!userId){
+    userId = generateRandomString(10);
+  }
   return new Promise((resolve, reject) => {
-    const storageRef = ref(storage, `${folder}/${file.name}`);
+    const storageRef = ref(storage, `${folder}/${userId}/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
