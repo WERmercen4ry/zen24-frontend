@@ -177,7 +177,9 @@ const TimetablePopupEdit = ({
         toggle();
         onEditDone();
       }
-      toggle();
+      if (res.status === 409) {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      }
     } catch (error) {
       showToast(
         "Thông báo",
