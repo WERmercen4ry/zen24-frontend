@@ -26,7 +26,6 @@ const Transactions = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
-        console.log(res);
         setTransactionData(res.data.payments);
         setTotalPages(res.data.totalPages);
         setTotalPayments(res.data.totalpayments); // Set the total number of payments

@@ -22,7 +22,6 @@ const Login = () => {
       `${API_ROOT}users/login`,
       formData
     );
-    console.log(res);
     if (res.status !== 200) {
       setError(res.response?.data?.message);
     } else {
@@ -37,8 +36,6 @@ const Login = () => {
       localStorage.setItem("userId", res.data.id);
 
       if (res.data.role === "Admin") {
-        console.log("123123");
-
         navigate("/admin");
       } else if (res.data.role === "Trainer") {
         navigate("/calendar");

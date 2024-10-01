@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import "../../../assets/scss/layout/user_page.scss";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
@@ -86,10 +86,7 @@ const Reverse = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
-        console.log("res", res);
         const [expired, other] = separatePackagesByStatus(res.data);
-        console.log("expiredPackages", expired);
-        console.log("otherPackages", other);
         setOtherPackage(other);
         setExpiredPackages(expired);
       })
@@ -115,14 +112,14 @@ const Reverse = () => {
   return (
     <Container className="workout-history mt-2 card-content">
       <Row>
-      <ConfirmPopup
-        isOpen={isOpen}
-        toggle={toggle}
-        onConfirm={handleConfirm}
-        isConfirm={isConfirm}
-        title={formPopupConfirm.title}
-        message={formPopupConfirm.message}
-      />
+        <ConfirmPopup
+          isOpen={isOpen}
+          toggle={toggle}
+          onConfirm={handleConfirm}
+          isConfirm={isConfirm}
+          title={formPopupConfirm.title}
+          message={formPopupConfirm.message}
+        />
         <Col className="text-center">
           <h2 className="history-title">BẢO LƯU</h2>
         </Col>

@@ -172,9 +172,7 @@ const CustomersManager = () => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   useEffect(() => {
     fetchData();
@@ -234,23 +232,9 @@ const CustomersManager = () => {
         latestPackage = pkg;
       }
     }
-    console.log(latestPackage[0]?.end_date);
-
     return latestPackage?.end_date?.split("T")[0];
   };
-  const dummyData = [
-    {
-      trainer: "Nguyễn Văn Thanh Dư",
-      totalStudents: 8,
-      studentCount: 5,
-      type: "Pilates",
-      branch: "1. FOURT PILATES - Số 6, Đường 10, KĐT Hà Đô",
-      day: "Thứ 2",
-      date: "26/09/2024",
-      startTime: "19:00",
-      endTime: "20:00",
-    },
-  ];
+
   const toggle = () => setModal(!modal);
 
   const start = (currentPage - 1) * limit + 1;

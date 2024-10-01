@@ -9,7 +9,7 @@ import {
   Container,
   Row,
   Col,
-  Alert
+  Alert,
 } from "reactstrap";
 import "../../../assets/scss/layout/user_page.scss";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
@@ -43,9 +43,9 @@ const ChangePassword = () => {
     message: "",
     title: "",
   });
-  const handleConfirm =  () => {
+  const handleConfirm = () => {
     toggle();
-  }
+  };
   const validate = () => {
     let isValid = true;
     let newErrors = {
@@ -85,7 +85,6 @@ const ChangePassword = () => {
       `${API_ROOT}users/change-password`,
       passwordData
     );
-    console.log(res.status);
     if (res.status !== 200) {
       setErrorAPI(res.response?.data?.message);
     } else {
@@ -124,31 +123,35 @@ const ChangePassword = () => {
       <Form onSubmit={handleSubmit}>
         <div className="package-info pb-4">
           <div className=" mb-3 align-items-center">
-          {errorAPI && <Alert color="danger">{errorAPI}</Alert>}
+            {errorAPI && <Alert color="danger">{errorAPI}</Alert>}
             <FormGroup className="d-flex justify-content-between">
-              <Label for="oldPassword">Mật khẩu cũ <span className="require-input">*</span></Label>
+              <Label for="oldPassword">
+                Mật khẩu cũ <span className="require-input">*</span>
+              </Label>
               <div className="w-50">
                 <Input
                   className="w-100"
-                type="password"
-                name="oldPassword"
-                id="oldPassword"
-                value={passwordData.oldPassword|| ""}
-                onChange={handleInputChange}
-                invalid={!!errors.oldPassword}
-              />
-              <FormFeedback>{errors.oldPassword}</FormFeedback>
+                  type="password"
+                  name="oldPassword"
+                  id="oldPassword"
+                  value={passwordData.oldPassword || ""}
+                  onChange={handleInputChange}
+                  invalid={!!errors.oldPassword}
+                />
+                <FormFeedback>{errors.oldPassword}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className="d-flex justify-content-between">
-              <Label for="newPassword">Mật khẩu mới <span className="require-input">*</span></Label>
+              <Label for="newPassword">
+                Mật khẩu mới <span className="require-input">*</span>
+              </Label>
               <div className="w-50">
                 <Input
                   className="w-100"
                   type="password"
                   name="newPassword"
                   id="newPassword"
-                  value={passwordData.newPassword||""}
+                  value={passwordData.newPassword || ""}
                   onChange={handleInputChange}
                   invalid={!!errors.newPassword}
                 />
@@ -156,18 +159,20 @@ const ChangePassword = () => {
               </div>
             </FormGroup>
             <FormGroup className="d-flex justify-content-between ">
-              <Label for="confirmNewPassword">Nhập lại mật khẩu mới <span className="require-input">*</span></Label>
+              <Label for="confirmNewPassword">
+                Nhập lại mật khẩu mới <span className="require-input">*</span>
+              </Label>
               <div className="w-50">
                 <Input
                   className="w-100"
-                type="password"
-                name="confirmNewPassword"
-                id="confirmNewPassword"
-                value={passwordData.confirmNewPassword||""}
-                onChange={handleInputChange}
-                invalid={!!errors.confirmNewPassword}
-              />
-              <FormFeedback>{errors.confirmNewPassword}</FormFeedback>
+                  type="password"
+                  name="confirmNewPassword"
+                  id="confirmNewPassword"
+                  value={passwordData.confirmNewPassword || ""}
+                  onChange={handleInputChange}
+                  invalid={!!errors.confirmNewPassword}
+                />
+                <FormFeedback>{errors.confirmNewPassword}</FormFeedback>
               </div>
             </FormGroup>
           </div>

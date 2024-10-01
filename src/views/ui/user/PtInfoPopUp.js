@@ -26,8 +26,6 @@ const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
     authorizedAxiosinstance
       .get(`${API_ROOT}users/getUserById?userId=${userInfo}`)
       .then((res) => {
-        console.log(res);
-
         if (res && res.data && res.data.profile) {
           setPtInfo({
             avt: res.data.avatar,

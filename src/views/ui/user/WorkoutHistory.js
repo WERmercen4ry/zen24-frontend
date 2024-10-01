@@ -61,9 +61,6 @@ const WorkoutHistory = () => {
         },
       })
       .then((res) => {
-        // Set the transaction data from the API response
-        console.log(JSON.stringify(res));
-
         const { pastSchedules, futureSchedules } = filterSchedules(res.data);
         settrainingHistoryFuture(futureSchedules);
         settrainingHistory(pastSchedules);
@@ -71,7 +68,7 @@ const WorkoutHistory = () => {
       .catch((error) => {
         console.error("Error fetching transaction data:", error);
       });
-      hideLoader();
+    hideLoader();
   };
   function filterSchedules(data) {
     const pastSchedules = [];
@@ -103,7 +100,6 @@ const WorkoutHistory = () => {
     setIsOpen(true);
   };
   const cancleClass = (currentClass) => {
-    console.log(currentClass);
     authorizedAxiosinstance
       .delete(`${API_ROOT}/users/cancelClassRegistration`, {
         params: {
@@ -114,7 +110,7 @@ const WorkoutHistory = () => {
       .then((res) => {
         // TODO: show toasts
         handleTabClick(activeTab);
-        if(res.status !== 200){
+        if (res.status !== 200) {
           showNotification("Đang xảy ra lỗi vui lòng liên hệ quản trị viên");
         } else {
           showNotification("Huỷ đăng ký lớp học thành công");

@@ -11,14 +11,19 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
-const TimetablePopupEdit = ({ isOpen, toggle, onEditDone, timetable = null }) => {
+const TimetablePopupEdit = ({
+  isOpen,
+  toggle,
+  onEditDone,
+  timetable = null,
+}) => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -176,8 +181,6 @@ const TimetablePopupEdit = ({ isOpen, toggle, onEditDone, timetable = null }) =>
       }
       toggle();
     } catch (error) {
-      console.log(error);
-      
       showToast(
         "Thông báo",
         "Có lỗi xảy ra, vui lòng thử lại.",
