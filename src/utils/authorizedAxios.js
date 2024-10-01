@@ -1,6 +1,5 @@
 import axios from "axios";
 import { handleLogoutAPI, handleRefreshTokenAPI } from "./handleApi";
-import { toast } from "react-toastify";
 // tạo ra một instance của axios
 let authorizedAxiosinstance = axios.create();
 
@@ -37,9 +36,6 @@ authorizedAxiosinstance.interceptors.response.use(
     return response;
   },
   (error) => {
-
-
-
     // nếu response trả về lỗi thì hiển thị thông báo lỗi
 
     if (error.response?.status === 401) {

@@ -77,7 +77,7 @@ const WorkoutHistory = () => {
     data.forEach((item) => {
       const scheduleDate = new Date(item.schedule[0].day);
       const now = new Date();
-
+      now.setDate(now.getDate() - 1);
       if (scheduleDate < now) {
         pastSchedules.push(item);
       } else if (scheduleDate > now) {

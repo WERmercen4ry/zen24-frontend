@@ -15,7 +15,6 @@ import {
   FormGroup,
   Label,
   Input,
-  Table,
   FormFeedback,
 } from "reactstrap";
 import classnames from "classnames";
@@ -189,7 +188,7 @@ const ProfilePage = () => {
       if (selectedFile) {
         avatarUrl = await uploadFileToFirebase(selectedFile, userId); // Upload file và lấy URL
       }
-      const res = await authorizedAxiosinstance.put(
+      await authorizedAxiosinstance.put(
         `${API_ROOT}users/updateUser?userId=${userId}`,
         { ...profileData, avatar: avatarUrl } // Cập nhật URL ảnh vào profileData
       );
@@ -222,7 +221,7 @@ const ProfilePage = () => {
       setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result); 
+        setPreviewImage(reader.result);
       };
       if (file) {
         reader.readAsDataURL(file);
@@ -244,9 +243,7 @@ const ProfilePage = () => {
           <Row className="">
             <Col md={2} className="text-center">
               <img
-                src={
-                  initialProfileData.avatar || avatarDefault
-                }
+                src={initialProfileData.avatar || avatarDefault}
                 alt="Avatar"
                 className="profile-avatar"
               />
@@ -374,11 +371,7 @@ const ProfilePage = () => {
                   />
                   <label className="avatar-placeholder" htmlFor="avatar">
                     <img
-                      src={
-                        previewImage ||
-                        profileData.avatar ||
-                        uploadDefault
-                      }
+                      src={previewImage || profileData.avatar || uploadDefault}
                       alt="Avatar"
                       className="avatar-image"
                     />

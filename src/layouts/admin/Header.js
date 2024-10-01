@@ -12,7 +12,6 @@ import {
   Dropdown,
   Button,
 } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
 import authorizedAxiosinstance from "../../utils/authorizedAxios";
 import { useNavigate } from "react-router-dom";
 import { API_ROOT } from "../../utils/constant";
@@ -51,7 +50,7 @@ const Header = () => {
   const logout = async (e) => {
     e.preventDefault();
 
-    const res = await authorizedAxiosinstance.delete(`${API_ROOT}users/logout`);
+    await authorizedAxiosinstance.delete(`${API_ROOT}users/logout`);
     localStorage.removeItem("profile");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -74,10 +73,7 @@ const Header = () => {
               ></img>
             </DropdownToggle>
           </NavbarBrand>
-          <Button
-            className="d-lg-none m-auto"
-            onClick={() => showMobilemenu()}
-          >
+          <Button className="d-lg-none m-auto" onClick={() => showMobilemenu()}>
             <i className="bi bi-list"></i>
           </Button>
         </div>
@@ -149,7 +145,9 @@ const Header = () => {
                 <DropdownItem className="mt-0">Hồ sơ</DropdownItem>
               </Link>
               <DropdownItem divider />
-              <DropdownItem className="mt-1" onClick={logout}>Đăng xuất</DropdownItem>
+              <DropdownItem className="mt-1" onClick={logout}>
+                Đăng xuất
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Collapse>
