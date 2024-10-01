@@ -14,7 +14,6 @@ import {
 import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
-import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
@@ -26,7 +25,6 @@ const TimetablePopupEdit = ({
 }) => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);

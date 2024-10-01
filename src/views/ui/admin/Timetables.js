@@ -7,7 +7,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
@@ -35,11 +34,7 @@ const Timetables = () => {
       `${API_ROOT}dashboards/deleteClasses?classId=${currentTimeTable._id}`
     );
     if (res.status === 200) {
-      showToast(
-        "Thông báo",
-        "Xoá lịch tập thành công!",
-        TOAST_TYPES.SUCCESS
-      );
+      showToast("Thông báo", "Xoá lịch tập thành công!", TOAST_TYPES.SUCCESS);
       fetchClasses(currentPage, limit);
     }
   };
@@ -77,9 +72,9 @@ const Timetables = () => {
         console.error("Error fetching transaction data:", error);
       });
   };
-  const handleCreate = () =>{
+  const handleCreate = () => {
     fetchClasses(currentPage, limit);
-  }
+  };
   const openAddNew = () => {
     setCurrentTimeTable(null); // Không có dữ liệu lớp học khi thêm mới
     toggleModal();
@@ -122,7 +117,9 @@ const Timetables = () => {
           isOpen={isOpen}
           toggle={togglePopup}
           onConfirm={handleConfirm}
-          message={"Are you sure you want to delete this item? This action cannot be undone."}
+          message={
+            "Are you sure you want to delete this item? This action cannot be undone."
+          }
         />
         <Col>
           <div className="timetable-content">

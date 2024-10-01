@@ -34,7 +34,7 @@ const Subscription = () => {
   const [errors, setErrors] = useState({});
 
   const location = useLocation();
-  const { packages, userId } = location.state || {};
+  const { userId } = location.state || {};
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -111,17 +111,6 @@ const Subscription = () => {
   };
 
   // Dữ liệu mẫu cho bảng danh sách gói tập
-  const registeredPackages = [
-    {
-      type: "Gói thường",
-      totalSessions: 24,
-      remainingSessions: 23,
-      packageName: "Pilates 1-4",
-      amount: "6.000.000 đ",
-      startDate: "26-08-2024",
-      endDate: "25-11-2024",
-    },
-  ];
 
   useEffect(() => {
     let amount;

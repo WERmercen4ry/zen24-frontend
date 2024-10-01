@@ -59,6 +59,7 @@ const Reverse = () => {
       if (res.status === 200) {
         // TODO: show toast
         fetchTransactions();
+        showNotification("Bảo lưu thành công");
       } else {
       }
     } else if (currentPackage.status === "Suspended") {
@@ -68,7 +69,7 @@ const Reverse = () => {
       if (res.status === 200) {
         // TODO: show toast
         fetchTransactions();
-        showNotification("Bảo lưu gói thành công");
+        showNotification("Chào mừng bạn trở lại tập luyện");
       } else {
         showNotification(res.response.data.message);
       }

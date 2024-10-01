@@ -10,9 +10,6 @@ import {
   Card,
   CardBody,
 } from "reactstrap";
-import user1 from "../../../assets/images/users/user1.jpg";
-import user2 from "../../../assets/images/users/user2.jpg";
-import user3 from "../../../assets/images/users/user3.jpg";
 import "../../../assets/scss/layout/dashboard.scss";
 import trainer from "../../../assets/images/logos/student-icon.png";
 import student from "../../../assets/images/logos/trainer-logo.png";
@@ -22,24 +19,6 @@ import * as XLSX from "xlsx";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
-
-const tableData = [
-  {
-    avatar: user1,
-    name: "LÊ PHAN PHƯƠNG NGUYÊN",
-    dayTrainer: 1,
-  },
-  {
-    avatar: user2,
-    name: "LÊ PHAN PHƯƠNG UYÊN",
-    dayTrainer: 2,
-  },
-  {
-    avatar: user3,
-    name: "LÊ PHAN PHƯƠNG BẢO",
-    dayTrainer: 3,
-  },
-];
 
 const Dashboard = () => {
   const [totalTrainer, setTotalTrainer] = useState(0);

@@ -14,25 +14,17 @@ import {
 import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
-const TimetablePopup = ({
-  isOpen,
-  toggle,
-  onCreateDone,
-  timetable = null,
-}) => {
+const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
   const [listPackageData, setlistPackageData] = useState([]);
-  const [errorAPI, setErrorAPI] = useState("");
 
   const [formData, setFormData] = useState({
     packages: "",
@@ -168,28 +160,22 @@ const TimetablePopup = ({
     if (!validateForm()) return;
 
     try {
-
-        const res = await authorizedAxiosinstance.post(
-          `${API_ROOT}dashboards/createClass`,
-          formData
+      const res = await authorizedAxiosinstance.post(
+        `${API_ROOT}dashboards/createClass`,
+        formData
+      );
+      if (res.status === 201) {
+        showToast("Thông báo", "Tạo lịch tập thành công!", TOAST_TYPES.SUCCESS);
+        toggle();
+        onCreateDone();
+      }
+      if (res.status === 207) {
+        showToast(
+          "Thông báo",
+          "Huấn luyện viên đã có lịch học vào thời gian này.",
+          TOAST_TYPES.ERROR
         );
-        if (res.status === 201) {
-          showToast(
-            "Thông báo",
-            "Tạo lịch tập thành công!",
-            TOAST_TYPES.SUCCESS
-          );
-          toggle();
-          onCreateDone();
-        }
-        if (res.status === 207) {
-          showToast(
-            "Thông báo",
-            "Huấn luyện viên đã có lịch học vào thời gian này.",
-            TOAST_TYPES.ERROR
-          );
-        }
-      
+      }
     } catch (error) {
       setError("Có lỗi xảy ra, vui lòng thử lại.");
     }
@@ -197,9 +183,7 @@ const TimetablePopup = ({
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="lg">
-      <ModalHeader toggle={toggle}>
-        "Thêm thời khoá biểu mới"
-      </ModalHeader>
+      <ModalHeader toggle={toggle}>"Thêm thời khoá biểu mới"</ModalHeader>
       <ModalBody>
         <Row>
           <Col>
