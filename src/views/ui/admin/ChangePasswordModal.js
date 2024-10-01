@@ -37,12 +37,11 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
         confirmNewPassword: "",
       });
       setErrorAPI("");
-    } else{
+    } else {
       setPasswordData({
-        userId: localStorage.getItem("userId") || ""
+        userId: localStorage.getItem("userId") || "",
       });
     }
-
   }, [isOpen]);
 
   const [errors, setErrors] = useState({
@@ -72,7 +71,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
       newErrors.confirmNewPassword = "Mục này không được để trống";
       isValid = false;
     }
-    if (passwordData.confirmNewPassword !== passwordData.newPassword){
+    if (passwordData.confirmNewPassword !== passwordData.newPassword) {
       newErrors.confirmNewPassword = "Mật khẩu mới đang không giống nhau";
       isValid = false;
     }
@@ -80,7 +79,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
     return isValid;
   };
 
-  const handleSubmit = async (e)=> {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) {
@@ -90,7 +89,6 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
       `${API_ROOT}users/change-password`,
       passwordData
     );
-    console.log(res);
     if (res.status !== 200) {
       setErrorAPI(res.response?.data?.message);
     } else {
@@ -149,7 +147,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" type="submit" className="me-1" >
+          <Button color="primary" type="submit" className="me-1">
             Đổi Mật Khẩu
           </Button>
           <Button color="secondary" onClick={toggle}>
