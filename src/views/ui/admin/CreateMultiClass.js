@@ -172,6 +172,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
         const locationOptions = res.data.map((location) => ({
           value: location._id,
           label: location.name,
+          address: location.address,
         }));
         setListLocationData(locationOptions);
       })
@@ -281,7 +282,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
                 <option value="">Chọn chi nhánh</option>
                 {listLocationData.map((location) => (
                   <option key={location.value} value={location.value}>
-                    {location.label}
+                    {location.label + ", " + location.address}
                   </option>
                 ))}
               </Input>
