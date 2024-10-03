@@ -302,7 +302,21 @@ const BookingScreen = () => {
                             class1.max_members ||
                           class1.student_in_class.some(
                             (student) => student._id === userId
-                          )
+                          ) ||
+                          (new Date(class1.schedule[0].day).getDate() ==
+                            new Date().getDate() &&
+                            new Date(class1.schedule[0].day).getMonth() ==
+                              new Date().getMonth() &&
+                            Math.round(
+                              class1.schedule[0].start_time.split(":")[1]
+                            ) > new Date().getMinutes()) ||
+                          (new Date(class1.schedule[0].day).getDate() ==
+                            new Date().getDate() &&
+                            new Date(class1.schedule[0].day).getMonth() ==
+                              new Date().getMonth() &&
+                            Math.round(
+                              class1.schedule[0].start_time.split(":")[0]
+                            ) < new Date().getHours())
                         }
                       >
                         Đặt lịch

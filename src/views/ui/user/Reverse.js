@@ -57,7 +57,6 @@ const Reverse = () => {
         body
       );
       if (res.status === 200) {
-        // TODO: show toast
         fetchTransactions();
         showNotification("Bảo lưu thành công");
       } else {
@@ -67,7 +66,6 @@ const Reverse = () => {
         `${API_ROOT}users/resume-course?RegisterPackageId=${currentPackage._id}`
       );
       if (res.status === 200) {
-        // TODO: show toast
         fetchTransactions();
         showNotification("Chào mừng bạn trở lại tập luyện");
       } else {
@@ -142,7 +140,8 @@ const Reverse = () => {
                 </p>
                 <p className="mb-1 text-muted">trạng thái : {session.status}</p>
                 <p className="mb-1 text-muted">
-                  Số buổi tập: {session.remaining_lessons}/
+                  Số buổi tập:
+                  {session.total_lessons - session.remaining_lessons}/
                   {session.total_lessons}
                 </p>
                 <p className="mb-1 text-muted">
@@ -177,7 +176,8 @@ const Reverse = () => {
                 <p className="mb-1 text-muted">trạng thái : {session.status}</p>
 
                 <p className="mb-1 text-muted">
-                  Số buổi tập: {session.remaining_lessons}/
+                  Số buổi tập:
+                  {session.total_lessons - session.remaining_lessons}/
                   {session.total_lessons}
                 </p>
                 <p className="mb-1 text-muted">
