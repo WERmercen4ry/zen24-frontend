@@ -108,7 +108,6 @@ const WorkoutHistory = () => {
         },
       })
       .then((res) => {
-        // TODO: show toasts
         handleTabClick(activeTab);
         if (res.status !== 200) {
           showNotification("Đang xảy ra lỗi vui lòng liên hệ quản trị viên");

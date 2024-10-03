@@ -205,7 +205,7 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
                       </option>
                       {listLocationData.map((Location) => (
                         <option key={Location._id} value={Location._id}>
-                          {Location.name}
+                          {Location.name + ", " + Location.address}
                         </option>
                       ))}
                     </Input>
