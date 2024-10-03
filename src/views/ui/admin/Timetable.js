@@ -169,10 +169,17 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
         toggle();
         onCreateDone();
       }
-      if (res.status === 207) {
+      else if (res.status === 207) {
         showToast(
           "Thông báo",
           "Huấn luyện viên đã có lịch học vào thời gian này.",
+          TOAST_TYPES.ERROR
+        );
+      }
+      else{
+        showToast(
+          "Thông báo",
+          res.response?.data?.message,
           TOAST_TYPES.ERROR
         );
       }

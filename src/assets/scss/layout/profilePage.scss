@@ -122,16 +122,7 @@
 .label{
     min-width: 40%;
 }
-.avatar-upload {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    border: 2px dashed #ddd;
-    border-radius: 8px; /* Thay đổi từ 50% sang 8px để tạo hình vuông với góc bo tròn nhẹ */
-    margin: auto;
-    overflow: hidden;
-    cursor: pointer;
-}
+
 
 .avatar-placeholder {
     display: flex;

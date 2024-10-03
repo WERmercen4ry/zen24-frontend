@@ -176,9 +176,15 @@ const TimetablePopupEdit = ({
         );
         toggle();
         onEditDone();
-      }
+      } else
       if (res.status === 409) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        showToast(
+          "Thông báo",
+          res.response?.data?.message,
+          TOAST_TYPES.ERROR
+        );
       }
     } catch (error) {
       showToast(

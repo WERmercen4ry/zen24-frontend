@@ -430,10 +430,9 @@ const UserForm = () => {
                     type="password"
                     name="password"
                     id="password"
-                    value={formData.password || (isEdit ? "********" : "")}
+                    value={formData.password}
                     onChange={handleInputChange}
                     invalid={!!errors.password}
-                    disabled={isEdit}
                   />
                   {errors.password && (
                     <FormFeedback>{errors.password}</FormFeedback>
