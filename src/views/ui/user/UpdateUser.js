@@ -34,7 +34,7 @@ const UpdateUser = () => {
 
   const [errors, setErrors] = useState({});
   const [cities, setCities] = useState([]); // Danh sách tỉnh
-  const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
+  const [districts, setdistricts] = useState([]); // Danh sách quận/huyện
   const [communes, setWards] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
@@ -76,9 +76,9 @@ const UpdateUser = () => {
                 ? res.data.profile.date_of_birth.split("T")[0]
                 : "",
             gender: res.data.profile.sex,
-            cityName: res.data.profile.Province,
-            districtName: res.data.profile.District,
-            communeName: res.data.profile.Commune,
+            cityName: res.data.profile.province,
+            districtName: res.data.profile.district,
+            communeName: res.data.profile.commune,
             weight: res.data.profile.weight,
             height: res.data.profile.height,
             targetTrain: res.data.profile.training_goals,
@@ -95,7 +95,7 @@ const UpdateUser = () => {
       axios
         .get(`https://esgoo.net/api-tinhthanh/2/${formData.cityName}.htm`)
         .then((res) => {
-          setDistricts(res.data.data); // Reset danh sách xã/phường khi chọn tỉnh khác
+          setdistricts(res.data.data); // Reset danh sách xã/phường khi chọn tỉnh khác
         })
         .catch((error) => {
           console.error("Lỗi khi lấy danh sách quận/huyện:", error);
@@ -156,15 +156,15 @@ const UpdateUser = () => {
         avatarUrl = await uploadFileToFirebase(selectedFile);
       }
 
-      const Province = getCityById(formData.cityName);
-      const District = getDistrictById(formData.districtName);
-      const Commune = getWardById(formData.communeName);
+      const province = getCityById(formData.cityName);
+      const district = getdistrictById(formData.districtName);
+      const commune = getWardById(formData.communeName);
       const fullAddress =
-        Province.full_name +
+        province.full_name +
         ", " +
-        District.full_name +
+        district.full_name +
         ", " +
-        Commune.full_name;
+        commune.full_name;
 
       const updateUser = {
         avatar: avatarUrl,
@@ -172,9 +172,9 @@ const UpdateUser = () => {
           sex: formData.gender,
           weight: formData.weight,
           height: formData.height,
-          Province: formData.cityName,
-          District: formData.districtName,
-          Commune: formData.communeName,
+          province: formData.cityName,
+          district: formData.districtName,
+          commune: formData.communeName,
           address: fullAddress,
           date_of_birth: new Date(formData.birthDate),
           training_goals: formData.targetTrain,
@@ -224,13 +224,13 @@ const UpdateUser = () => {
   };
 
   const getCityById = (id) => {
-    return cities.find((Province) => Province.id === id);
+    return cities.find((province) => province.id === id);
   };
-  const getDistrictById = (id) => {
-    return districts.find((District) => District.id === id);
+  const getdistrictById = (id) => {
+    return districts.find((district) => district.id === id);
   };
   const getWardById = (id) => {
-    return communes.find((Commune) => Commune.id === id);
+    return communes.find((commune) => commune.id === id);
   };
 
   const showNotification = (message) => {
@@ -357,9 +357,9 @@ const UpdateUser = () => {
                 invalid={!!errors.cityName}
               >
                 <option value="">Tỉnh/ Thành Phố</option>
-                {cities.map((Province) => (
-                  <option key={Province.id} value={Province.id}>
-                    {Province.full_name}
+                {cities.map((province) => (
+                  <option key={province.id} value={province.id}>
+                    {province.full_name}
                   </option>
                 ))}
               </Input>
@@ -380,9 +380,9 @@ const UpdateUser = () => {
                 invalid={!!errors.districtName}
               >
                 <option value="">Quận/ Huyện</option>
-                {districts.map((District) => (
-                  <option key={District.id} value={District.id}>
-                    {District.full_name}
+                {districts.map((district) => (
+                  <option key={district.id} value={district.id}>
+                    {district.full_name}
                   </option>
                 ))}
               </Input>
@@ -403,9 +403,9 @@ const UpdateUser = () => {
                 invalid={!!errors.communeName}
               >
                 <option value="">Phường/ Xã</option>
-                {communes.map((Commune) => (
-                  <option key={Commune.id} value={Commune.id}>
-                    {Commune.full_name}
+                {communes.map((commune) => (
+                  <option key={commune.id} value={commune.id}>
+                    {commune.full_name}
                   </option>
                 ))}
               </Input>
