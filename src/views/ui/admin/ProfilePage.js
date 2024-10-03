@@ -25,6 +25,7 @@ import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
 import { uploadFileToFirebase } from "../../../utils/firebaseConfig";
+import axios from "axios";
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -32,7 +33,9 @@ const ProfilePage = () => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [cities, setCities] = useState([]); // Danh sách tỉnh
+  const [districts, setdistricts] = useState([]); // Danh sách quận/huyện
+  const [communes, setWards] = useState([]); // Danh sách xã/phường
   const [profileData, setProfileData] = useState({
     username: "",
     password: "",
@@ -46,7 +49,10 @@ const ProfilePage = () => {
       email: "",
       phone: "",
       address: "",
-      date_of_birth: "", // Quyền thêm từ API
+      date_of_birth: "",
+      province: "",
+      district: "",
+      commune: "",
     },
   });
   const validateImage = (file) => {
@@ -72,27 +78,16 @@ const ProfilePage = () => {
   };
 
   const [errors, setErrors] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    date_of_birth: "",
-    sex: "",
   });
 
   const validate = () => {
-    let isValid = true;
     let newErrors = {
-      name: "",
-      phone: "",
-      email: "",
-      date_of_birth: "",
-      sex: "",
     };
 
     // Kiểm tra tên (không được để trống)
     if (!profileData.profile.name) {
       newErrors.name = "Họ tên không được để trống";
-      isValid = false;
+
     }
 
     // Kiểm tra số điện thoại (phải là số và độ dài tối thiểu 10 ký tự)
@@ -101,7 +96,7 @@ const ProfilePage = () => {
       !/^\d{10,}$/.test(profileData.profile.phone)
     ) {
       newErrors.phone = "Số điện thoại phải là số và ít nhất 10 ký tự";
-      isValid = false;
+
     }
 
     // Kiểm tra email (phải là email hợp lệ)
@@ -110,25 +105,75 @@ const ProfilePage = () => {
       !/\S+@\S+\.\S+/.test(profileData.profile.email)
     ) {
       newErrors.email = "Email không hợp lệ";
-      isValid = false;
+
     }
 
     // Kiểm tra ngày sinh (phải chọn ngày)
     if (!profileData.profile.date_of_birth) {
       newErrors.date_of_birth = "Vui lòng chọn ngày sinh";
-      isValid = false;
+
     }
 
     // Kiểm tra giới tính (phải chọn giới tính)
     if (!profileData.profile.sex) {
       newErrors.sex = "Vui lòng chọn giới tính";
-      isValid = false;
+
     }
+    if (!profileData.profile.province)
+      newErrors.address = "Vui lòng chọn thành phố";
 
+    if (!profileData.profile.district)
+      newErrors.address = newErrors.address
+        ? newErrors.address + ", quận/huyện"
+        : "Vui lòng chọn quận/huyện";
+    if (!profileData.profile.commune)
+      newErrors.address = newErrors.address
+        ? newErrors.address + ", xã/phường"
+        : "Vui lòng chọn xã/phường";
     setErrors(newErrors);
-    return isValid;
+    return Object.keys(newErrors).length === 0;
   };
+  useEffect(() => {
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/1/0.htm`)
+      .then((res) => {
+        setCities(res.data.data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy danh sách tỉnh:", error);
+      });
+  }, []);
+  useEffect(() => {
+    if (profileData.profile.province) {
+      axios
+        .get(
+          `https://esgoo.net/api-tinhthanh/2/${profileData.profile.province}.htm`
+        )
+        .then((res) => {
+          setdistricts(res.data.data);
+          setWards([]); // Reset danh sách xã/phường khi chọn tỉnh khác
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy danh sách quận/huyện:", error);
+        });
+    }
+  }, [profileData.profile.province]);
 
+  // Lấy danh sách xã/phường khi quận/huyện được chọn
+  useEffect(() => {
+    if (profileData.profile.district) {
+      axios
+        .get(
+          `https://esgoo.net/api-tinhthanh/3/${profileData.profile.district}.htm`
+        )
+        .then((res) => {
+          setWards(res.data.data);
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy danh sách xã/phường:", error);
+        });
+    }
+  }, [profileData.profile.district]);
   // Get user infor API
   const fetchProfileData = async () => {
     showLoader();
@@ -151,6 +196,9 @@ const ProfilePage = () => {
             : "",
           sex: userProfile.profile.sex,
           address: userProfile.profile.address || "",
+          province: userProfile.profile.province || "",
+          district: userProfile.profile.district || "",
+          commune: userProfile.profile.commune || "",
         },
         role: userProfile.role || "",
       });
@@ -167,17 +215,41 @@ const ProfilePage = () => {
             ? "Nữ"
             : "Khác",
         address: userProfile.profile.address,
+
       });
+      if (userProfile.profile.district) {
+        await axios
+          .get(
+            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
+          )
+          .then((res) => {
+            setWards(res.data.data);
+          })
+          .catch((error) => {
+            console.error("Lỗi khi lấy danh sách xã/phường:", error);
+          });
+      }
       hideLoader();
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
     }
+  };
+  const getCityById = (id) => {
+    return cities.find((province) => province.id === id);
+  };
+  const getdistrictById = (id) => {
+    return districts.find((district) => district.id === id);
+  };
+  const getWardById = (id) => {
+    return communes.find((commune) => commune.id === id);
   };
 
   // Update user call API
   const updateUser = async (e) => {
     e.preventDefault();
     if (!validate()) {
+      console.log("asdasd");
+      
       return;
     }
     showLoader();
@@ -188,16 +260,37 @@ const ProfilePage = () => {
       if (selectedFile) {
         avatarUrl = await uploadFileToFirebase(selectedFile, userId); // Upload file và lấy URL
       }
-      await authorizedAxiosinstance.put(
+      const province = getCityById(profileData.profile.province);
+      const district = getdistrictById(profileData.profile.district);
+      const commune = getWardById(profileData.profile.commune);
+      const fullAddress =
+        province.full_name +
+        ", " +
+        district.full_name +
+        ", " +
+        commune.full_name;
+      const updatedFormData = {
+        ...profileData,
+        profile: {
+          ...profileData.profile,
+          address: fullAddress,
+        },
+        avatar: avatarUrl,
+      };
+      var res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/updateUser?userId=${userId}`,
-        { ...profileData, avatar: avatarUrl } // Cập nhật URL ảnh vào profileData
+        updatedFormData
       );
-      showToast("Thông báo", "Cập nhập thành công", TOAST_TYPES.SUCCESS);
+      if (res?.status !== 201) {
+        showToast("Thông báo", "Cập nhập thành công", TOAST_TYPES.SUCCESS);
+      } else {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      }
       fetchProfileData();
     } catch (error) {
-      hideLoader();
       showToast("Thông báo", error, TOAST_TYPES.ERROR);
     }
+    hideLoader();
   };
   // init data
   useEffect(() => {
@@ -496,6 +589,65 @@ const ProfilePage = () => {
                   <FormFeedback>{errors.sex}</FormFeedback>
                 </div>{" "}
                 {/* Hiển thị lỗi */}
+              </FormGroup>
+              <FormGroup className="profile-detail-edit">
+                <Label className="my-auto" for="address">
+                  Địa chỉ <span className="require-input">*</span>
+                </Label>
+                <div className="w-100">
+                  <div className="d-flex">
+                    <Input
+                      type="select"
+                      name="province"
+                      id="province"
+                      className="me-1"
+                      value={profileData.profile.province}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn thành phố</option>
+                      {cities.map((province) => (
+                        <option key={province.id} value={province.id}>
+                          {province.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                    <Input
+                      type="select"
+                      name="district"
+                      id="district"
+                      className="me-1"
+                      value={profileData.profile.district}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn quận, huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.id} value={district.id}>
+                          {district.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                    <Input
+                      type="select"
+                      name="commune"
+                      id="commune"
+                      value={profileData.profile.commune}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn xã, phường</option>
+                      {communes.map((commune) => (
+                        <option key={commune.id} value={commune.id}>
+                          {commune.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
+                  {errors.address && (
+                    <FormFeedback className="d-flex">{errors.address}</FormFeedback>
+                  )}
+                </div>
               </FormGroup>
               <div className="btn-form">
                 <Button color="primary" type="submit">
