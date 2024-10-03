@@ -257,8 +257,6 @@ const UserForm = () => {
     // Address validation
     if (!formData.profile.province)
       newErrors.province = "Vui lòng chọn thành phố";
-
-    if (!formData.agency[0]) newErrors.agency = "Vui lòng chọn thành phố";
     if (!formData.profile.district)
       newErrors.district = "Vui lòng chọn quận/huyện";
     if (!formData.profile.commune)

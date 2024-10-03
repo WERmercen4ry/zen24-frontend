@@ -129,7 +129,7 @@ const ProfilePage = () => {
     if (!profileData.profile.commune)
       newErrors.address = newErrors.address
         ? newErrors.address + ", xã/phường"
-        : "Vui lòng chọn quận/huyện";
+        : "Vui lòng chọn xã/phường";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
