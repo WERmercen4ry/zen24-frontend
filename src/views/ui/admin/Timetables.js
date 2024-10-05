@@ -22,7 +22,7 @@ const Timetables = () => {
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const togglePopup = (currentTimeTable) => {
-    if (currentTimeTable) {
+    if (currentTimeTable && !isOpen) {
       setCurrentTimeTable(currentTimeTable);
     }
     setIsOpen(!isOpen);
@@ -55,6 +55,7 @@ const Timetables = () => {
   const toggleModalEdit = () => setisModalOpenEdit(!isModalOpenEdit);
 
   const fetchClasses = (page, limit) => {
+    showLoader();
     authorizedAxiosinstance
       .get(`${API_ROOT}/dashboards/getClassList`, {
         params: {
@@ -67,8 +68,10 @@ const Timetables = () => {
         setClassesData(res.data.classes);
         setTotalPages(res.data.totalPages);
         setTotalPayments(res.data.totalClasses); // Set the total number of payments
+        hideLoader();
       })
       .catch((error) => {
+        hideLoader();
         console.error("Error fetching transaction data:", error);
       });
   };
@@ -118,7 +121,7 @@ const Timetables = () => {
           toggle={togglePopup}
           onConfirm={handleConfirm}
           message={
-            "Are you sure you want to delete this item? This action cannot be undone."
+            "Bạn có muốn thực hiện xoá lịch tập này không?"
           }
         />
         <Col>

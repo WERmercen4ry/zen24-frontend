@@ -49,6 +49,7 @@ const WorkoutHistory = () => {
         moment().endOf("month").format("YYYY-MM-DD")
       );
     }
+
   };
   const fetchTransactions = (startDate, endDate) => {
     showLoader();
@@ -64,11 +65,12 @@ const WorkoutHistory = () => {
         const { pastSchedules, futureSchedules } = filterSchedules(res.data);
         settrainingHistoryFuture(futureSchedules);
         settrainingHistory(pastSchedules);
+        hideLoader();
       })
       .catch((error) => {
         console.error("Error fetching transaction data:", error);
+            hideLoader();
       });
-    hideLoader();
   };
   function filterSchedules(data) {
     const pastSchedules = [];
@@ -100,6 +102,7 @@ const WorkoutHistory = () => {
     setIsOpen(true);
   };
   const cancleClass = (currentClass) => {
+    showLoader();
     authorizedAxiosinstance
       .delete(`${API_ROOT}/users/cancelClassRegistration`, {
         params: {
@@ -114,6 +117,7 @@ const WorkoutHistory = () => {
         } else {
           showNotification("Huỷ đăng ký lớp học thành công");
         }
+        hideLoader();
       });
   };
   const handleCancelClick = (currentClass) => {

@@ -154,11 +154,19 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
         },
       })
       .then((res) => {
-        const trainerOptions = res.data.map((trainer) => ({
-          value: trainer.id,
-          label: trainer.profile.name,
-        }));
-        setListTrainerData(trainerOptions);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          const trainerOptions = res.data.map((trainer) => ({
+            value: trainer.id,
+            label: trainer.profile.name,
+          }));
+          setListTrainerData(trainerOptions);
+        }
       })
       .catch((error) => {
         console.error("Error fetching trainer data:", error);
@@ -169,12 +177,20 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/dashboards/getListLocations`)
       .then((res) => {
-        const locationOptions = res.data.map((location) => ({
-          value: location._id,
-          label: location.name,
-          address: location.address,
-        }));
-        setListLocationData(locationOptions);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          const locationOptions = res.data.map((location) => ({
+            value: location._id,
+            label: location.name,
+            address: location.address,
+          }));
+          setListLocationData(locationOptions);
+        }
       })
       .catch((error) => {
         console.error("Error fetching location data:", error);
@@ -185,11 +201,19 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
     authorizedAxiosinstance
       .get(`${API_ROOT}/dashboards/packages`)
       .then((res) => {
-        const packageOptions = res.data.map((pkg) => ({
-          value: pkg._id,
-          label: pkg.name,
-        }));
-        setListPackageData(packageOptions);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          const packageOptions = res.data.map((pkg) => ({
+            value: pkg._id,
+            label: pkg.name,
+          }));
+          setListPackageData(packageOptions);
+        }
       })
       .catch((error) => {
         console.error("Error fetching package data:", error);
