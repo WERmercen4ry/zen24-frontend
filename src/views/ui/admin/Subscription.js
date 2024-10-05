@@ -70,6 +70,17 @@ const Subscription = () => {
 
     if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày kết thúc";
 
+    const formattedDate = new Date(formData.startDate);
+    const currentDate = new Date();
+    formattedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (formattedDate < currentDate) {
+      newErrors.startDate = "Ngày bắt đầu không được nhỏ hơn ngày hiện tại";
+    }
+
+    console.log(formData.startDate);
+
     const start = new Date(formData.startDate);
     const end = new Date(formData.endDate);
 
@@ -82,6 +93,7 @@ const Subscription = () => {
     } else if (differenceInDays < 30) {
       newErrors.startDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
       newErrors.endDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
+    } else {
     }
 
     setErrors(newErrors);
@@ -223,8 +235,8 @@ const Subscription = () => {
           amount: 0,
           sessions: 1,
           amountPerSession: 0,
+          method: "",
         });
-        showToast("Thông báo", "Đăng kí gói thành công", TOAST_TYPES.SUCCESS);
         fetchPackageForUser();
         setActiveTab("2");
       }

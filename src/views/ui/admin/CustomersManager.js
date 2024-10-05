@@ -36,13 +36,15 @@ const CustomersManager = () => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
 
-    const filtered = data.filter(
-      (user) =>
-        user.profile.name.toLowerCase().includes(term) ||
-        user.profile.phone.includes(term)
-    );
+    // const filtered = data.filter(
+    //   (user) =>
+    //     user.profile.name.toLowerCase().includes(term) ||
+    //     user.profile.phone.includes(term)
+    // );
 
-    setFilteredData(filtered);
+    // setFilteredData(filtered);
+
+    setTextUrl("users/serch-user");
   };
 
   const handlePageChange = (page) => {
@@ -53,7 +55,7 @@ const CustomersManager = () => {
 
   useEffect(() => {
     fetchData();
-  }, [textUrl]);
+  }, [textUrl, searchTerm]);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -64,6 +66,7 @@ const CustomersManager = () => {
         params: {
           page: page,
           limit: limit,
+          search: searchTerm,
         },
       });
 
@@ -149,9 +152,6 @@ const CustomersManager = () => {
               <CardTitle tag="h5">
                 <strong>Người dùng</strong>
               </CardTitle>
-              <CardSubtitle className="mb-2 text-muted" tag="h6">
-                Chọn 0 bản ghi
-              </CardSubtitle>
             </div>
             <div className="button-user">
               <Link to={"/admin/user"}>
