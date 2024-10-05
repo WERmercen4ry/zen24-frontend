@@ -253,8 +253,10 @@ const Dashboard = () => {
         `${API_ROOT}dashboards/exportExcel`
       );
 
-      if (res && res.data) {
-        downloadFile(res.data, false);
+      console.log(res.data);
+
+      if (res && res.data && res.data.base64) {
+        downloadFile(res.data.base64, false);
         showToast("Thông báo", "Xuất file thành công", TOAST_TYPES.SUCCESS);
         hideLoader();
       } else {
