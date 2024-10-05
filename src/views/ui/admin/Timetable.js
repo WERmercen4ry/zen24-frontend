@@ -190,7 +190,7 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="lg">
-      <ModalHeader toggle={toggle}>"Thêm thời khoá biểu mới"</ModalHeader>
+      <ModalHeader toggle={toggle}>Thêm thời khoá biểu mới</ModalHeader>
       <ModalBody>
         <Row>
           <Col>

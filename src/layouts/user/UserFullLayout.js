@@ -13,12 +13,16 @@ const FullLayout = () => {
         <div className="contentArea">
           {/********header**********/}
           <Header />
-          {loading && <Loader />}
+
           {/********Middle Content**********/}
+          <div>
+          {loading && <Loader />}
           <Container className="wrapper-user " fluid>
+
             <Outlet />
           </Container>
           <Footer></Footer>
+          </div>
         </div>
       </div>
     </main>

@@ -69,10 +69,15 @@ const BookingScreen = () => {
         `${API_ROOT}users/getUserRegisteredPackages?userId=${formSearch.userId}`
       )
       .then((res) => {
-        setListPackageData(res.data);
+        if (res.status !== 200) {
+          showNotification(res.response?.data?.message);
+        } else {
+          setListPackageData(res.data);
+        }
+        hideLoader();
       })
       .catch((error) => {
-        console.error("Error fetching package data:", error);
+        showNotification("Có lỗi xảy ra, vui lòng thử lại.");
       });
   };
 
@@ -81,10 +86,15 @@ const BookingScreen = () => {
     authorizedAxiosinstance
       .post(`${API_ROOT}users/getClassesForUserPackages`, formSearch)
       .then((res) => {
-        setListClass(res.data?.suitableClasses);
+        if (res.status !== 200) {
+          showNotification(res.response?.data?.message);
+        } else {
+          setListClass(res.data?.suitableClasses);
+        }
+        hideLoader();
       })
       .catch((error) => {
-        console.error("Error fetching class data:", error);
+        showNotification("Có lỗi xảy ra, vui lòng thử lại.");
       });
   };
 

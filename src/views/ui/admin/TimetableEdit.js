@@ -35,12 +35,14 @@ const TimetablePopupEdit = ({
 
   // Fetch dữ liệu cần thiết khi mở modal
   useEffect(() => {
+    showLoader();
     fetchTrainer();
     fetchLocation();
     fetchPackage();
     setFormData(timetable);
+    hideLoader();
   }, [timetable]);
-
+  
   const fetchTrainer = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}users/getUsersByRole`, {
