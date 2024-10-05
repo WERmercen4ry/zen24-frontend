@@ -42,7 +42,7 @@ const TimetablePopupEdit = ({
     setFormData(timetable);
     hideLoader();
   }, [timetable]);
-  
+
   const fetchTrainer = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}users/getUsersByRole`, {
@@ -51,7 +51,15 @@ const TimetablePopupEdit = ({
         },
       })
       .then((res) => {
-        setlistTrainerData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistTrainerData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching trainer data:", error);
@@ -62,7 +70,15 @@ const TimetablePopupEdit = ({
     authorizedAxiosinstance
       .get(`${API_ROOT}dashboards/getListLocations`)
       .then((res) => {
-        setlistLocationData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistLocationData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching location data:", error);
@@ -73,7 +89,15 @@ const TimetablePopupEdit = ({
     authorizedAxiosinstance
       .get(`${API_ROOT}dashboards/packages`)
       .then((res) => {
-        setlistPackageData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistPackageData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching package data:", error);
@@ -178,15 +202,10 @@ const TimetablePopupEdit = ({
         );
         toggle();
         onEditDone();
-      } else
-      if (res.status === 409) {
+      } else if (res.status === 409) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
-        showToast(
-          "Thông báo",
-          res.response?.data?.message,
-          TOAST_TYPES.ERROR
-        );
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       }
     } catch (error) {
       showToast(

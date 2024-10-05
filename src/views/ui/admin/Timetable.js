@@ -58,7 +58,15 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
         },
       })
       .then((res) => {
-        setlistTrainerData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistTrainerData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching trainer data:", error);
@@ -69,7 +77,15 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
     authorizedAxiosinstance
       .get(`${API_ROOT}dashboards/getListLocations`)
       .then((res) => {
-        setlistLocationData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistLocationData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching location data:", error);
@@ -80,7 +96,15 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
     authorizedAxiosinstance
       .get(`${API_ROOT}dashboards/packages`)
       .then((res) => {
-        setlistPackageData(res.data);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
+        } else {
+          setlistPackageData(res.data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching package data:", error);
@@ -168,20 +192,14 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
         showToast("Thông báo", "Tạo lịch tập thành công!", TOAST_TYPES.SUCCESS);
         toggle();
         onCreateDone();
-      }
-      else if (res.status === 207) {
+      } else if (res.status === 207) {
         showToast(
           "Thông báo",
           "Huấn luyện viên đã có lịch học vào thời gian này.",
           TOAST_TYPES.ERROR
         );
-      }
-      else{
-        showToast(
-          "Thông báo",
-          res.response?.data?.message,
-          TOAST_TYPES.ERROR
-        );
+      } else {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       }
     } catch (error) {
       setError("Có lỗi xảy ra, vui lòng thử lại.");

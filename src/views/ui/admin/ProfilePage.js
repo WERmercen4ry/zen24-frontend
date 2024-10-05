@@ -245,8 +245,6 @@ const ProfilePage = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      console.log("asdasd");
-
       return;
     }
     showLoader();
