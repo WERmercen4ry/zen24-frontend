@@ -11,24 +11,20 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
-
-const TimetablePopup = ({
-  isOpen,
-  toggle,
-  isEdit = false,
-  timetable = null,
-}) => {
-  const navigate = useNavigate();
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
+const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
   const [listPackageData, setlistPackageData] = useState([]);
-  const [errorAPI, setErrorAPI] = useState("");
 
   const [formData, setFormData] = useState({
     packages: "",
@@ -164,36 +160,37 @@ const TimetablePopup = ({
     if (!validateForm()) return;
 
     try {
-      if (isEdit) {
-        // Gọi API update thời khoá biểu cần edit
-      } else {
-        // Gọi API thêm mới khi ở chế độ thêm mới
-        const res = await authorizedAxiosinstance.post(
-          `${API_ROOT}dashboards/createClass`,
-          formData
+      const res = await authorizedAxiosinstance.post(
+        `${API_ROOT}dashboards/createClass`,
+        formData
+      );
+      if (res.status === 201) {
+        showToast("Thông báo", "Tạo lịch tập thành công!", TOAST_TYPES.SUCCESS);
+        toggle();
+        onCreateDone();
+      }
+      else if (res.status === 207) {
+        showToast(
+          "Thông báo",
+          "Huấn luyện viên đã có lịch học vào thời gian này.",
+          TOAST_TYPES.ERROR
         );
-        console.log("res", res);
-
-        if (res.status === 201) {
-          window.location.reload();
-          toggle();
-        }
-        console.log("res", res);
-        if (res.status === 207) {
-          console.log(`Huấn luyện viên đã có lịch học vào thời gian này.`);
-        }
+      }
+      else{
+        showToast(
+          "Thông báo",
+          res.response?.data?.message,
+          TOAST_TYPES.ERROR
+        );
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       setError("Có lỗi xảy ra, vui lòng thử lại.");
     }
   };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="lg">
-      <ModalHeader toggle={toggle}>
-        {isEdit ? "Chỉnh sửa thời khoá biểu" : "Thêm thời khoá biểu mới"}
-      </ModalHeader>
+      <ModalHeader toggle={toggle}>"Thêm thời khoá biểu mới"</ModalHeader>
       <ModalBody>
         <Row>
           <Col>
@@ -215,7 +212,7 @@ const TimetablePopup = ({
                       </option>
                       {listLocationData.map((Location) => (
                         <option key={Location._id} value={Location._id}>
-                          {Location.name}
+                          {Location.name + ", " + Location.address}
                         </option>
                       ))}
                     </Input>
@@ -326,7 +323,7 @@ const TimetablePopup = ({
               </Row>
               <ModalFooter>
                 <Button color="primary" type="submit">
-                  {isEdit ? "Cập nhật" : "Thêm mới"}
+                  Thêm mới
                 </Button>
                 <Button color="secondary" onClick={toggle}>
                   Hủy

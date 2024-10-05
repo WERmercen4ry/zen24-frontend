@@ -1,7 +1,12 @@
 import React, { createContext, useState, useContext } from "react";
-import { Toast, ToastBody, ToastHeader } from "reactstrap";
+import { Toast, ToastBody } from "reactstrap";
 import { TOAST_TYPES } from "../../utils/constant";
-import { FaCheckCircle, FaInfoCircle, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa'; // Thêm các icon
+import {
+  FaCheckCircle,
+  FaInfoCircle,
+  FaExclamationCircle,
+  FaTimesCircle,
+} from "react-icons/fa"; // Thêm các icon
 
 const ToastContext = createContext();
 

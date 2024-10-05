@@ -1,14 +1,5 @@
 import React from "react";
-import { ListGroup, ListGroupItem, Container, Row, Col } from "reactstrap";
-import {
-  BsPerson,
-  BsArchive,
-  BsShare,
-  BsShield,
-  BsPhone,
-  BsKey,
-  BsBoxArrowRight,
-} from "react-icons/bs"; // Bootstrap icons
+import { Container, Row, Col } from "reactstrap";
 
 const Support = () => {
   return (

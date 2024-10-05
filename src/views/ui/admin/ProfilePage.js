@@ -1,4 +1,6 @@
 import "../../../assets/scss/layout/profilePage.scss";
+import uploadDefault from "../../../assets/images/users/upload_default.jpg";
+import avatarDefault from "../../../assets/images/users/avatar_default.jpg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   TabContent,
@@ -13,7 +15,6 @@ import {
   FormGroup,
   Label,
   Input,
-  Table,
   FormFeedback,
 } from "reactstrap";
 import classnames from "classnames";
@@ -24,14 +25,17 @@ import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
 import { uploadFileToFirebase } from "../../../utils/firebaseConfig";
+import axios from "axios";
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(""); // State để giữ URL của ảnh preview
-  const {showLoader, hideLoader } = useContext(LoaderContext);
+  const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [cities, setCities] = useState([]); // Danh sách tỉnh
+  const [districts, setdistricts] = useState([]); // Danh sách quận/huyện
+  const [communes, setWards] = useState([]); // Danh sách xã/phường
   const [profileData, setProfileData] = useState({
     username: "",
     password: "",
@@ -45,10 +49,19 @@ const ProfilePage = () => {
       email: "",
       phone: "",
       address: "",
-      date_of_birth: "", // Quyền thêm từ API
+      date_of_birth: "",
+      province: "",
+      district: "",
+      commune: "",
     },
   });
-
+  const validateImage = (file) => {
+    const validFormats = ["image/jpeg", "image/png", "image/gif"];
+    if (file && !validFormats.includes(file.type)) {
+      return false;
+    }
+    return true;
+  };
   const [initialProfileData, setInitialProfileData] = useState({
     avatar: "",
     name: "",
@@ -65,27 +78,16 @@ const ProfilePage = () => {
   };
 
   const [errors, setErrors] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    date_of_birth: "",
-    sex: "",
   });
 
   const validate = () => {
-    let isValid = true;
     let newErrors = {
-      name: "",
-      phone: "",
-      email: "",
-      date_of_birth: "",
-      sex: "",
     };
 
     // Kiểm tra tên (không được để trống)
     if (!profileData.profile.name) {
       newErrors.name = "Họ tên không được để trống";
-      isValid = false;
+
     }
 
     // Kiểm tra số điện thoại (phải là số và độ dài tối thiểu 10 ký tự)
@@ -94,7 +96,7 @@ const ProfilePage = () => {
       !/^\d{10,}$/.test(profileData.profile.phone)
     ) {
       newErrors.phone = "Số điện thoại phải là số và ít nhất 10 ký tự";
-      isValid = false;
+
     }
 
     // Kiểm tra email (phải là email hợp lệ)
@@ -103,25 +105,75 @@ const ProfilePage = () => {
       !/\S+@\S+\.\S+/.test(profileData.profile.email)
     ) {
       newErrors.email = "Email không hợp lệ";
-      isValid = false;
+
     }
 
     // Kiểm tra ngày sinh (phải chọn ngày)
     if (!profileData.profile.date_of_birth) {
       newErrors.date_of_birth = "Vui lòng chọn ngày sinh";
-      isValid = false;
+
     }
 
     // Kiểm tra giới tính (phải chọn giới tính)
     if (!profileData.profile.sex) {
       newErrors.sex = "Vui lòng chọn giới tính";
-      isValid = false;
+
     }
+    if (!profileData.profile.province)
+      newErrors.address = "Vui lòng chọn thành phố";
 
+    if (!profileData.profile.district)
+      newErrors.address = newErrors.address
+        ? newErrors.address + ", quận/huyện"
+        : "Vui lòng chọn quận/huyện";
+    if (!profileData.profile.commune)
+      newErrors.address = newErrors.address
+        ? newErrors.address + ", xã/phường"
+        : "Vui lòng chọn xã/phường";
     setErrors(newErrors);
-    return isValid;
+    return Object.keys(newErrors).length === 0;
   };
+  useEffect(() => {
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/1/0.htm`)
+      .then((res) => {
+        setCities(res.data.data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy danh sách tỉnh:", error);
+      });
+  }, []);
+  useEffect(() => {
+    if (profileData.profile.province) {
+      axios
+        .get(
+          `https://esgoo.net/api-tinhthanh/2/${profileData.profile.province}.htm`
+        )
+        .then((res) => {
+          setdistricts(res.data.data);
+          setWards([]); // Reset danh sách xã/phường khi chọn tỉnh khác
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy danh sách quận/huyện:", error);
+        });
+    }
+  }, [profileData.profile.province]);
 
+  // Lấy danh sách xã/phường khi quận/huyện được chọn
+  useEffect(() => {
+    if (profileData.profile.district) {
+      axios
+        .get(
+          `https://esgoo.net/api-tinhthanh/3/${profileData.profile.district}.htm`
+        )
+        .then((res) => {
+          setWards(res.data.data);
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy danh sách xã/phường:", error);
+        });
+    }
+  }, [profileData.profile.district]);
   // Get user infor API
   const fetchProfileData = async () => {
     showLoader();
@@ -144,6 +196,9 @@ const ProfilePage = () => {
             : "",
           sex: userProfile.profile.sex,
           address: userProfile.profile.address || "",
+          province: userProfile.profile.province || "",
+          district: userProfile.profile.district || "",
+          commune: userProfile.profile.commune || "",
         },
         role: userProfile.role || "",
       });
@@ -160,38 +215,82 @@ const ProfilePage = () => {
             ? "Nữ"
             : "Khác",
         address: userProfile.profile.address,
+
       });
+      if (userProfile.profile.district) {
+        await axios
+          .get(
+            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
+          )
+          .then((res) => {
+            setWards(res.data.data);
+          })
+          .catch((error) => {
+            console.error("Lỗi khi lấy danh sách xã/phường:", error);
+          });
+      }
       hideLoader();
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
     }
+  };
+  const getCityById = (id) => {
+    return cities.find((province) => province.id === id);
+  };
+  const getdistrictById = (id) => {
+    return districts.find((district) => district.id === id);
+  };
+  const getWardById = (id) => {
+    return communes.find((commune) => commune.id === id);
   };
 
   // Update user call API
   const updateUser = async (e) => {
     e.preventDefault();
     if (!validate()) {
+      console.log("asdasd");
+      
       return;
     }
     showLoader();
 
     try {
+      const userId = localStorage.getItem("userId");
       let avatarUrl = profileData.avatar;
       if (selectedFile) {
-        avatarUrl = await uploadFileToFirebase(selectedFile); // Upload file và lấy URL
+        avatarUrl = await uploadFileToFirebase(selectedFile, userId); // Upload file và lấy URL
       }
-
-      const userId = localStorage.getItem("userId");
-      const res = await authorizedAxiosinstance.put(
+      const province = getCityById(profileData.profile.province);
+      const district = getdistrictById(profileData.profile.district);
+      const commune = getWardById(profileData.profile.commune);
+      const fullAddress =
+        province.full_name +
+        ", " +
+        district.full_name +
+        ", " +
+        commune.full_name;
+      const updatedFormData = {
+        ...profileData,
+        profile: {
+          ...profileData.profile,
+          address: fullAddress,
+        },
+        avatar: avatarUrl,
+      };
+      var res = await authorizedAxiosinstance.put(
         `${API_ROOT}users/updateUser?userId=${userId}`,
-        { ...profileData, avatar: avatarUrl } // Cập nhật URL ảnh vào profileData
+        updatedFormData
       );
-      showToast("Thông báo", "Cập nhập thành công", TOAST_TYPES.SUCCESS);
+      if (res?.status !== 201) {
+        showToast("Thông báo", "Cập nhập thành công", TOAST_TYPES.SUCCESS);
+      } else {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      }
       fetchProfileData();
     } catch (error) {
-      hideLoader();
       showToast("Thông báo", error, TOAST_TYPES.ERROR);
     }
+    hideLoader();
   };
   // init data
   useEffect(() => {
@@ -211,38 +310,33 @@ const ProfilePage = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file); // Lưu file đã chọn vào state
-
-    // Tạo URL để preview hình ảnh
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (file && validateImage(file)) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } else {
+      showToast(
+        "Thông báo",
+        "Vui lòng chọn tệp hình ảnh có định dạng JPG, PNG hoặc GIF.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
-
-  const groupsData = [
-    {
-      id: "638f63b7ce76f68a5cdebeb3",
-      name: "Lễ tân các chi nhánh",
-      createdAt: "01:23:31 07/12/2022",
-      action: "Chỉnh sửa",
-    },
-  ];
 
   return (
     <div>
       <ChangePasswordModal isOpen={isModalOpen} toggle={toggleModal} />
       <div className="profile-page-container mb-3 pb-0">
         <div className="overview-section">
-          <Row className="align-items-center">
+          <Row className="">
             <Col md={2} className="text-center">
               <img
-                src={
-                  initialProfileData.avatar || "https://via.placeholder.com/150"
-                }
+                src={initialProfileData.avatar || avatarDefault}
                 alt="Avatar"
                 className="profile-avatar"
               />
@@ -252,30 +346,18 @@ const ProfilePage = () => {
                 <h5 className="my-auto">
                   {initialProfileData.name || "CN - Hà Đô"}
                 </h5>
-                <button className="link-branches my-auto ms-2">
-                  LIÊN TẤN CÁC CHI NHÁNH
-                </button>
               </div>
-              <div className=" d-flex">
-                <p className="infor-group my-auto">
+              <div className="">
+                <p className="infor-group mb-1">
                   <i className="bi bi-telephone"></i> {initialProfileData.phone}
                 </p>
-                <p className="infor-group my-auto">
+                <p className="infor-group mb-1">
                   <i className="bi bi-envelope"></i> {initialProfileData.email}
                 </p>
-                <p className="infor-group my-auto">
+                <p className="infor-group mb-1">
                   <i className="bi bi-geo-alt-fill"></i>
                   {initialProfileData.address}
                 </p>
-              </div>
-              <div className="mt-3 d-flex">
-                <div className="stats-box">
-                  <div className=" d-flex">
-                    <i className="bi bi-people-fill me-1"></i>
-                    <h5>1</h5>
-                  </div>
-                  <p>Nhóm</p>
-                </div>
               </div>
             </Col>
           </Row>
@@ -304,18 +386,6 @@ const ProfilePage = () => {
               }}
             >
               Cài đặt
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={
-                classnames({ active: activeTab === "3" }) + " form-label"
-              }
-              onClick={() => {
-                toggleTab("3");
-              }}
-            >
-              Các nhóm
             </NavLink>
           </NavItem>
         </Nav>
@@ -394,11 +464,7 @@ const ProfilePage = () => {
                   />
                   <label className="avatar-placeholder" htmlFor="avatar">
                     <img
-                      src={
-                        previewImage ||
-                        profileData.avatar ||
-                        "https://via.placeholder.com/150"
-                      }
+                      src={previewImage || profileData.avatar || uploadDefault}
                       alt="Avatar"
                       className="avatar-image"
                     />
@@ -524,6 +590,65 @@ const ProfilePage = () => {
                 </div>{" "}
                 {/* Hiển thị lỗi */}
               </FormGroup>
+              <FormGroup className="profile-detail-edit">
+                <Label className="my-auto" for="address">
+                  Địa chỉ <span className="require-input">*</span>
+                </Label>
+                <div className="w-100">
+                  <div className="d-flex">
+                    <Input
+                      type="select"
+                      name="province"
+                      id="province"
+                      className="me-1"
+                      value={profileData.profile.province}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn thành phố</option>
+                      {cities.map((province) => (
+                        <option key={province.id} value={province.id}>
+                          {province.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                    <Input
+                      type="select"
+                      name="district"
+                      id="district"
+                      className="me-1"
+                      value={profileData.profile.district}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn quận, huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.id} value={district.id}>
+                          {district.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                    <Input
+                      type="select"
+                      name="commune"
+                      id="commune"
+                      value={profileData.profile.commune}
+                      onChange={handleInputChange}
+                      invalid={!!errors.address}
+                    >
+                      <option value="">Chọn xã, phường</option>
+                      {communes.map((commune) => (
+                        <option key={commune.id} value={commune.id}>
+                          {commune.full_name}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
+                  {errors.address && (
+                    <FormFeedback className="d-flex">{errors.address}</FormFeedback>
+                  )}
+                </div>
+              </FormGroup>
               <div className="btn-form">
                 <Button color="primary" type="submit">
                   Lưu thay đổi
@@ -554,41 +679,6 @@ const ProfilePage = () => {
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </TabPane>
-
-        {/* Tab Các nhóm */}
-        <TabPane tabId="3">
-          <div className="profile-detail-container">
-            <div className="profile-header">
-              <h5 className="my-auto">Nhóm</h5>
-            </div>
-            <div className="px-4">
-              <Table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Tiêu đề</th>
-                    <th>Ngày tạo</th>
-                    <th>Hành động</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {groupsData.map((group, index) => (
-                    <tr key={index}>
-                      <td>{group.id}</td>
-                      <td>{group.name}</td>
-                      <td>{group.createdAt}</td>
-                      <td>
-                        <Button color="secondary m-auto" size="sm">
-                          Edit
-                        </Button>{" "}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
             </div>
           </div>
         </TabPane>

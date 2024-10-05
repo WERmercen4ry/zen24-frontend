@@ -172,6 +172,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
         const locationOptions = res.data.map((location) => ({
           value: location._id,
           label: location.name,
+          address: location.address,
         }));
         setListLocationData(locationOptions);
       })
@@ -211,8 +212,6 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
         const dayFormatted = currentDate.toISOString().split("T")[0]; // format yyyy-mm-dd
 
         // Nếu ngày hiện tại trùng với thứ mà user đã chọn, thêm vào classDatas
-        console.log(dayOfWeek.toString());
-
         if (
           formData.selectedDays.includes(dayOfWeek.toString()) ||
           (dayOfWeek === 1 && formData.selectedDays.includes("CN"))
@@ -235,14 +234,12 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
         instructors: formData.selectedTrainers.map((trainer) => trainer.value),
       };
 
-      console.log("Data to submit:", dataToSubmit);
       try {
         const res = await authorizedAxiosinstance.post(
           `${API_ROOT}dashboards/createManyClass`,
           dataToSubmit
         );
-        console.log(res);
-        
+
         if (res.status === 207 || res.status === 201) {
           setExistingClasses(res.data?.existingClasses);
           setCreatedClasses(res.data?.classes);
@@ -285,7 +282,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
                 <option value="">Chọn chi nhánh</option>
                 {listLocationData.map((location) => (
                   <option key={location.value} value={location.value}>
-                    {location.label}
+                    {location.label + ", " + location.address}
                   </option>
                 ))}
               </Input>

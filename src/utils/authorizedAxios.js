@@ -1,6 +1,5 @@
 import axios from "axios";
 import { handleLogoutAPI, handleRefreshTokenAPI } from "./handleApi";
-import { toast } from "react-toastify";
 // tạo ra một instance của axios
 let authorizedAxiosinstance = axios.create();
 
@@ -37,12 +36,6 @@ authorizedAxiosinstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    if (error.response?.status === 403 || error.response?.status === 500) {
-      return error;
-    }
-
     // nếu response trả về lỗi thì hiển thị thông báo lỗi
 
     if (error.response?.status === 401) {
@@ -85,6 +78,7 @@ authorizedAxiosinstance.interceptors.response.use(
 
       // lấy refreshToken từ localStorage
     }
+    return error;
   }
 );
 

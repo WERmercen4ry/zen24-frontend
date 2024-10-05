@@ -8,139 +8,16 @@ import {
   Row,
   Col,
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  FormGroup,
-  Label,
   Pagination,
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
-import user1 from "../../../assets/images/users/user1.jpg";
-import user2 from "../../../assets/images/users/user2.jpg";
-import user3 from "../../../assets/images/users/user3.jpg";
 import "../../../assets/scss/layout/customersManager.scss";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { API_ROOT } from "../../../utils/constant.js";
-import { useToast } from "../../../layouts/admin/ToastContext";
-import { TOAST_TYPES } from "../../../utils/constant";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 import CreateMultiClass from "./CreateMultiClass.js";
-// const tableData = [
-//   {
-//     avatar: user1,
-//     name: "LÊ PHAN PHƯƠNG NGUYÊN",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user2,
-//     name: "LÊ PHAN PHƯƠNG UYÊN",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-//   {
-//     avatar: user3,
-//     name: "LÊ PHAN PHƯƠNG BẢO",
-//     agency: "1. FOURT PILATES- Số 9, Đường 10, KDT Hà Đô",
-//     phoneNumber: "0909760255",
-//     accountType: "STUDENT",
-//     reserved: false,
-//     expirationDate: "25-11-2024",
-//     action: 2,
-//   },
-// ];
 
 const CustomersManager = () => {
   const [data, setData] = useState([]);
@@ -235,22 +112,9 @@ const CustomersManager = () => {
         latestPackage = pkg;
       }
     }
-
     return latestPackage?.end_date?.split("T")[0];
   };
-  const dummyData = [
-    {
-      trainer: "Nguyễn Văn Thanh Dư",
-      totalStudents: 8,
-      studentCount: 5,
-      type: "Pilates",
-      branch: "1. FOURT PILATES - Số 6, Đường 10, KĐT Hà Đô",
-      day: "Thứ 2",
-      date: "26/09/2024",
-      startTime: "19:00",
-      endTime: "20:00",
-    },
-  ];
+
   const toggle = () => setModal(!modal);
 
   const start = (currentPage - 1) * limit + 1;

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import "../../../assets/scss/layout/user_page.scss";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
@@ -57,8 +57,8 @@ const Reverse = () => {
         body
       );
       if (res.status === 200) {
-        // TODO: show toast
         fetchTransactions();
+        showNotification("Bảo lưu thành công");
       } else {
       }
     } else if (currentPackage.status === "Suspended") {
@@ -66,9 +66,8 @@ const Reverse = () => {
         `${API_ROOT}users/resume-course?RegisterPackageId=${currentPackage._id}`
       );
       if (res.status === 200) {
-        // TODO: show toast
         fetchTransactions();
-        showNotification("Bảo lưu gói thành công");
+        showNotification("Chào mừng bạn trở lại tập luyện");
       } else {
         showNotification(res.response.data.message);
       }
@@ -86,10 +85,7 @@ const Reverse = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
-        console.log("res", res);
         const [expired, other] = separatePackagesByStatus(res.data);
-        console.log("expiredPackages", expired);
-        console.log("otherPackages", other);
         setOtherPackage(other);
         setExpiredPackages(expired);
       })
@@ -115,14 +111,14 @@ const Reverse = () => {
   return (
     <Container className="workout-history mt-2 card-content">
       <Row>
-      <ConfirmPopup
-        isOpen={isOpen}
-        toggle={toggle}
-        onConfirm={handleConfirm}
-        isConfirm={isConfirm}
-        title={formPopupConfirm.title}
-        message={formPopupConfirm.message}
-      />
+        <ConfirmPopup
+          isOpen={isOpen}
+          toggle={toggle}
+          onConfirm={handleConfirm}
+          isConfirm={isConfirm}
+          title={formPopupConfirm.title}
+          message={formPopupConfirm.message}
+        />
         <Col className="text-center">
           <h2 className="history-title">BẢO LƯU</h2>
         </Col>
@@ -144,7 +140,8 @@ const Reverse = () => {
                 </p>
                 <p className="mb-1 text-muted">trạng thái : {session.status}</p>
                 <p className="mb-1 text-muted">
-                  Số buổi tập: {session.remaining_lessons}/
+                  Số buổi tập:
+                  {session.total_lessons - session.remaining_lessons}/
                   {session.total_lessons}
                 </p>
                 <p className="mb-1 text-muted">
@@ -179,7 +176,8 @@ const Reverse = () => {
                 <p className="mb-1 text-muted">trạng thái : {session.status}</p>
 
                 <p className="mb-1 text-muted">
-                  Số buổi tập: {session.remaining_lessons}/
+                  Số buổi tập:
+                  {session.total_lessons - session.remaining_lessons}/
                   {session.total_lessons}
                 </p>
                 <p className="mb-1 text-muted">

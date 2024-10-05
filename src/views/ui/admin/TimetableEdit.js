@@ -11,13 +11,20 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
-import { useNavigate } from "react-router-dom";
-
-const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
-  const navigate = useNavigate();
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
+const TimetablePopupEdit = ({
+  isOpen,
+  toggle,
+  onEditDone,
+  timetable = null,
+}) => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
@@ -162,12 +169,29 @@ const TimetablePopupEdit = ({ isOpen, toggle, timetable = null }) => {
         body
       );
       if (res.status === 200) {
-        window.location.reload();
+        showToast(
+          "Thông báo",
+          "Chỉnh sửa lịch tập thành công!",
+          TOAST_TYPES.SUCCESS
+        );
+        toggle();
+        onEditDone();
+      } else
+      if (res.status === 409) {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        showToast(
+          "Thông báo",
+          res.response?.data?.message,
+          TOAST_TYPES.ERROR
+        );
       }
-      toggle();
     } catch (error) {
-      console.error("Error submitting form:", error);
-      setError("Có lỗi xảy ra, vui lòng thử lại.");
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 
