@@ -67,6 +67,7 @@ const UpdateUser = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}users/getUserById?userId=${userId}`)
       .then((res) => {
+        console.log(res.data.profile);
         if (res && res.data && res.data.profile)
           setFormData({
             avatar: res.data.avatar,
@@ -76,9 +77,10 @@ const UpdateUser = () => {
                 ? res.data.profile.date_of_birth.split("T")[0]
                 : "",
             gender: res.data.profile.sex,
-            cityName: res.data.profile.province,
-            districtName: res.data.profile.district,
-            communeName: res.data.profile.commune,
+            cityName: res.data.profile.Province || res.data.profile.province,
+            districtName:
+              res.data.profile.District || res.data.profile.district,
+            communeName: res.data.profile.Commune || res.data.profile.commune,
             weight: res.data.profile.weight,
             height: res.data.profile.height,
             targetTrain: res.data.profile.training_goals,
