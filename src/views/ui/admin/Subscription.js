@@ -79,8 +79,6 @@ const Subscription = () => {
       newErrors.startDate = "Ngày bắt đầu không được nhỏ hơn ngày hiện tại";
     }
 
-    console.log(formData.startDate);
-
     const start = new Date(formData.startDate);
     const end = new Date(formData.endDate);
 
@@ -190,7 +188,6 @@ const Subscription = () => {
 
       // Tính tổng số tháng dựa trên sự chênh lệch giữa năm và tháng
       const totalMonths = yearsDifference * 12 + monthsDifference;
-      console.log(totalMonths);
     }
 
     setFormData({

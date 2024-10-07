@@ -67,7 +67,6 @@ const UpdateUser = () => {
     authorizedAxiosinstance
       .get(`${API_ROOT}users/getUserById?userId=${userId}`)
       .then((res) => {
-        console.log(res.data.profile);
         if (res && res.data && res.data.profile)
           setFormData({
             avatar: res.data.avatar,
