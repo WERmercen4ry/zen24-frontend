@@ -15,7 +15,6 @@ const ConfirmPopup = ({ isOpen, toggle, onConfirm, message,button=null }) => {
         <Button color="secondary" onClick={toggle} className="cancel-button">
           Huỷ
         </Button>
-        
         <Button color="danger" onClick={onConfirm} className={button?"confirm-button" :"delete-button"}>
           {button ?button :  "Delete"}
         </Button>

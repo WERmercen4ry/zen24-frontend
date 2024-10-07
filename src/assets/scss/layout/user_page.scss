@@ -191,8 +191,8 @@
   max-width: 40%;
 }
 .px-2p{
-  padding-left: 2%;
-  padding-right: 2%;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 @media (max-width: 575.98px) {
@@ -266,9 +266,17 @@
 .input-password{
   max-width: 60%;
 }
+.modal{
+  top: 80px;
+}
 /* Tablet (Từ 768px đến 1024px) */
 @media screen and (max-width: 1024px) and (min-width: 768px) {
-
+  .loading{
+    left: calc(55% - 35px);
+  }
+  .modal{
+    top: 75px;
+  }
 }
 @media (max-width: 767px) {
   .type-package{
@@ -278,5 +286,11 @@
     margin-top: 10px;
     width: 110%;
     font-size: 13px;
+  }
+  .loading{
+    left: calc(55% - 35px);
+  }
+  .modal{
+    top: 75px;
   }
 }

@@ -89,42 +89,46 @@ const UserForm = () => {
       const res = await authorizedAxiosinstance.get(
         `${API_ROOT}users/getUserById?userId=${userUpdateId}`
       );
-      const userProfile = res.data;
-      setFormData({
-        avatar: userProfile.avatar || "",
-        username: userProfile.username,
-        profile: {
-          name: userProfile.profile.name || "",
-          email: userProfile.profile.email || "",
-          phone: userProfile.profile.phone || "",
-          date_of_birth: userProfile.profile.date_of_birth
-            ? new Date(userProfile.profile.date_of_birth)
-                .toISOString()
-                .split("T")[0]
-            : "",
-          sex: userProfile.profile.sex,
-          address: userProfile.profile.address || "",
-          training_goals: userProfile.profile.training_goals || "",
-          weight: userProfile.profile.weight || "",
-          height: userProfile.profile.height || "",
-          province: userProfile.profile.province || "",
-          district: userProfile.profile.district || "",
-          commune: userProfile.profile.commune || "",
-        },
-        role: userProfile.role || "",
-        agency: [userProfile.agency.length > 0 && userProfile.agency[0]._id],
-      });
-      if (userProfile.profile.district) {
-        await axios
-          .get(
-            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
-          )
-          .then((res) => {
-            setWards(res.data.data);
-          })
-          .catch((error) => {
-            console.error("Lỗi khi lấy danh sách xã/phường:", error);
-          });
+      if (res.status !== 200) {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        const userProfile = res.data;
+        setFormData({
+          avatar: userProfile.avatar || "",
+          username: userProfile.username,
+          profile: {
+            name: userProfile.profile.name || "",
+            email: userProfile.profile.email || "",
+            phone: userProfile.profile.phone || "",
+            date_of_birth: userProfile.profile.date_of_birth
+              ? new Date(userProfile.profile.date_of_birth)
+                  .toISOString()
+                  .split("T")[0]
+              : "",
+            sex: userProfile.profile.sex,
+            address: userProfile.profile.address || "",
+            training_goals: userProfile.profile.training_goals || "",
+            weight: userProfile.profile.weight || "",
+            height: userProfile.profile.height || "",
+            province: userProfile.profile.province || "",
+            district: userProfile.profile.district || "",
+            commune: userProfile.profile.commune || "",
+          },
+          role: userProfile.role || "",
+          agency: [userProfile.agency.length > 0 && userProfile.agency[0]._id],
+        });
+        if (userProfile.profile.district) {
+          await axios
+            .get(
+              `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
+            )
+            .then((res) => {
+              setWards(res.data.data);
+            })
+            .catch((error) => {
+              console.error("Lỗi khi lấy danh sách xã/phường:", error);
+            });
+        }
       }
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);

@@ -77,17 +77,14 @@ const ProfilePage = () => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
-  const [errors, setErrors] = useState({
-  });
+  const [errors, setErrors] = useState({});
 
   const validate = () => {
-    let newErrors = {
-    };
+    let newErrors = {};
 
     // Kiểm tra tên (không được để trống)
     if (!profileData.profile.name) {
       newErrors.name = "Họ tên không được để trống";
-
     }
 
     // Kiểm tra số điện thoại (phải là số và độ dài tối thiểu 10 ký tự)
@@ -96,7 +93,6 @@ const ProfilePage = () => {
       !/^\d{10,}$/.test(profileData.profile.phone)
     ) {
       newErrors.phone = "Số điện thoại phải là số và ít nhất 10 ký tự";
-
     }
 
     // Kiểm tra email (phải là email hợp lệ)
@@ -105,19 +101,16 @@ const ProfilePage = () => {
       !/\S+@\S+\.\S+/.test(profileData.profile.email)
     ) {
       newErrors.email = "Email không hợp lệ";
-
     }
 
     // Kiểm tra ngày sinh (phải chọn ngày)
     if (!profileData.profile.date_of_birth) {
       newErrors.date_of_birth = "Vui lòng chọn ngày sinh";
-
     }
 
     // Kiểm tra giới tính (phải chọn giới tính)
     if (!profileData.profile.sex) {
       newErrors.sex = "Vui lòng chọn giới tính";
-
     }
     if (!profileData.profile.province)
       newErrors.address = "Vui lòng chọn thành phố";
@@ -182,53 +175,57 @@ const ProfilePage = () => {
       const res = await authorizedAxiosinstance.get(
         `${API_ROOT}users/getUserById?userId=${userId}`
       );
-      const userProfile = res.data;
-      setProfileData({
-        avatar: userProfile.avatar || "",
-        profile: {
-          name: userProfile.profile.name || "",
-          email: userProfile.profile.email || "",
-          phone: userProfile.profile.phone || "",
-          date_of_birth: userProfile.profile.date_of_birth
-            ? new Date(userProfile.profile.date_of_birth)
-                .toISOString()
-                .split("T")[0]
-            : "",
-          sex: userProfile.profile.sex,
-          address: userProfile.profile.address || "",
-          province: userProfile.profile.province || "",
-          district: userProfile.profile.district || "",
-          commune: userProfile.profile.commune || "",
-        },
-        role: userProfile.role || "",
-      });
-      setInitialProfileData({
-        avatar: userProfile.avatar,
-        name: userProfile.profile.name,
-        phone: userProfile.profile.phone,
-        email: userProfile.profile.email,
-        role: userProfile.role,
-        sex:
-          userProfile.profile.sex === "male"
-            ? "Nam"
-            : userProfile.profile.sex === "female"
-            ? "Nữ"
-            : "Khác",
-        address: userProfile.profile.address,
-
-      });
-      if (userProfile.profile.district) {
-        await axios
-          .get(
-            `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
-          )
-          .then((res) => {
-            setWards(res.data.data);
-          })
-          .catch((error) => {
-            console.error("Lỗi khi lấy danh sách xã/phường:", error);
-          });
+      if (res.status !== 200) {
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        const userProfile = res.data;
+        setProfileData({
+          avatar: userProfile.avatar || "",
+          profile: {
+            name: userProfile.profile.name || "",
+            email: userProfile.profile.email || "",
+            phone: userProfile.profile.phone || "",
+            date_of_birth: userProfile.profile.date_of_birth
+              ? new Date(userProfile.profile.date_of_birth)
+                  .toISOString()
+                  .split("T")[0]
+              : "",
+            sex: userProfile.profile.sex,
+            address: userProfile.profile.address || "",
+            province: userProfile.profile.province || "",
+            district: userProfile.profile.district || "",
+            commune: userProfile.profile.commune || "",
+          },
+          role: userProfile.role || "",
+        });
+        setInitialProfileData({
+          avatar: userProfile.avatar,
+          name: userProfile.profile.name,
+          phone: userProfile.profile.phone,
+          email: userProfile.profile.email,
+          role: userProfile.role,
+          sex:
+            userProfile.profile.sex === "male"
+              ? "Nam"
+              : userProfile.profile.sex === "female"
+              ? "Nữ"
+              : "Khác",
+          address: userProfile.profile.address,
+        });
+        if (userProfile.profile.district) {
+          await axios
+            .get(
+              `https://esgoo.net/api-tinhthanh/3/${userProfile.profile.district}.htm`
+            )
+            .then((res) => {
+              setWards(res.data.data);
+            })
+            .catch((error) => {
+              console.error("Lỗi khi lấy danh sách xã/phường:", error);
+            });
+        }
       }
+
       hideLoader();
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
@@ -248,8 +245,6 @@ const ProfilePage = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      console.log("asdasd");
-      
       return;
     }
     showLoader();
@@ -645,7 +640,9 @@ const ProfilePage = () => {
                     </Input>
                   </div>
                   {errors.address && (
-                    <FormFeedback className="d-flex">{errors.address}</FormFeedback>
+                    <FormFeedback className="d-flex">
+                      {errors.address}
+                    </FormFeedback>
                   )}
                 </div>
               </FormGroup>
