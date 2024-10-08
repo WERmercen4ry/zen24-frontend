@@ -139,6 +139,7 @@ const Dashboard = () => {
     const { start, end } = getStartAndEndOfMonth(formData.startDate);
 
     fetchTrainingHistoryByMonth(start, end);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   const fetchTrainingHistoryByMonth = async (startDate, endDate) => {
@@ -153,7 +154,7 @@ const Dashboard = () => {
           },
         }
       );
-      if(res.status !== 200){
+      if (res.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
         setTrainingHistory(res?.data);
@@ -161,7 +162,11 @@ const Dashboard = () => {
 
       hideLoader();
     } catch (error) {
-      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
       hideLoader();
     }
   };
@@ -200,6 +205,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDataUsers();
     fetchTrainingHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTrainingHistory = async () => {
