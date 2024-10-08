@@ -19,6 +19,7 @@ const Transactions = () => {
   // call API to fetch data from server whenever currentPage or limit changes
   useEffect(() => {
     fetchTransactions(currentPage, limit);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit]);
 
   const fetchTransactions = (page, limit) => {
@@ -32,18 +33,26 @@ const Transactions = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
-        if(res.status !== 200){
-          showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+        if (res.status !== 200) {
+          showToast(
+            "Thông báo",
+            res.response?.data?.message,
+            TOAST_TYPES.ERROR
+          );
         } else {
           setTransactionData(res.data.payments);
           setTotalPages(res.data.totalPages);
-          setTotalPayments(res.data.totalpayments); 
+          setTotalPayments(res.data.totalpayments);
         }
         hideLoader();
       })
       .catch((error) => {
         hideLoader();
-        showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+        showToast(
+          "Thông báo",
+          "Có lỗi xảy ra, vui lòng thử lại.",
+          TOAST_TYPES.ERROR
+        );
       });
   };
 
