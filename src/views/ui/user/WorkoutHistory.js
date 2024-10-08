@@ -8,6 +8,7 @@ import moment from "moment";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
 import { API_ROOT } from "../../../utils/constant";
+import PtInfoPopUp from "./PtInfoPopUp";
 const WorkoutHistory = () => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const [trainingHistory, settrainingHistory] = useState([]);
@@ -21,6 +22,9 @@ const WorkoutHistory = () => {
     message: "",
     title: "",
   });
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("");
+
   const toggle = () => setIsOpen(!isOpen);
   useEffect(() => {
     fetchTransactions();
@@ -63,6 +67,9 @@ const WorkoutHistory = () => {
       })
       .then((res) => {
         const { pastSchedules, futureSchedules } = filterSchedules(res.data);
+        console.log(pastSchedules);
+        console.log(futureSchedules);
+
         settrainingHistoryFuture(futureSchedules);
         settrainingHistory(pastSchedules);
         hideLoader();
@@ -137,8 +144,22 @@ const WorkoutHistory = () => {
     cancleClass(currentClass);
     setIsOpen(false);
   };
+
+  const togglePopup = (userInfo) => {
+    setShowPopup(!showPopup);
+    setSelectedUser(userInfo?._id);
+  };
+
   return (
     <div>
+      {showPopup && (
+        <PtInfoPopUp
+          show={showPopup}
+          handleClose={() => togglePopup({})}
+          title="My Pop-up"
+          userInfo={selectedUser}
+        />
+      )}
       <ConfirmPopup
         isOpen={isOpen}
         toggle={toggle}
@@ -216,8 +237,12 @@ const WorkoutHistory = () => {
                   <Col md="1" xs="2">
                     <img
                       src={session.schedule[0].instructor.avatar}
+                      onClick={() =>
+                        togglePopup(session.schedule[0].instructor)
+                      }
                       alt="trainer"
                       className="trainer-img"
+                      style={{ cursor: "pointer" }}
                     />
                   </Col>
                   <Col md="9" xs="5" className="workout-trainer">
@@ -253,6 +278,8 @@ const WorkoutHistory = () => {
                             src={p.avatar}
                             alt="participant"
                             className="participant-img"
+                            onClick={() => togglePopup(p)}
+                            style={{ cursor: "pointer" }}
                           />
                         ))}
                       </div>
