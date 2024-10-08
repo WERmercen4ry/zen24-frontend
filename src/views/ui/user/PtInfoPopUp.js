@@ -45,7 +45,6 @@ const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
       })
       .catch((error) => {
         console.error("Error fetching users data:", error);
-        throw error;
       });
   };
 

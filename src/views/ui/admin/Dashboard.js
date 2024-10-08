@@ -142,6 +142,7 @@ const Dashboard = () => {
   }, [formData]);
 
   const fetchTrainingHistoryByMonth = async (startDate, endDate) => {
+    showLoader();
     try {
       const res = await authorizedAxiosinstance.get(
         `${API_ROOT}dashboards/getTrainingHistory`,
@@ -152,9 +153,16 @@ const Dashboard = () => {
           },
         }
       );
-      setTrainingHistory(res?.data);
+      if(res.status !== 200){
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        setTrainingHistory(res?.data);
+      }
+
+      hideLoader();
     } catch (error) {
-      throw error;
+      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+      hideLoader();
     }
   };
 
@@ -201,7 +209,11 @@ const Dashboard = () => {
       );
       setTrainingHistory(res.data);
     } catch (error) {
-      throw error;
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 
@@ -222,7 +234,11 @@ const Dashboard = () => {
       }
     } catch (error) {
       hideLoader();
-      throw error;
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 
@@ -245,7 +261,11 @@ const Dashboard = () => {
       }
     } catch (error) {
       hideLoader();
-      throw error;
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 
@@ -273,7 +293,11 @@ const Dashboard = () => {
         );
       }
     } catch (error) {
-      throw error;
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
     }
   };
 

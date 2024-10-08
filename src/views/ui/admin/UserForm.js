@@ -242,7 +242,8 @@ const UserForm = () => {
     if (!formData.role) newErrors.role = "Vui lòng chọn vai trò";
 
     // Name validation
-    if (!formData.profile.name) newErrors.name = "Vui lòng nhập họ tên";
+    if (!formData.profile.name) newErrors.name = "Vui lòng nhập họ tên";   
+    if (formData.agency.length === 0 || !formData.agency[0]) newErrors.agency = "Vui lòng chọn chi nhánh";
     if (!formData.profile.date_of_birth)
       newErrors.date_of_birth = "Vui lòng nhập ngày tháng năm sinh";
     // Phone number validation
