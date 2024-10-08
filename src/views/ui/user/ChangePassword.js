@@ -20,6 +20,7 @@ const ChangePassword = () => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const [errorAPI, setErrorAPI] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isConfirm, setIsConfirm] = useState(false);
   const [passwordData, setPasswordData] = useState({
     userId: "",
