@@ -149,7 +149,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
 
   const fetchTrainer = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/users/getUsersByRole`, {
+      .get(`${API_ROOT}users/getUsersByRole`, {
         params: {
           role: "Trainer",
         },
@@ -176,7 +176,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
 
   const fetchLocation = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/getListLocations`)
+      .get(`${API_ROOT}dashboards/getListLocations`)
       .then((res) => {
         if (res.status !== 200) {
           showToast(
@@ -200,7 +200,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
 
   const fetchPackage = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/packages`)
+      .get(`${API_ROOT}dashboards/packages`)
       .then((res) => {
         if (res.status !== 200) {
           showToast(

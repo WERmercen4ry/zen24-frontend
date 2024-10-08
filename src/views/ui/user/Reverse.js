@@ -77,7 +77,7 @@ const Reverse = () => {
   };
   const fetchTransactions = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/users/getUserRegisteredPackages`, {
+      .get(`${API_ROOT}users/getUserRegisteredPackages`, {
         params: {
           userId: currentUser,
           //   page: page,

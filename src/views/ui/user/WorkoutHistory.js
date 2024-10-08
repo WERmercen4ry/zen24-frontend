@@ -58,7 +58,7 @@ const WorkoutHistory = () => {
   const fetchTransactions = (startDate, endDate) => {
     showLoader();
     authorizedAxiosinstance
-      .get(`${API_ROOT}/users/training-history`, {
+      .get(`${API_ROOT}users/training-history`, {
         params: {
           userId: currentUser,
           startDate: startDate,
@@ -111,7 +111,7 @@ const WorkoutHistory = () => {
   const cancleClass = (currentClass) => {
     showLoader();
     authorizedAxiosinstance
-      .delete(`${API_ROOT}/users/cancelClassRegistration`, {
+      .delete(`${API_ROOT}users/cancelClassRegistration`, {
         params: {
           userId: currentUser,
           classId: currentClass._id,
