@@ -314,7 +314,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="birthDate">Ngày Sinh *</Label>
+              <Label for="birthDate">Ngày Sinh <span className="require-input">*</span></Label>
               <Input
                 type="date"
                 name="birthDate"
@@ -330,7 +330,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="gender">Giới Tính *</Label>
+              <Label for="gender">Giới Tính <span className="require-input">*</span></Label>
               <Input
                 type="select"
                 name="gender"
@@ -339,7 +339,7 @@ const UpdateUser = () => {
                 onChange={handleInputChange}
                 invalid={!!errors.gender}
               >
-                <option value="">Giới tính *</option>
+                <option value="">Giới tính <span className="require-input">*</span></option>
                 <option value="male">Nam</option>
                 <option value="female">Nữ</option>
               </Input>
@@ -348,7 +348,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="cityName">Tỉnh/ Thành Phố *</Label>
+              <Label for="cityName">Tỉnh/ Thành Phố <span className="require-input">*</span></Label>
               <Input
                 type="select"
                 name="cityName"
@@ -371,7 +371,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="districtName">Quận/ Huyện *</Label>
+              <Label for="districtName">Quận/ Huyện <span className="require-input">*</span></Label>
               <Input
                 type="select"
                 name="districtName"
@@ -394,7 +394,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="communeName">Phường/ Xã *</Label>
+              <Label for="communeName">Phường/ Xã <span className="require-input">*</span></Label>
               <Input
                 type="select"
                 name="communeName"
@@ -419,7 +419,7 @@ const UpdateUser = () => {
             <Row>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="weight">Cân Nặng *</Label>
+                  <Label for="weight">Cân Nặng <span className="require-input">*</span></Label>
                   <Input
                     type="text"
                     name="weight"
@@ -436,7 +436,7 @@ const UpdateUser = () => {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="height">Chiều Cao *</Label>
+                  <Label for="height">Chiều Cao <span className="require-input">*</span></Label>
                   <Input
                     type="text"
                     name="height"
@@ -455,7 +455,7 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="targetTrain">Mục Tiêu Luyện Tập *</Label>
+              <Label for="targetTrain">Mục Tiêu Luyện Tập <span className="require-input">*</span></Label>
               <Input
                 type="textarea"
                 name="targetTrain"

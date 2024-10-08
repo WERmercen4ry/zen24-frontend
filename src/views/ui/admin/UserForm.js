@@ -41,7 +41,7 @@ const UserForm = () => {
       phone: "",
       address: "",
       date_of_birth: "",
-      training_goals: "", // Thêm trường mục tiêu
+      training_goals: "", 
       province: "",
       district: "",
       commune: "",
@@ -382,7 +382,7 @@ const UserForm = () => {
         <Row form="true">
           <Col md={3} className="text-center">
             <FormGroup>
-              <Label for="avatar">Avatar *</Label>
+              <Label for="avatar">Avatar</Label>
               <div className="avatar-upload">
                 <Input
                   type="file"
