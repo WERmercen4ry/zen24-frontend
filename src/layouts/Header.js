@@ -11,8 +11,6 @@ import {
   DropdownItem,
   Dropdown,
   Button,
-  Breadcrumb,
-  BreadcrumbItem,
 } from "reactstrap";
 import user1 from "../assets/images/users/user1.jpg";
 
@@ -25,6 +23,7 @@ const Header = () => {
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
+  // eslint-disable-next-line no-unused-vars
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };

@@ -144,6 +144,7 @@ const CreateMultiClass = ({ isOpen, toggle }) => {
     fetchTrainer();
     fetchLocation();
     fetchPackage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTrainer = () => {

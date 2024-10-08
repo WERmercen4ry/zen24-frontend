@@ -7,13 +7,14 @@ import { useLocation } from "react-router-dom";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 const NotificateDetail = () => {
   const location = useLocation();
-  const { notiId } = location.state || {};  // Kiểm tra state truyền vào
+  const { notiId } = location.state || {}; // Kiểm tra state truyền vào
   const [notification, setNotification] = useState();
   const { showLoader, hideLoader } = useContext(LoaderContext);
   useEffect(() => {
     if (notiId) {
       fetchNotificationDetail();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notiId]);
 
   const fetchNotificationDetail = () => {

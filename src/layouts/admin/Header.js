@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { API_ROOT } from "../../utils/constant";
 
 const Header = () => {
+  // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const location = useLocation();

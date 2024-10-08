@@ -290,6 +290,7 @@ const ProfilePage = () => {
   // init data
   useEffect(() => {
     fetchProfileData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (e) => {

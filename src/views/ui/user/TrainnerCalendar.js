@@ -40,6 +40,7 @@ const TrainnerCalendar = () => {
       fetchClassForUser();
     }
     hideLoader();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formSearch]);
 
   const fetchClassForUser = () => {

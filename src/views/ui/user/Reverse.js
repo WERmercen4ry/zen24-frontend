@@ -22,6 +22,7 @@ const Reverse = () => {
   const currentUser = localStorage.getItem("userId");
   useEffect(() => {
     fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const showNotification = (message) => {
     setIsConfirm(false);
@@ -156,7 +157,7 @@ const Reverse = () => {
                   className="btn-reverse mx-auto"
                   onClick={() => handleReverseClick(session)}
                 >
-                  {session.status != "Suspended" ? "Bảo lưu" : "Tiếp tục"}
+                  {session.status !== "Suspended" ? "Bảo lưu" : "Tiếp tục"}
                 </Button>
               </Col>
             </Row>

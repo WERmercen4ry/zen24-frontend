@@ -12,6 +12,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 

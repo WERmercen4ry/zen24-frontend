@@ -24,6 +24,7 @@ const WorkoutHistory = () => {
   const toggle = () => setIsOpen(!isOpen);
   useEffect(() => {
     fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTabClick = (tab) => {
@@ -49,7 +50,6 @@ const WorkoutHistory = () => {
         moment().endOf("month").format("YYYY-MM-DD")
       );
     }
-
   };
   const fetchTransactions = (startDate, endDate) => {
     showLoader();
@@ -69,7 +69,7 @@ const WorkoutHistory = () => {
       })
       .catch((error) => {
         console.error("Error fetching transaction data:", error);
-            hideLoader();
+        hideLoader();
       });
   };
   function filterSchedules(data) {
