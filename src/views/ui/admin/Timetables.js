@@ -58,7 +58,7 @@ const Timetables = () => {
   const fetchClasses = (page, limit) => {
     showLoader();
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/getClassList`, {
+      .get(`${API_ROOT}dashboards/getClassList`, {
         params: {
           page: page,
           limit: limit,
