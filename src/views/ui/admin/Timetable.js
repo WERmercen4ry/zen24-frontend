@@ -18,9 +18,11 @@ import moment from "moment";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
-const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
+const TimetablePopup = ({ isOpen, toggle, onCreateDone }) => {
+  // eslint-disable-next-line no-unused-vars
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
@@ -48,6 +50,7 @@ const TimetablePopup = ({ isOpen, toggle, onCreateDone, timetable = null }) => {
     fetchTrainer();
     fetchLocation();
     fetchPackage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTrainer = () => {

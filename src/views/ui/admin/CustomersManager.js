@@ -54,6 +54,7 @@ const CustomersManager = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textUrl, searchTerm]);
 
   const [modal, setModal] = useState(false);
@@ -88,6 +89,7 @@ const CustomersManager = () => {
 
   useEffect(() => {
     fetchData(currentPage, limit);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit]);
 
   const handleLimitChange = (event) => {
