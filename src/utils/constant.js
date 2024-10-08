@@ -1,4 +1,4 @@
-export const API_ROOT = "http://localhost:8017/v1/";
+export const API_ROOT = process.env.REACT_APP_API_KEY ;
 export const TOAST_TYPES = {
   SUCCESS: "success",
   INFO: "info",
