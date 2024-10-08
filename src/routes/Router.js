@@ -10,6 +10,7 @@ const AdminFullLayout = lazy(() =>
 );
 const UserFullLayout = lazy(() => import("../layouts/user/UserFullLayout.js"));
 
+const NotFound  = lazy(() => import("../layouts/not_found/NotFound.js"));
 /*****Routes******/
 
 // Admin
@@ -36,6 +37,7 @@ const ChangePassword = lazy(() => import("../views/ui/user/ChangePassword.js"));
 const TrainnerCalendar = lazy(() => import("../views/ui/user/TrainnerCalendar.js"));
 const Support = lazy(() => import("../views/ui/user/Support.js"));
 const Policy = lazy(() => import("../views/ui/user/Policy.js"));
+
 
 
 
@@ -114,6 +116,10 @@ const ThemeRoutes = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "*", // Bắt mọi URL không khớp
+    element: <NotFound />, // Chuyển hướng sang trang NotFound
   },
 ];
 
