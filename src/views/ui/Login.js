@@ -18,32 +18,36 @@ const Login = () => {
 
   const submitLogIn = async (e) => {
     e.preventDefault();
-
-    const res = await authorizedAxiosinstance.post(
-      `${API_ROOT}users/login`,
-      formData
-    );
-    if (res.status !== 200) {
-      setError(res.response?.data?.message);
-    } else {
-      const userProfile = {
-        profile: res.data.profile,
-      };
-      localStorage.setItem("avatar", res.data.avatar);
-      localStorage.setItem("profile", JSON.stringify(userProfile));
-      localStorage.setItem("accessToken", res.data.accessToken);
-      localStorage.setItem("refreshToken", res.data.refreshToken);
-      localStorage.setItem("userRole", res.data.role);
-      localStorage.setItem("userId", res.data.id);
-
-      if (res.data.role === "Admin") {
-        navigate("/admin");
-      } else if (res.data.role === "Trainer") {
-        navigate("/calendar");
+    try{
+      const res = await authorizedAxiosinstance.post(
+        `${API_ROOT}users/login`,
+        formData
+      );
+      if (res.status !== 200) {
+        setError(res.response?.data?.message);
       } else {
-        navigate("/");
+        const userProfile = {
+          profile: res.data.profile,
+        };
+        localStorage.setItem("avatar", res.data.avatar);
+        localStorage.setItem("profile", JSON.stringify(userProfile));
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        localStorage.setItem("userRole", res.data.role);
+        localStorage.setItem("userId", res.data.id);
+  
+        if (res.data.role === "Admin") {
+          navigate("/admin");
+        } else if (res.data.role === "Trainer") {
+          navigate("/calendar");
+        } else {
+          navigate("/");
+        }
       }
+    } catch{
+      setError("Có lỗi xảy ra, vui lòng thử lại.");
     }
+
   };
 
   const handleInputChange = (e) => {
@@ -63,7 +67,7 @@ const Login = () => {
       </div>
       <Form className="form" onSubmit={submitLogIn}>
         {/* Hiển thị thông báo lỗi nếu có */}
-        {error.length > 0 && <Alert color="danger">{error}</Alert>}
+        {error && <Alert color="danger">{error}</Alert>}
         <FormGroup className="flex-column">
           <Label className="label" for="username">
             Username
