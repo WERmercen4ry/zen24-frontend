@@ -25,6 +25,7 @@ const TimetablePopupEdit = ({
 }) => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const { showToast } = useToast();
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
   const [listTrainerData, setlistTrainerData] = useState([]);
   const [listLocationData, setlistLocationData] = useState([]);
@@ -41,6 +42,7 @@ const TimetablePopupEdit = ({
     fetchPackage();
     setFormData(timetable);
     hideLoader();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timetable]);
 
   const fetchTrainer = () => {

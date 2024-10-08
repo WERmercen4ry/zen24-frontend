@@ -20,6 +20,7 @@ const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
 
   useEffect(() => {
     fetchDataUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDataUser = () => {

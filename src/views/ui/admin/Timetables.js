@@ -49,6 +49,7 @@ const Timetables = () => {
   const [currentTimeTable, setCurrentTimeTable] = useState(null);
   useEffect(() => {
     fetchClasses(currentPage, limit);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit]);
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);

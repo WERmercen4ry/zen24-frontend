@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Navbar,
@@ -12,69 +12,48 @@ import {
   Dropdown,
   Button,
 } from "reactstrap";
-import authorizedAxiosinstance from "../../utils/authorizedAxios";
-import { useNavigate } from "react-router-dom";
-import { API_ROOT } from "../../utils/constant";
+import user1 from "../assets/images/users/user1.jpg";
 
 const Header = () => {
-  // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [activeLink, setActiveLink] = React.useState(`${location.pathname}`);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  // State để lưu avatar URL
-  const [avatar, setAvatar] = React.useState("");
 
-  // Lấy avatar từ localStorage sau khi component đã được render
-  useEffect(() => {
-    const avatarUrl = localStorage.getItem("avatar");
-    if (avatarUrl) {
-      setAvatar(avatarUrl);
-    } else {
-      setAvatar("/default-avatar.png"); // Avatar mặc định nếu không có trong localStorage
-    }
-  }, []);
+  // eslint-disable-next-line no-unused-vars
+  const Handletoggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
-  useEffect(() => {
-    setActiveLink(location.pathname);
-  }, [location.pathname]);
+
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
-
-  const logout = async (e) => {
-    e.preventDefault();
-
-    await authorizedAxiosinstance.delete(`${API_ROOT}users/logout`);
-    localStorage.removeItem("profile");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userRole");
-    navigate("/login");
-  };
-
   return (
     <div>
       <Navbar color="sec" dark expand="md">
         <div className="d-flex align-items-center">
-          <NavbarBrand href="/" className="d-lg-none m-auto">
+          <NavbarBrand href="/" className="d-lg-none">
             <DropdownToggle>
               <img
-                src={avatar}
+                src={user1}
                 alt="profile"
                 className="rounded-circle m-auto"
-                width="40"
-                height="40"
+                width="30"
               ></img>
             </DropdownToggle>
           </NavbarBrand>
-          <Button className="d-lg-none m-auto" onClick={() => showMobilemenu()}>
+          <Button
+            color="primary"
+            className="d-lg-none"
+            onClick={() => showMobilemenu()}
+          >
             <i className="bi bi-list"></i>
           </Button>
         </div>
@@ -83,9 +62,9 @@ const Header = () => {
           <Nav className="me-auto" navbar>
             <NavItem>
               <Link
-                to="/admin/dashboard"
+                to="/starter"
                 className={`text-secondary item-header ${
-                  activeLink === "/admin/dashboard" ? "active-link" : ""
+                  activeLink === "/starter" ? "active-link" : ""
                 }`}
                 style={{ borderRadius: "10px" }}
                 onClick={() => handleLinkClick("/starter")}
@@ -95,9 +74,9 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Link
-                to="/admin/customers-manager"
+                to="/customers-manager"
                 className={`text-secondary item-header ${
-                  activeLink === "/admin/customers-manager" ? "active-link" : ""
+                  activeLink === "/customers-manager" ? "active-link" : ""
                 }`}
                 style={{ borderRadius: "10px" }}
                 onClick={() => handleLinkClick("/customers-manager")}
@@ -107,9 +86,9 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Link
-                to="/admin/timetables"
+                to="/timetables"
                 className={`text-secondary item-header ${
-                  activeLink === "/admin/timetables" ? "active-link" : ""
+                  activeLink === "/timetables" ? "active-link" : ""
                 }`}
                 style={{ borderRadius: "10px" }}
                 onClick={() => handleLinkClick("/timetables")}
@@ -119,9 +98,9 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Link
-                to="/admin/transactions"
+                to="/transactions"
                 className={`text-secondary item-header ${
-                  activeLink === "/admin/transactions" ? "active-link" : ""
+                  activeLink === "/transactions" ? "active-link" : ""
                 }`}
                 style={{ borderRadius: "10px" }}
                 onClick={() => handleLinkClick("/transactions")}
@@ -133,22 +112,22 @@ const Header = () => {
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle className="avatar">
               <img
-                src={avatar}
+                src={user1}
                 alt="profile"
                 className="rounded-circle m-auto"
-                width="40"
-                height="40"
+                width="30"
               ></img>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem header>Thông tin</DropdownItem>
-              <Link to={"/admin/profile"}>
-                <DropdownItem className="mt-0">Hồ sơ</DropdownItem>
+              <DropdownItem header>Info</DropdownItem>
+              <DropdownItem>My Account</DropdownItem>
+              <Link to={"/profile"}>
+                <DropdownItem>Edit Profile</DropdownItem>
               </Link>
               <DropdownItem divider />
-              <DropdownItem className="mt-1" onClick={logout}>
-                Đăng xuất
-              </DropdownItem>
+              <DropdownItem>My Balance</DropdownItem>
+              <DropdownItem>Inbox</DropdownItem>
+              <DropdownItem>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Collapse>

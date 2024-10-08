@@ -74,6 +74,7 @@ const UserForm = () => {
     if (isEdit) {
       fetchProfileData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const validateImage = (file) => {
     const validFormats = ["image/jpeg", "image/png", "image/gif"];
@@ -367,6 +368,7 @@ const UserForm = () => {
 
   useEffect(() => {
     fetchLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="user-form-container">

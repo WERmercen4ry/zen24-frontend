@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [totalTrainer, setTotalTrainer] = useState(0);
   const [totalStudent, setTotalStudent] = useState(0);
   const [totalUsers, setTotalUsers] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [currentDate, setCurrentDate] = useState(new Date());
   const [trainingHistory, setTrainingHistory] = useState([]);
   const { showLoader, hideLoader } = useContext(LoaderContext);
