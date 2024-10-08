@@ -120,9 +120,7 @@ const Timetables = () => {
           isOpen={isOpen}
           toggle={togglePopup}
           onConfirm={handleConfirm}
-          message={
-            "Bạn có muốn thực hiện xoá lịch tập này không?"
-          }
+          message={"Bạn có muốn thực hiện xoá lịch tập này không?"}
         />
         <Col>
           <div className="timetable-content">
@@ -217,16 +215,37 @@ const Timetables = () => {
                     onClick={() => handlePageChange(currentPage - 1)}
                   />
                 </PaginationItem>
-                {[...Array(totalPages)].map((_, index) => (
-                  <PaginationItem
-                    active={index + 1 === currentPage}
-                    key={index}
-                  >
-                    <PaginationLink onClick={() => handlePageChange(index + 1)}>
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
+                {[...Array(totalPages)].map((_, index) => {
+                  // Xác định trang đầu và trang cuối để hiển thị trong khoảng 5 trang
+                  let startPage = Math.max(1, currentPage - 2);
+                  let endPage = Math.min(totalPages, currentPage + 2);
+
+                  // Điều chỉnh khi ở gần đầu hoặc cuối danh sách trang
+                  if (currentPage <= 3) {
+                    startPage = 1;
+                    endPage = Math.min(totalPages, 5);
+                  } else if (currentPage >= totalPages - 2) {
+                    startPage = Math.max(1, totalPages - 4);
+                    endPage = totalPages;
+                  }
+
+                  // Chỉ render các PaginationItem trong khoảng từ startPage đến endPage
+                  if (index + 1 >= startPage && index + 1 <= endPage) {
+                    return (
+                      <PaginationItem
+                        active={index + 1 === currentPage}
+                        key={index}
+                      >
+                        <PaginationLink
+                          onClick={() => handlePageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  }
+                  return null; // Không hiển thị các trang ngoài khoảng startPage và endPage
+                })}
                 <PaginationItem disabled={currentPage === totalPages}>
                   <PaginationLink
                     next
