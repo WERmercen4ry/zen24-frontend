@@ -45,6 +45,7 @@ const Subscription = () => {
   useEffect(() => {
     fetchPackage();
     fetchPackageForUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Dữ liệu mẫu cho form đăng ký
@@ -160,6 +161,7 @@ const Subscription = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packageSelected, startDate, endDate]);
 
   const handleInputChange = (e) => {
@@ -187,6 +189,7 @@ const Subscription = () => {
       const monthsDifference = end.getMonth() - start.getMonth();
 
       // Tính tổng số tháng dựa trên sự chênh lệch giữa năm và tháng
+      // eslint-disable-next-line no-unused-vars
       const totalMonths = yearsDifference * 12 + monthsDifference;
     }
 
