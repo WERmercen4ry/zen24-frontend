@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Table, Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 import "../../../assets/scss/layout/Transactions.scss";
 const Transactions = () => {
   // State to hold transaction data
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [transactionData, setTransactionData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -17,6 +22,7 @@ const Transactions = () => {
   }, [currentPage, limit]);
 
   const fetchTransactions = (page, limit) => {
+    showLoader();
     authorizedAxiosinstance
       .get(`${API_ROOT}dashboards/getListPayments`, {
         params: {
@@ -26,12 +32,18 @@ const Transactions = () => {
       })
       .then((res) => {
         // Set the transaction data from the API response
-        setTransactionData(res.data.payments);
-        setTotalPages(res.data.totalPages);
-        setTotalPayments(res.data.totalpayments); // Set the total number of payments
+        if(res.status !== 200){
+          showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+        } else {
+          setTransactionData(res.data.payments);
+          setTotalPages(res.data.totalPages);
+          setTotalPayments(res.data.totalpayments); 
+        }
+        hideLoader();
       })
       .catch((error) => {
-        console.error("Error fetching transaction data:", error);
+        hideLoader();
+        showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
       });
   };
 

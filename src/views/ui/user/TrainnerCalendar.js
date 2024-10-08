@@ -14,7 +14,7 @@ const TrainnerCalendar = () => {
 
   const [formSearch, setFormSearch] = useState({
     userId: "",
-    type: "Pilates",
+    type: "Pilate",
     selectDate: new Date().toISOString().split("T")[0],
   });
 
@@ -87,7 +87,7 @@ const TrainnerCalendar = () => {
         <Col xs="6" className="text-center">
           <Button
             className={
-              formSearch.type === "Pilates" ? "active-tab" : "inactive-tab"
+              formSearch.type === "Pilate" ? "active-tab" : "inactive-tab"
             }
             onClick={() => handleChangeType("Pilates")}
           >
