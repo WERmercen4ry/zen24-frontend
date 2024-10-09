@@ -258,6 +258,26 @@ const WorkoutHistory = () => {
                       size="lg"
                       className="status-btn"
                       onClick={() => handleCancelClick(session)}
+                      disabled={
+                        (new Date(session.schedule[0].day).getDate() ===
+                          new Date().getDate() &&
+                          new Date(session.schedule[0].day).getMonth() ===
+                            new Date().getMonth() &&
+                          Math.round(
+                            session.schedule[0].start_time.split(":")[1]
+                          ) > new Date().getMinutes()) ||
+                        (new Date(session.schedule[0].day).getDate() ===
+                          new Date().getDate() &&
+                          new Date(session.schedule[0].day).getMonth() ===
+                            new Date().getMonth() &&
+                          Math.round(
+                            session.schedule[0].start_time.split(":")[0]
+                          ) < new Date().getHours()) ||
+                        (new Date(session.schedule[0].day).getMonth() ===
+                          new Date().getMonth() &&
+                          new Date(session.schedule[0].day).getDate() <
+                            new Date().getDate())
+                      }
                     >
                       Hủy
                     </Button>

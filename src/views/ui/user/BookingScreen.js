@@ -326,7 +326,11 @@ const BookingScreen = () => {
                               new Date().getMonth() &&
                             Math.round(
                               class1.schedule[0].start_time.split(":")[0]
-                            ) < new Date().getHours())
+                            ) < new Date().getHours()) ||
+                          (new Date(class1.schedule[0].day).getMonth() ===
+                            new Date().getMonth() &&
+                            new Date(class1.schedule[0].day).getDate() <
+                              new Date().getDate())
                         }
                       >
                         Đặt lịch
