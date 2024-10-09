@@ -16,25 +16,27 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const validate = () => {
-    if (!formData.username || !formData.password){
+    if (!formData.username || !formData.password) {
       setError("Vui lòng nhập tài khoản, mật khẩu");
       return false;
-    } else{
+    } else {
       return true;
     }
-  }
+  };
   const submitLogIn = async (e) => {
     e.preventDefault();
-    if(!validate()){
+    if (!validate()) {
       return;
     }
-    try{
+    try {
       const res = await authorizedAxiosinstance.post(
         `${API_ROOT}users/login`,
         formData
       );
       if (res.status !== 200) {
-        setError(res.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại.");
+        setError(
+          res.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại."
+        );
       } else {
         const userProfile = {
           profile: res.data.profile,
@@ -45,7 +47,7 @@ const Login = () => {
         localStorage.setItem("refreshToken", res.data.refreshToken);
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("userId", res.data.id);
-  
+
         if (res.data.role === "Admin") {
           navigate("/admin");
         } else if (res.data.role === "Trainer") {
@@ -54,10 +56,9 @@ const Login = () => {
           navigate("/");
         }
       }
-    } catch{
+    } catch {
       setError("Có lỗi xảy ra, vui lòng thử lại.");
     }
-
   };
 
   const handleInputChange = (e) => {
@@ -111,6 +112,15 @@ const Login = () => {
             />
           </div>
         </FormGroup>
+
+        <div className="flex-row">
+          <div>
+            <Input type="checkbox" id="rememberMe" />
+            <Label for="rememberMe" className="label">
+              Remember me
+            </Label>
+          </div>
+        </div>
 
         <Button color="primary" className="button-submit" type="submit">
           Sign In

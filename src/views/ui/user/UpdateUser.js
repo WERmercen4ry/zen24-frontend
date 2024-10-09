@@ -17,6 +17,7 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { uploadFileToFirebase } from "../../../utils/firebaseConfig";
 import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
+import { useToast } from "../../../layouts/admin/ToastContext";
 
 const UpdateUser = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ const UpdateUser = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [errorsFile, setErrorsFile] = useState({});
   const [cities, setCities] = useState([]); // Danh sách tỉnh
   const [districts, setdistricts] = useState([]); // Danh sách quận/huyện
   const [communes, setWards] = useState([]);
@@ -139,12 +141,17 @@ const UpdateUser = () => {
       newErrors.targetTrain = "Vui lòng chọn mục tiêu luyện tập";
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) {
+      return;
+    }
+
+    if (errorsFile && errorsFile.avatar) {
       return;
     }
 
@@ -209,17 +216,33 @@ const UpdateUser = () => {
     });
   };
 
+  const validateImage = (file) => {
+    const validFormats = ["image/jpeg", "image/png", "image/gif"];
+    if (file && !validFormats.includes(file.type)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file); // Lưu file đã chọn vào state
+    let newErrors = {};
+    if (file && validateImage(file)) {
+      setSelectedFile(file); // Lưu file đã chọn vào state
 
-    // Tạo URL để preview hình ảnh
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+      // Tạo URL để preview hình ảnh
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // Set URL của ảnh để hiển thị trước
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+        setErrorsFile(newErrors);
+      }
+    } else {
+      newErrors.avatar = "Ảnh sai định dạng";
+
+      setErrorsFile(newErrors);
     }
   };
 
@@ -271,7 +294,7 @@ const UpdateUser = () => {
                   id="avatar"
                   name="avatar"
                   onChange={handleFileChange}
-                  invalid={!!errors.avatar}
+                  invalid={!!errorsFile.avatar}
                   className="d-none"
                 />
                 <label className="avatar-placeholder" htmlFor="avatar">
@@ -290,7 +313,9 @@ const UpdateUser = () => {
                     }}
                   />
                 </label>
-                {errors.avatar && <FormFeedback>{errors.avatar}</FormFeedback>}
+                {errorsFile.avatar && (
+                  <FormFeedback>{errorsFile.avatar}</FormFeedback>
+                )}
               </div>
               <small className="form-text text-muted">
                 Chọn ảnh ở định dạng *.png, *.jpg hoặc *.jpeg
@@ -313,7 +338,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="birthDate">Ngày Sinh <span className="require-input">*</span></Label>
+              <Label for="birthDate">
+                Ngày Sinh <span className="require-input">*</span>
+              </Label>
               <Input
                 type="date"
                 name="birthDate"
@@ -329,7 +356,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="gender">Giới Tính <span className="require-input">*</span></Label>
+              <Label for="gender">
+                Giới Tính <span className="require-input">*</span>
+              </Label>
               <Input
                 type="select"
                 name="gender"
@@ -338,7 +367,9 @@ const UpdateUser = () => {
                 onChange={handleInputChange}
                 invalid={!!errors.gender}
               >
-                <option value="">Giới tính <span className="require-input">*</span></option>
+                <option value="">
+                  Giới tính <span className="require-input">*</span>
+                </option>
                 <option value="male">Nam</option>
                 <option value="female">Nữ</option>
               </Input>
@@ -347,7 +378,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="cityName">Tỉnh/ Thành Phố <span className="require-input">*</span></Label>
+              <Label for="cityName">
+                Tỉnh/ Thành Phố <span className="require-input">*</span>
+              </Label>
               <Input
                 type="select"
                 name="cityName"
@@ -370,7 +403,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="districtName">Quận/ Huyện <span className="require-input">*</span></Label>
+              <Label for="districtName">
+                Quận/ Huyện <span className="require-input">*</span>
+              </Label>
               <Input
                 type="select"
                 name="districtName"
@@ -393,7 +428,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="communeName">Phường/ Xã <span className="require-input">*</span></Label>
+              <Label for="communeName">
+                Phường/ Xã <span className="require-input">*</span>
+              </Label>
               <Input
                 type="select"
                 name="communeName"
@@ -418,7 +455,9 @@ const UpdateUser = () => {
             <Row>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="weight">Cân Nặng <span className="require-input">*</span></Label>
+                  <Label for="weight">
+                    Cân Nặng <span className="require-input">*</span>
+                  </Label>
                   <Input
                     type="text"
                     name="weight"
@@ -435,7 +474,9 @@ const UpdateUser = () => {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="height">Chiều Cao <span className="require-input">*</span></Label>
+                  <Label for="height">
+                    Chiều Cao <span className="require-input">*</span>
+                  </Label>
                   <Input
                     type="text"
                     name="height"
@@ -454,7 +495,9 @@ const UpdateUser = () => {
           </Col>
           <Col md={12}>
             <FormGroup>
-              <Label for="targetTrain">Mục Tiêu Luyện Tập <span className="require-input">*</span></Label>
+              <Label for="targetTrain">
+                Mục Tiêu Luyện Tập <span className="require-input">*</span>
+              </Label>
               <Input
                 type="textarea"
                 name="targetTrain"
