@@ -18,7 +18,6 @@ import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { uploadFileToFirebase } from "../../../utils/firebaseConfig";
 import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
-import { useToast } from "../../../layouts/admin/ToastContext";
 
 const UpdateUser = () => {
   const [formData, setFormData] = useState({
