@@ -15,16 +15,26 @@ const Login = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const validate = () => {
+    if (!formData.username || !formData.password){
+      setError("Vui lòng nhập tài khoản, mật khẩu");
+      return false;
+    } else{
+      return true;
+    }
+  }
   const submitLogIn = async (e) => {
     e.preventDefault();
+    if(!validate()){
+      return;
+    }
     try{
       const res = await authorizedAxiosinstance.post(
         `${API_ROOT}users/login`,
         formData
       );
       if (res.status !== 200) {
-        setError(res.response?.data?.message);
+        setError(res.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại.");
       } else {
         const userProfile = {
           profile: res.data.profile,
@@ -101,16 +111,6 @@ const Login = () => {
             />
           </div>
         </FormGroup>
-
-        <div className="flex-row">
-          <div>
-            <Input type="checkbox" id="rememberMe" />
-            <Label for="rememberMe" className="label">
-              Remember me
-            </Label>
-          </div>
-          <span className="span">Forgot password?</span>
-        </div>
 
         <Button color="primary" className="button-submit" type="submit">
           Sign In
