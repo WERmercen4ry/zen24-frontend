@@ -11,6 +11,7 @@ const TrainnerCalendar = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [listClass, setListClass] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState("");
 
   const [formSearch, setFormSearch] = useState({
     userId: "",
@@ -18,8 +19,9 @@ const TrainnerCalendar = () => {
     selectDate: new Date().toISOString().split("T")[0],
   });
 
-  const togglePopup = () => {
+  const togglePopup = (userInfo) => {
     setShowPopup(!showPopup);
+    setSelectedUser(userInfo?._id);
   };
 
   // Lấy userId từ localStorage và gọi API sau khi userId đã sẵn sàng
@@ -76,11 +78,14 @@ const TrainnerCalendar = () => {
   return (
     <Container className="workout-history mt-2 card-content">
       {/* Gói tập */}
-      <PtInfoPopUp
-        show={showPopup}
-        handleClose={togglePopup}
-        title="My Pop-up"
-      />
+      {showPopup && (
+        <PtInfoPopUp
+          show={showPopup}
+          handleClose={() => togglePopup({})}
+          title="My Pop-up"
+          userInfo={selectedUser}
+        />
+      )}
       <h5>Lịch dạy</h5>
       {/* Tabs */}
       <Row className="schedule-tabs mt-4">
@@ -144,6 +149,9 @@ const TrainnerCalendar = () => {
                   <Row>
                     <Col md="1" xs="2">
                       <img
+                        onClick={() =>
+                          togglePopup(class1.schedule[0].instructor)
+                        }
                         src={class1.schedule[0].instructor.avatar}
                         alt="trainer"
                         className="trainer-img"
@@ -176,6 +184,8 @@ const TrainnerCalendar = () => {
                               src={p.avatar}
                               alt="participant"
                               className="participant-img"
+                              onClick={() => togglePopup(p)}
+                              style={{ cursor: "pointer" }}
                             />
                           ))}
                         </div>

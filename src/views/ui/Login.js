@@ -105,7 +105,6 @@ const Login = () => {
               Remember me
             </Label>
           </div>
-          <span className="span">Forgot password?</span>
         </div>
 
         <Button color="primary" className="button-submit" type="submit">
