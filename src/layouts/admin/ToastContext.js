@@ -21,6 +21,7 @@ export const ToastProvider = ({ children }) => {
   });
 
   const showToast = (title, message, type = TOAST_TYPES.INFO) => {
+
     setToast({
       isOpen: true,
       title,
@@ -64,7 +65,7 @@ export const ToastProvider = ({ children }) => {
           <div className="toast-body-container">
             <div className="icon-container">{renderIcon()}</div>
             <div className="text-container">
-              <ToastBody>{toast.message}</ToastBody>
+              <ToastBody>{toast.message || "Có lỗi xảy ra, vui lòng thử lại."}</ToastBody>
             </div>
           </div>
         </Toast>

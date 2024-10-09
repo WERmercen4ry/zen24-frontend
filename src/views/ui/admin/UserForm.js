@@ -41,7 +41,7 @@ const UserForm = () => {
       phone: "",
       address: "",
       date_of_birth: "",
-      training_goals: "", 
+      training_goals: "",
       province: "",
       district: "",
       commune: "",
@@ -243,6 +243,8 @@ const UserForm = () => {
 
     // Name validation
     if (!formData.profile.name) newErrors.name = "Vui lòng nhập họ tên";
+    if (formData.agency.length === 0 || !formData.agency[0])
+      newErrors.agency = "Vui lòng chọn chi nhánh";
     if (!formData.profile.date_of_birth)
       newErrors.date_of_birth = "Vui lòng nhập ngày tháng năm sinh";
     // Phone number validation
@@ -272,7 +274,7 @@ const UserForm = () => {
   };
   const fetchLocation = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/dashboards/getListLocations`)
+      .get(`${API_ROOT}dashboards/getListLocations`)
       .then((res) => {
         if (res.response?.status === 403 || res.response?.status === 500) {
           showToast("Thông báo", res.data?.message, TOAST_TYPES.ERROR);

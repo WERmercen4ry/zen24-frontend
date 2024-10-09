@@ -13,12 +13,17 @@ import {
 } from "reactstrap";
 import "../../../assets/scss/layout/customersManager.scss";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { API_ROOT } from "../../../utils/constant.js";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios.js";
 import CreateMultiClass from "./CreateMultiClass.js";
+import { LoaderContext } from "../../../layouts/loader/LoaderContext";
+import { useToast } from "../../../layouts/admin/ToastContext";
+import { TOAST_TYPES } from "../../../utils/constant";
 
 const CustomersManager = () => {
+  const { showLoader, hideLoader } = useContext(LoaderContext);
+  const { showToast } = useToast();
   const [data, setData] = useState([]);
 
   const [filteredData, setFilteredData] = useState(data);
@@ -61,6 +66,7 @@ const CustomersManager = () => {
   const toggleModal = () => setModal(!modal);
 
   const fetchData = async (page, limit) => {
+    showLoader();
     try {
       const res = await authorizedAxiosinstance.get(`${API_ROOT}${textUrl}`, {
         params: {
@@ -69,13 +75,19 @@ const CustomersManager = () => {
           search: searchTerm,
         },
       });
+      if(res.status !== 200){
+        showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
+      } else {
+        setData(res.data.users);
+        setFilteredData(res.data.users);
+        setTotalPages(res.data.totalPages);
+        setTotalPayments(res.data.totalUsers);
+      }
 
-      setData(res.data.users);
-      setFilteredData(res.data.users);
-      setTotalPages(res.data.totalPages);
-      setTotalPayments(res.data.totalUsers);
+      hideLoader();
     } catch (error) {
-      throw error;
+      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+      hideLoader();
     }
   };
 

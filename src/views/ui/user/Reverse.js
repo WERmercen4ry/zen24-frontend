@@ -77,7 +77,7 @@ const Reverse = () => {
   };
   const fetchTransactions = () => {
     authorizedAxiosinstance
-      .get(`${API_ROOT}/users/getUserRegisteredPackages`, {
+      .get(`${API_ROOT}users/getUserRegisteredPackages`, {
         params: {
           userId: currentUser,
           //   page: page,
@@ -139,7 +139,7 @@ const Reverse = () => {
                 <p className="mb-1 text-muted">
                   Ngày hết hạn: {session.end_date.split("T")[0]}
                 </p>
-                <p className="mb-1 text-muted">trạng thái : {session.status}</p>
+                <p className="mb-1 text-muted">Trạng thái : {session.status}</p>
                 <p className="mb-1 text-muted">
                   Số buổi tập:
                   {session.total_lessons - session.remaining_lessons}/
