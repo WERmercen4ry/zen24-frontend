@@ -131,7 +131,7 @@ const Reverse = () => {
           <div className="p-3 package-card child-content">
             <Row>
               <Col xs="12">
-                <div className="d-flex justify-content-between height-25">
+                <div className="d-flex justify-content-between">
                   <h6>Gói tập của bạn: {session.package_id.name}</h6>
                   <p className="text-success">Đang sử dụng</p>
                 </div>

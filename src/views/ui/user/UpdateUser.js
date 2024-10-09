@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import React, { useState, useEffect, useContext } from "react";
 import "../../../assets/scss/layout/update_user.scss";
+import "../../../assets/scss/layout/user_page.scss";
 import axios from "axios";
 import { API_ROOT } from "../../../utils/constant";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
@@ -269,6 +270,7 @@ const UpdateUser = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
+    
     <Container className="workout-history mt-2 card-content">
       <ConfirmPopup
         isOpen={isOpen}

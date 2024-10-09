@@ -78,10 +78,11 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    showLoader();
+
     if (!validate()) {
       return;
     }
+    showLoader();
     const res = await authorizedAxiosinstance.post(
       `${API_ROOT}users/change-password`,
       passwordData
