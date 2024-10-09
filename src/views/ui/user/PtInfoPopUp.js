@@ -56,9 +56,9 @@ const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
     <div className="popup-overlay">
       <div className="popup-content">
         <div className="popup-header">
-          <div className="div-image">
-            <img src={ptInfo.avt} alt="avt" className="popup-image" />
-          </div>
+          <label className="avatar-placeholder" htmlFor="avatar">
+            <img src={ptInfo.avt} alt="Avatar" className="avatar-image" />
+          </label>
           <strong className="popup-name">{ptInfo.name}</strong>
         </div>
         <div className="popup-body">
@@ -93,7 +93,7 @@ const PtInfoPopUp = ({ show, handleClose, title, children, userInfo }) => {
         </div>
         <Button
           color="primary"
-          size="lg"
+          size="sm"
           className="popup-close-btn"
           onClick={handleClose}
         >
