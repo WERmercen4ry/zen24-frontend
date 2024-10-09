@@ -35,11 +35,10 @@ const TrainnerCalendar = () => {
   }, []);
 
   useEffect(() => {
-    showLoader();
     if (userId) {
       fetchClassForUser();
     }
-    hideLoader();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formSearch]);
 
@@ -50,9 +49,11 @@ const TrainnerCalendar = () => {
         `${API_ROOT}dashboards/classes/instructor?instructorId=${formSearch.userId}&selectDate=${formSearch.selectDate}&type=${formSearch.type}`
       )
       .then((res) => {
+        hideLoader();
         setListClass(res.data?.suitableClasses);
       })
       .catch((error) => {
+        hideLoader();
         console.error("Error fetching class data:", error);
       });
   };
@@ -89,7 +90,7 @@ const TrainnerCalendar = () => {
             className={
               formSearch.type === "Pilate" ? "active-tab" : "inactive-tab"
             }
-            onClick={() => handleChangeType("Pilates")}
+            onClick={() => handleChangeType("Pilate")}
           >
             PILATES
           </Button>

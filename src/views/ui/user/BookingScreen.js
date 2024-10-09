@@ -55,12 +55,10 @@ const BookingScreen = () => {
   }, []);
 
   useEffect(() => {
-    showLoader();
     if (userId) {
       fetchClassForUser();
       fetchPackageForUser();
     }
-    hideLoader();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formSearch]);
 
@@ -96,6 +94,7 @@ const BookingScreen = () => {
       })
       .catch((error) => {
         showNotification("Có lỗi xảy ra, vui lòng thử lại.");
+        hideLoader();
       });
   };
 
@@ -229,7 +228,7 @@ const BookingScreen = () => {
             className={
               formSearch.type === "Pilate" ? "active-tab" : "inactive-tab"
             }
-            onClick={() => handleChangeType("Pilates")}
+            onClick={() => handleChangeType("Pilate")}
           >
             PILATES
           </Button>
