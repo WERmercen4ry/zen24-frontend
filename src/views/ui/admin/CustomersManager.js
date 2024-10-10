@@ -39,7 +39,7 @@ const CustomersManager = () => {
   const searchByNameOrPhone = (event) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
-
+    clearTimeout(timeoutId);
     // const filtered = data.filter(
     //   (user) =>
     //     user.profile.name.toLowerCase().includes(term) ||
@@ -56,9 +56,12 @@ const CustomersManager = () => {
   };
 
   useEffect(() => {}, [data]);
-
+  let timeoutId;
   useEffect(() => {
-    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    timeoutId = setTimeout(() => {
+      fetchData();
+    }, 400);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textUrl, searchTerm]);
 
@@ -75,7 +78,7 @@ const CustomersManager = () => {
           search: searchTerm,
         },
       });
-      if(res.status !== 200){
+      if (res.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
         setData(res.data.users);
@@ -86,7 +89,11 @@ const CustomersManager = () => {
 
       hideLoader();
     } catch (error) {
-      showToast("Thông báo", "Có lỗi xảy ra, vui lòng thử lại.", TOAST_TYPES.ERROR);
+      showToast(
+        "Thông báo",
+        "Có lỗi xảy ra, vui lòng thử lại.",
+        TOAST_TYPES.ERROR
+      );
       hideLoader();
     }
   };
