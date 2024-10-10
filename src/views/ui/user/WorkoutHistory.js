@@ -67,8 +67,6 @@ const WorkoutHistory = () => {
       })
       .then((res) => {
         const { pastSchedules, futureSchedules } = filterSchedules(res.data);
-        console.log(pastSchedules);
-        console.log(futureSchedules);
 
         settrainingHistoryFuture(futureSchedules);
         settrainingHistory(pastSchedules);

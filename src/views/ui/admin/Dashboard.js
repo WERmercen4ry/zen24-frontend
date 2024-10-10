@@ -255,8 +255,6 @@ const Dashboard = () => {
         `${API_ROOT}dashboards/exportExcel`
       );
 
-      console.log(res.data);
-
       if (res && res.data && res.data.base64) {
         downloadFile(res.data.base64, false);
         showToast("Thông báo", "Xuất file thành công", TOAST_TYPES.SUCCESS);
