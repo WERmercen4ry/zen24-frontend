@@ -59,8 +59,22 @@ const Dashboard = () => {
       if (data && Array.isArray(data) && data.length > 0) {
         const ws = XLSX.utils.json_to_sheet(data);
 
-        const sheetName = listAgency[i] || `Sheet${i + 1}`;
+        // Tính toán chiều rộng của mỗi cột
+        const maxWidths = [];
+        data.forEach((row) => {
+          Object.keys(row).forEach((key, index) => {
+            const cellValue = row[key] ? row[key].toString() : "";
+            maxWidths[index] = Math.max(
+              maxWidths[index] || 10,
+              cellValue.length + 5
+            ); // Cộng thêm 5 để tránh sát chữ
+          });
+        });
 
+        // Đặt chiều rộng cho từng cột
+        ws["!cols"] = maxWidths.map((width) => ({ wch: width }));
+
+        const sheetName = listAgency[i] || `Sheet${i + 1}`;
         XLSX.utils.book_append_sheet(wb, ws, sheetName);
         isError = false;
       }
@@ -119,12 +133,13 @@ const Dashboard = () => {
           for (let j = 0; j < totalUsers[i].agency.length; j++) {
             if (agencyNm === totalUsers[i].agency[j].name) {
               dataSplit.push({
-                name: totalUsers[i].profile.name,
-                phone: totalUsers[i].profile.phone,
-                gender: totalUsers[i].profile.sex,
-                address: totalUsers[i].profile.address,
-                role: totalUsers[i].role,
-                agencyName: totalUsers[i].agency[j].name,
+                "Tên người dùng": totalUsers[i].profile.name,
+                "Số điện thoại": totalUsers[i].profile.phone,
+                "Giới tính": totalUsers[i].profile.sex,
+                "Địa chỉ người dùng": totalUsers[i].profile.address,
+                "Chức vụ": totalUsers[i].role,
+                "Tên chi nhánh": totalUsers[i].agency[j].name,
+                "Địa chỉ": totalUsers[i].agency[j].address,
               });
             }
           }
