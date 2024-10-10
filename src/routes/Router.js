@@ -10,7 +10,7 @@ const AdminFullLayout = lazy(() =>
 );
 const UserFullLayout = lazy(() => import("../layouts/user/UserFullLayout.js"));
 
-const NotFound  = lazy(() => import("../layouts/not_found/NotFound.js"));
+const NotFound = lazy(() => import("../layouts/not_found/NotFound.js"));
 /*****Routes******/
 
 // Admin
@@ -34,15 +34,13 @@ const NotificateDetail = lazy(() =>
 );
 const AccountOptions = lazy(() => import("../views/ui/user/AccountOptions.js"));
 const ChangePassword = lazy(() => import("../views/ui/user/ChangePassword.js"));
-const TrainnerCalendar = lazy(() => import("../views/ui/user/TrainnerCalendar.js"));
+const TrainnerCalendar = lazy(() =>
+  import("../views/ui/user/TrainnerCalendar.js")
+);
 const Support = lazy(() => import("../views/ui/user/Support.js"));
 const Policy = lazy(() => import("../views/ui/user/Policy.js"));
 
-
-
-
 const ThemeRoutes = [
-
   {
     path: "/admin",
     element: (
@@ -52,18 +50,18 @@ const ThemeRoutes = [
     ),
     children: [
       { path: "", element: <Navigate to="/admin/dashboard" /> },
-      { path: "dashboard", exact: true, element: <Dashboard /> },
-      { path: "packages", exact: true, element: <Subscription /> },
-      { path: "timetable", exact: true, element: <Timetable /> },
-      { path: "timetables", exact: true, element: <Timetables /> },
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "packages", element: <Subscription /> },
+      { path: "timetable", element: <Timetable /> },
+      { path: "timetables", element: <Timetables /> },
       {
         path: "customers-manager",
-        exact: true,
+
         element: <CustomersManager />,
       },
-      { path: "transactions", exact: true, element: <Transactions /> },
-      { path: "user", exact: true, element: <UserForm /> },
-      { path: "profile", exact: true, element: <ProfilePage /> },
+      { path: "transactions", element: <Transactions /> },
+      { path: "user", element: <UserForm /> },
+      { path: "profile", element: <ProfilePage /> },
     ],
   },
   {
@@ -75,14 +73,14 @@ const ThemeRoutes = [
     ),
     children: [
       { path: "", element: <Navigate to="/booking" /> },
-      { path: "booking", exact: true, element: <BookingScreen /> },
-      { path: "history", exact: true, element: <WorkoutHistory /> },
-      { path: "account/reverse", exact: true, element: <Reverse /> },
+      { path: "booking", element: <BookingScreen /> },
+      { path: "history", element: <WorkoutHistory /> },
+      { path: "account/reverse", element: <Reverse /> },
       {
         path: "notification-detail",
-        exact: true,
+
         element: <NotificateDetail />,
-      }
+      },
     ],
   },
   {
@@ -93,12 +91,11 @@ const ThemeRoutes = [
       </ProtectedRoute>
     ),
     children: [
-      { path: "", exact: true, element: <AccountOptions /> },
-      { path: "change-password", exact: true, element: <ChangePassword /> },
-      { path: "update-user", exact: true, element: <UpdateUser /> },
-      { path: "policy", exact: true, element: <Policy /> },
-      { path: "support", exact: true, element: <Support /> },
-
+      { path: "", element: <AccountOptions /> },
+      { path: "change-password", element: <ChangePassword /> },
+      { path: "update-user", element: <UpdateUser /> },
+      { path: "policy", element: <Policy /> },
+      { path: "support", element: <Support /> },
     ],
   },
   {
@@ -110,7 +107,7 @@ const ThemeRoutes = [
     ),
     children: [
       { path: "", element: <Navigate to="/calendar" /> },
-      { path: "calendar", exact: true, element: <TrainnerCalendar /> },
+      { path: "calendar", element: <TrainnerCalendar /> },
     ],
   },
   {
