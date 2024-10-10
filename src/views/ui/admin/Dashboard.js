@@ -19,7 +19,7 @@ import * as XLSX from "xlsx";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
-
+import moment from "moment";
 const Dashboard = () => {
   const [totalTrainer, setTotalTrainer] = useState(0);
   const [totalStudent, setTotalStudent] = useState(0);
@@ -252,7 +252,13 @@ const Dashboard = () => {
     try {
       showLoader();
       const res = await authorizedAxiosinstance.get(
-        `${API_ROOT}dashboards/exportExcel`
+        `${API_ROOT}dashboards/exportExcel`,
+        {
+          params: {
+            startDate: moment().startOf("month").format("YYYY-MM-DD"),
+            endDate: moment().endOf("month").format("YYYY-MM-DD"),
+          },
+        }
       );
 
       if (res && res.data && res.data.base64) {
@@ -348,7 +354,7 @@ const Dashboard = () => {
                       className="bi bi-folder-check"
                       style={{ paddingRight: "7px" }}
                     ></i>
-                    Xuất file tổng lớp dạy của HLV
+                    Xuất file tổng lớp dạy của HLV trong tháng
                   </Button>
                 </div>
                 <span className="title-month">
