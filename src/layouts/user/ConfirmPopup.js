@@ -10,7 +10,7 @@ const ConfirmPopup = ({
   message // Nội dung thông báo
 }) => {
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="confirm-popup">
+    <Modal isOpen={isOpen} toggle={toggle} className="confirm-popup modal-confirm">
       <ModalHeader toggle={toggle} className="confirm-popup-header">
         {title}
       </ModalHeader>

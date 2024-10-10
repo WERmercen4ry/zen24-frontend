@@ -266,8 +266,8 @@
 .input-password{
   max-width: 60%;
 }
-.modal{
-  top: 80px;
+.modal-confirm{
+  top: 35%;
 }
 .avatar-placeholder {
   display: flex;
@@ -290,9 +290,7 @@
   .loading{
     left: calc(55% - 35px);
   }
-  .modal{
-    top: 75px;
-  }
+
 }
 @media (max-width: 767px) {
   .type-package{
@@ -306,9 +304,7 @@
   .loading{
     left: calc(55% - 35px);
   }
-  .modal{
-    top: 70px;
-  }
+
   .avatar-image {
     width: 250px;
     height: 200px;
