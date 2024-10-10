@@ -287,7 +287,7 @@ const CustomersManager = () => {
                       Array.isArray(tData.agency) &&
                       tData.agency.length > 0 ? (
                         tData.agency.map((agency) => (
-                          <strong>{agency.name}</strong>
+                          <strong>{agency.name + ", " + agency.address}</strong>
                         ))
                       ) : (
                         <div style={{ color: "red" }}>Chưa có chi nhánh</div>
