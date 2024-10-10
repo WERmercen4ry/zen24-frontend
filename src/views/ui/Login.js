@@ -3,7 +3,7 @@ import { Form, FormGroup, Label, Input, Button, Alert } from "reactstrap"; // Im
 import "../../assets/scss/layout/login.scss";
 import picture from "../../assets/images/logos/ZenLogo2.png";
 import authorizedAxiosinstance from "../../utils/authorizedAxios";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { API_ROOT } from "../../utils/constant";
 import Loader from "../../layouts/loader/Loader";
 const Login = () => {
@@ -14,7 +14,7 @@ const Login = () => {
   const [error, setError] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const history = useHistory();
   const validate = () => {
     if (!formData.username || !formData.password) {
       setError("Vui lòng nhập tài khoản, mật khẩu");
@@ -49,11 +49,11 @@ const Login = () => {
         localStorage.setItem("userId", res.data.id);
 
         if (res.data.role === "Admin") {
-          navigate("/admin");
+          history.push("/admin");
         } else if (res.data.role === "Trainer") {
-          navigate("/calendar");
+          history.push("/calendar");
         } else {
-          navigate("/");
+          history.push("/");
         }
       }
     } catch {
