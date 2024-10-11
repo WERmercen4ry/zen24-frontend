@@ -39,7 +39,10 @@ const Footer = () => {
               </Button>
             </Link>
           ) : (
-              " "
+            <Button className="footer-btn">
+              {" "}
+              {/* <i className="bi bi-clock-fill me-1"></i>Lịch sử */}
+            </Button>
           )}
         </div>
         <div>

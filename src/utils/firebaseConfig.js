@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
@@ -19,7 +20,7 @@ const firebaseConfig = {
   storageBucket: "zen-pilates-22aa7.appspot.com",
   messagingSenderId: "84581216265",
   appId: "1:84581216265:web:e22a4645c0e6544d2888d8",
-  measurementId: "G-9VBGGV3MXG"
+  measurementId: "G-9VBGGV3MXG",
 };
 
 function generateRandomString(length) {

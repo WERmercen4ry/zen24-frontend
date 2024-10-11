@@ -38,11 +38,20 @@ const Reverse = () => {
       setCurrentPackage(currentPackage);
     }
     setIsConfirm(true);
-    setFormPopupConfirm({
-      ...formPopupConfirm,
-      message: "Bạn có muốn bảo lưu gói này không?",
-      title: "Xác nhận",
-    });
+    if (currentPackage.status === "Active") {
+      setFormPopupConfirm({
+        ...formPopupConfirm,
+        message: "Bạn có muốn bảo lưu gói này không?",
+        title: "Xác nhận",
+      });
+    } else {
+      setFormPopupConfirm({
+        ...formPopupConfirm,
+        message: "Bạn có muốn tiếp tục học gói này không?",
+        title: "Xác nhận",
+      });
+    }
+
     toggle();
   };
   const handleConfirm = async () => {
