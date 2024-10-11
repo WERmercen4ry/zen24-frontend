@@ -13,14 +13,15 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCTueQdJN2sIY_4lUX2KBvkbpNF0RKty5M",
-  authDomain: "zen-pilates-f24eb.firebaseapp.com",
-  projectId: "zen-pilates-f24eb",
-  storageBucket: "zen-pilates-f24eb.appspot.com",
-  messagingSenderId: "499469769988",
-  appId: "1:499469769988:web:d552b026604df05f254451",
-  measurementId: "G-RJZYXMHGQB",
+  apiKey: "AIzaSyAHJs8HXkNfqpDxqMZgK38duDCIuDsXuSc",
+  authDomain: "zen-pilates-22aa7.firebaseapp.com",
+  projectId: "zen-pilates-22aa7",
+  storageBucket: "zen-pilates-22aa7.appspot.com",
+  messagingSenderId: "84581216265",
+  appId: "1:84581216265:web:e22a4645c0e6544d2888d8",
+  measurementId: "G-9VBGGV3MXG"
 };
+
 function generateRandomString(length) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -42,12 +43,12 @@ const storage = getStorage(app);
  * @param {String} folder - Tên thư mục (nếu có)
  * @returns {Promise<String>} - Trả về URL của file sau khi upload thành công
  */
-export const uploadFileToFirebase = (file, folder = "uploads", userId) => {
+export const uploadFileToFirebase = (file, userId) => {
   if (!userId) {
     userId = generateRandomString(10);
   }
   return new Promise((resolve, reject) => {
-    const storageRef = ref(storage, `${folder}/${userId}/${file.name}`);
+    const storageRef = ref(storage, `uploads/${userId}/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -56,7 +57,6 @@ export const uploadFileToFirebase = (file, folder = "uploads", userId) => {
         // Có thể hiển thị tiến trình upload nếu cần
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload progress: ${progress}%`);
       },
       (error) => {
         // Bắt lỗi trong quá trình upload
