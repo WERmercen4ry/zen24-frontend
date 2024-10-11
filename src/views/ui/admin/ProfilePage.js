@@ -323,10 +323,12 @@ const ProfilePage = () => {
       );
     }
   };
-
+  const handleChangePassWord = () => {
+    showToast("Thông báo", "Cập nhập mật khẩu thành công", TOAST_TYPES.SUCCESS);
+  };
   return (
     <div>
-      <ChangePasswordModal isOpen={isModalOpen} toggle={toggleModal} />
+      <ChangePasswordModal isOpen={isModalOpen} toggle={toggleModal} onDone={handleChangePassWord} />
       <div className="profile-page-container mb-3 pb-0">
         <div className="overview-section">
           <Row className="">

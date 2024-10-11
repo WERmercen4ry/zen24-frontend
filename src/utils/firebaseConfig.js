@@ -55,9 +55,6 @@ export const uploadFileToFirebase = (file, userId) => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        // Có thể hiển thị tiến trình upload nếu cần
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       },
       (error) => {
         // Bắt lỗi trong quá trình upload

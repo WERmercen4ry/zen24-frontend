@@ -15,7 +15,7 @@ import {
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 
-const ChangePasswordModal = ({ isOpen, toggle }) => {
+const ChangePasswordModal = ({ isOpen, onDone, toggle }) => {
   const [errorAPI, setErrorAPI] = useState("");
   const [passwordData, setPasswordData] = useState({
     userId: "",
@@ -93,6 +93,7 @@ const ChangePasswordModal = ({ isOpen, toggle }) => {
       setErrorAPI(res.response?.data?.message);
     } else {
       toggle();
+      onDone();
     }
   };
   const handleInputChange = (e) => {
