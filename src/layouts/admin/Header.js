@@ -5,7 +5,6 @@ import {
   Collapse,
   Nav,
   NavItem,
-  NavbarBrand,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,

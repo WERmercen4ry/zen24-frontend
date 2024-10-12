@@ -17,8 +17,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (userId) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
       authorizedAxiosinstance
         .get(`${API_ROOT}dashboards/access`)
         .then((res) => {
