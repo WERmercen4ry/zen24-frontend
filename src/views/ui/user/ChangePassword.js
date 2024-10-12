@@ -95,6 +95,7 @@ const ChangePassword = () => {
         message: "Thay đổi mật khẩu thành công!",
         title: "Thông báo",
       });
+      setErrorAPI("");
       toggle();
     }
     hideLoader();
