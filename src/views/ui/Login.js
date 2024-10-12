@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, FormGroup, Label, Input, Button, Alert } from "reactstrap"; // Import từ Reactstrap
 import "../../assets/scss/layout/login.scss";
 import picture from "../../assets/images/logos/ZenLogo2.png";
@@ -15,6 +15,26 @@ const Login = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      authorizedAxiosinstance
+        .get(`${API_ROOT}dashboards/access`)
+        .then((res) => {
+          // Set the transaction data from the API response
+          if (res.data.role === "Admin") {
+            navigate("/admin");
+          } else if (res.data.role === "Trainer") {
+            navigate("/calendar");
+          } else {
+            navigate("/");
+          }
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const validate = () => {
     if (!formData.username || !formData.password) {
       setError("Vui lòng nhập tài khoản, mật khẩu");
