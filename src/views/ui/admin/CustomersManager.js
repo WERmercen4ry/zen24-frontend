@@ -39,7 +39,6 @@ const CustomersManager = () => {
   const searchByNameOrPhone = (event) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
-    clearTimeout(timeoutId);
     // const filtered = data.filter(
     //   (user) =>
     //     user.profile.name.toLowerCase().includes(term) ||
@@ -56,12 +55,9 @@ const CustomersManager = () => {
   };
 
   useEffect(() => {}, [data]);
-  let timeoutId;
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    timeoutId = setTimeout(() => {
-      fetchData();
-    }, 400);
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textUrl, searchTerm]);
 
@@ -69,7 +65,10 @@ const CustomersManager = () => {
   const toggleModal = () => setModal(!modal);
 
   const fetchData = async (page, limit) => {
-    showLoader();
+    if (textUrl === "users/getAllUser") {
+      showLoader();
+    }
+
     try {
       const res = await authorizedAxiosinstance.get(`${API_ROOT}${textUrl}`, {
         params: {
@@ -81,6 +80,7 @@ const CustomersManager = () => {
       if (res.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
+        console.log(res);
         setData(res.data.users);
         setFilteredData(res.data.users);
         setTotalPages(res.data.totalPages);
