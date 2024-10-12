@@ -63,17 +63,6 @@ const Header = () => {
     <div>
       <Navbar color="sec" dark expand="md">
         <div className="d-flex align-items-center">
-          <NavbarBrand href="/" className="d-lg-none m-auto">
-            <DropdownToggle>
-              <img
-                src={avatar}
-                alt="profile"
-                className="rounded-circle m-auto"
-                width="40"
-                height="40"
-              ></img>
-            </DropdownToggle>
-          </NavbarBrand>
           <Button className="d-lg-none m-auto" onClick={() => showMobilemenu()}>
             <i className="bi bi-list"></i>
           </Button>
