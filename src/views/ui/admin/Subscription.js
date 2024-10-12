@@ -239,6 +239,11 @@ const Subscription = () => {
         });
         fetchPackageForUser();
         setActiveTab("2");
+        showToast(
+          "Thông báo",
+          "Đăng kí gói tập thành công",
+          TOAST_TYPES.SUCCESS
+        );
       }
     } catch (error) {
       hideLoader();
@@ -291,7 +296,9 @@ const Subscription = () => {
                   <Row>
                     <Col md={6}>
                       <FormGroup>
-                        <Label for="package">Gói <span className="require-input">*</span></Label>
+                        <Label for="package">
+                          Gói <span className="require-input">*</span>
+                        </Label>
                         <Input
                           type="select"
                           name="package"
@@ -316,7 +323,10 @@ const Subscription = () => {
                     </Col>
                     <Col md={6}>
                       <FormGroup>
-                        <Label for="method">Phương Thức Thanh Toán <span className="require-input">*</span></Label>
+                        <Label for="method">
+                          Phương Thức Thanh Toán{" "}
+                          <span className="require-input">*</span>
+                        </Label>
                         <Input
                           type="select"
                           name="method"
@@ -340,7 +350,9 @@ const Subscription = () => {
                   <Row>
                     <Col md={6}>
                       <FormGroup>
-                        <Label for="startDate">Ngày Bắt Đầu <span className="require-input">*</span></Label>
+                        <Label for="startDate">
+                          Ngày Bắt Đầu <span className="require-input">*</span>
+                        </Label>
                         <Input
                           type="date"
                           name="startDate"
@@ -356,7 +368,9 @@ const Subscription = () => {
                     </Col>
                     <Col md={6}>
                       <FormGroup>
-                        <Label for="endDate">Ngày Kết Thúc <span className="require-input">*</span></Label>
+                        <Label for="endDate">
+                          Ngày Kết Thúc <span className="require-input">*</span>
+                        </Label>
                         <Input
                           type="date"
                           name="endDate"
