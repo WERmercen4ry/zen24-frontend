@@ -326,7 +326,7 @@ const CustomersManager = () => {
                             ? "Học viên"
                             : tData.role === "Trainer"
                             ? "PT"
-                            : tData.role === "Reception"
+                            : tData.role === "receptionist"
                             ? "Lễ tân"
                             : "Vai trò không xác định"}
                         </strong>
