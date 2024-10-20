@@ -68,7 +68,7 @@ const Login = () => {
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("userId", res.data.id);
 
-        if (res.data.role === "Admin") {
+        if (res.data.role === "Admin" || res.data.role === "receptionist") {
           navigate("/admin");
         } else if (res.data.role === "Trainer") {
           navigate("/calendar");
