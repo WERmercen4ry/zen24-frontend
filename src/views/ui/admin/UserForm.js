@@ -463,7 +463,7 @@ const UserForm = () => {
                         onChange={handleInputChange}
                         invalid={!!errors.role}
                       />
-                      Trainer
+                      PT
                     </Label>
                     <Label check className="ml-4 pe-2">
                       <Input
@@ -474,7 +474,7 @@ const UserForm = () => {
                         onChange={handleInputChange}
                         invalid={!!errors.role}
                       />
-                      Student
+                      Học viên
                     </Label>
                   </div>
                   {errors.role && <FormFeedback>{errors.role}</FormFeedback>}

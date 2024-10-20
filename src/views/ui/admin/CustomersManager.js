@@ -322,7 +322,13 @@ const CustomersManager = () => {
                           }}
                         ></i>
                         <strong style={{ paddingLeft: "4px" }}>
-                          {tData.role === "Student" ? "STUDENT" : "TRAINER"}
+                          {tData.role === "Student"
+                            ? "Học viên"
+                            : tData.role === "Trainer"
+                            ? "PT"
+                            : tData.role === "Reception"
+                            ? "Lễ tân"
+                            : "Vai trò không xác định"}
                         </strong>
                       </div>
                     </td>

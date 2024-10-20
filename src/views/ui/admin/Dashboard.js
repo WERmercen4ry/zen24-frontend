@@ -137,7 +137,14 @@ const Dashboard = () => {
                 "Số điện thoại": totalUsers[i].profile.phone,
                 "Giới tính": totalUsers[i].profile.sex,
                 "Địa chỉ người dùng": totalUsers[i].profile.address,
-                "Chức vụ": totalUsers[i].role,
+                "Chức vụ":
+                  totalUsers[i].role === "Student"
+                    ? "Học viên"
+                    : totalUsers[i].role === "Trainer"
+                    ? "PT"
+                    : totalUsers[i].role === "Reception"
+                    ? "Lễ tân"
+                    : "Vai trò không xác định",
                 "Tên chi nhánh": totalUsers[i].agency[j].name,
                 "Địa chỉ": totalUsers[i].agency[j].address,
               });
@@ -483,7 +490,7 @@ const Dashboard = () => {
                           height="45"
                         />
                       </div>
-                      <span>Huấn luận viên</span>
+                      <span>PT</span>
                     </div>
                   </Col>
                   <Col md={3} className="num">
