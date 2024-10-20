@@ -460,6 +460,18 @@ const UserForm = () => {
                     Loại Tài Khoản <span className="require-input">*</span>
                   </Label>
                   <div>
+                    <Label check className="ml-4 pe-2">
+                      <Input
+                        type="radio"
+                        name="role"
+                        value="Student"
+                        checked={formData.role === "Student"}
+                        onChange={handleInputChange}
+                        invalid={!!errors.role}
+                        disabled={isEdit}
+                      />
+                      Học viên
+                    </Label>
                     <Label check className="pe-2">
                       <Input
                         type="radio"
@@ -483,19 +495,6 @@ const UserForm = () => {
                         disabled={isEdit || userRole !== "Admin"}
                       />
                       Lễ tân
-                    </Label>
-
-                    <Label check className="ml-4 pe-2">
-                      <Input
-                        type="radio"
-                        name="role"
-                        value="Student"
-                        checked={formData.role === "Student"}
-                        onChange={handleInputChange}
-                        invalid={!!errors.role}
-                        disabled={isEdit}
-                      />
-                      Học viên
                     </Label>
                   </div>
                   {errors.role && <FormFeedback>{errors.role}</FormFeedback>}
