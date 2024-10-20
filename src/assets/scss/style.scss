@@ -300,3 +300,16 @@
   display: flex;
   justify-content: center;
 }
+.transaction-upload {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #ddd;
+  border-radius: 8px; 
+  margin: auto;
+  overflow: hidden;
+  cursor: pointer;
+}
+.transaction-image{
+  border-radius: 3px; 
+}

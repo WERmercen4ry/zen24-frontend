@@ -1,11 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import {
+  Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Button,
+} from "reactstrap";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
 import { useToast } from "../../../layouts/admin/ToastContext";
 import { TOAST_TYPES } from "../../../utils/constant";
 import "../../../assets/scss/layout/Transactions.scss";
+import { Link } from "react-router-dom";
 const Transactions = () => {
   // State to hold transaction data
   const { showLoader, hideLoader } = useContext(LoaderContext);
@@ -59,9 +66,9 @@ const Transactions = () => {
   // Function to determine CSS class for status
   const getStatusClass = (status) => {
     switch (status) {
-      case "Chờ duyệt":
+      case "Chưa thanh toán":
         return "pending";
-      case "Hoàn thành":
+      case "Đã thanh toán":
         return "completed";
       case "Huỷ":
         return "cancelled";
@@ -87,6 +94,11 @@ const Transactions = () => {
     <div className="transactions-content">
       <div className="transactions-header">
         <h4>Giao dịch</h4>
+        <Link to={"/admin/transaction"}>
+          <Button className="btn my-auto" color="primary" size="md">
+            + Thêm mới
+          </Button>
+        </Link>
       </div>
       <Table responsive borderless>
         <thead>
@@ -96,16 +108,20 @@ const Transactions = () => {
             <th className="text-muted">Trạng Thái</th>
             <th className="text-muted">Số Tiền</th>
             <th className="text-muted">Ngày Thanh Toán</th>
+            <th className="text-muted">Hình ảnh</th>
+            <th className="text-muted">Hành động</th>
           </tr>
         </thead>
         <tbody>
           {transactionData.map((transaction, index) => (
-            <tr key={index} className="border-top">
-              <td>{transaction.student_id.profile.name}</td>
-              <td>
+            <tr key={index} className="border-top align-middle">
+              <td className="align-middle">
+                {transaction.student_id?.profile.name}
+              </td>
+              <td className="align-middle">
                 <span className="label-method">{transaction.method}</span>
               </td>
-              <td>
+              <td className="align-middle">
                 <span
                   className={`label-status ${getStatusClass(
                     transaction.status
@@ -114,13 +130,34 @@ const Transactions = () => {
                   {transaction.status}
                 </span>
               </td>
-              <td>{transaction.amount}</td>
-              <td>
+              <td className="align-middle">{transaction.amount}</td>
+              <td className="align-middle">
                 {transaction.payment_date ? (
                   <span>{transaction.payment_date.split("T")[0]}</span>
                 ) : (
                   <span></span>
                 )}
+              </td>
+              <td className="align-middle">
+                <div className="d-flex align-items-center p-2">
+                  <img
+                    src={transaction.image}
+                    className="transaction-image"
+                    alt="avatar"
+                    width="70"
+                    height="70"
+                  />
+                </div>
+              </td>
+              <td className="align-middle">
+                <Link
+                  to="/admin/transaction"
+                  state={{ userTransactionId: transaction._id }}
+                >
+                  <Button color="secondary m-auto" size="sm">
+                    Edit
+                  </Button>
+                </Link>
               </td>
             </tr>
           ))}
