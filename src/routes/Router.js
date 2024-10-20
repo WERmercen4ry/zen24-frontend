@@ -46,7 +46,7 @@ const ThemeRoutes = [
   {
     path: "/admin",
     element: (
-      <ProtectedRoute allowedRoles={["Admin"]}>
+      <ProtectedRoute allowedRoles={["Admin","receptionist"]}>
         <AdminFullLayout />
       </ProtectedRoute>
     ),

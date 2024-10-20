@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [trainingHistory, setTrainingHistory] = useState([]);
   const { showLoader, hideLoader } = useContext(LoaderContext);
-
+  const userRole = localStorage.getItem("userRole");
   const { showToast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -355,30 +355,33 @@ const Dashboard = () => {
                 </Col>
               </Row>
               <div className="desc-total">
-                <div className="button-month">
-                  <Button
-                    color="primary"
-                    className="mt-2 btn"
-                    onClick={exportExcelTrainingHistoryClick}
-                  >
-                    <i
-                      className="bi bi-folder-check"
-                      style={{ paddingRight: "7px" }}
-                    ></i>
-                    Xuất file lịch sử tập luyện
-                  </Button>
-                  <Button
-                    color="primary"
-                    className="mt-2 btn"
-                    onClick={exportExcelClassTrainerClick}
-                  >
-                    <i
-                      className="bi bi-folder-check"
-                      style={{ paddingRight: "7px" }}
-                    ></i>
-                    Xuất file tổng lớp dạy của HLV trong tháng
-                  </Button>
-                </div>
+                {userRole === "Admin" && (
+                  <div className="button-month">
+                    <Button
+                      color="primary"
+                      className="mt-2 btn"
+                      onClick={exportExcelTrainingHistoryClick}
+                    >
+                      <i
+                        className="bi bi-folder-check"
+                        style={{ paddingRight: "7px" }}
+                      ></i>
+                      Xuất file lịch sử tập luyện
+                    </Button>
+                    <Button
+                      color="primary"
+                      className="mt-2 btn"
+                      onClick={exportExcelClassTrainerClick}
+                    >
+                      <i
+                        className="bi bi-folder-check"
+                        style={{ paddingRight: "7px" }}
+                      ></i>
+                      Xuất file tổng lớp dạy của HLV trong tháng
+                    </Button>
+                  </div>
+                )}
+
                 <span className="title-month">
                   Lịch sử luyện tập trong tháng
                 </span>
@@ -448,17 +451,19 @@ const Dashboard = () => {
                   <span className="title-month">Thống kê tài khoản</span>
                 </div>
                 <div>
-                  <Button
-                    color="primary"
-                    className="mt-2 btn"
-                    onClick={handleExport}
-                  >
-                    <i
-                      className="bi bi-folder-check"
-                      style={{ paddingRight: "7px" }}
-                    ></i>
-                    Xuất file theo chi nhánh
-                  </Button>
+                  {userRole === "Admin" && (
+                    <Button
+                      color="primary"
+                      className="mt-2 btn"
+                      onClick={handleExport}
+                    >
+                      <i
+                        className="bi bi-folder-check"
+                        style={{ paddingRight: "7px" }}
+                      ></i>
+                      Xuất file theo chi nhánh
+                    </Button>
+                  )}
                 </div>
                 <div style={{ padding: "10px" }}>
                   <span style={{ padding: "5px" }}>

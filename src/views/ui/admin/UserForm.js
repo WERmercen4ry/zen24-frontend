@@ -231,9 +231,14 @@ const UserForm = () => {
 
   const validate = () => {
     let newErrors = {};
+    const usernameRegex = /^[a-zA-Z0-9._]{3,20}$/;
     // Username validation
-    if (!formData.username) newErrors.username = "Vui lòng nhập tên người dùng";
-
+    if (!formData.username) {
+      newErrors.username = "Vui lòng nhập tên người dùng";
+    } else if (!usernameRegex.test(formData.username)) {
+      newErrors.username =
+        "Tên người dùng chỉ chứa chữ cái, số, dấu chấm (.), gạch dưới (_), độ dài từ 3 đến 20 ký tự.";
+    }
     // Password validation
     if (!isEdit) {
       if (!formData.password) newErrors.password = "Vui lòng nhập mật khẩu";
@@ -463,22 +468,22 @@ const UserForm = () => {
                         checked={formData.role === "Trainer"}
                         onChange={handleInputChange}
                         invalid={!!errors.role}
+                        disabled={isEdit}
                       />
                       PT
                     </Label>
-                    {userRole === "Admin" && (
-                      <Label check className="pe-2">
-                        <Input
-                          type="radio"
-                          name="role"
-                          value="receptionist"
-                          checked={formData.role === "receptionist"}
-                          onChange={handleInputChange}
-                          invalid={!!errors.role}
-                        />
-                        Lễ tân
-                      </Label>
-                    )}
+                    <Label check className="pe-2">
+                      <Input
+                        type="radio"
+                        name="role"
+                        value="receptionist"
+                        checked={formData.role === "receptionist"}
+                        onChange={handleInputChange}
+                        invalid={!!errors.role}
+                        disabled={isEdit || userRole !== "Admin"}
+                      />
+                      Lễ tân
+                    </Label>
 
                     <Label check className="ml-4 pe-2">
                       <Input
@@ -488,6 +493,7 @@ const UserForm = () => {
                         checked={formData.role === "Student"}
                         onChange={handleInputChange}
                         invalid={!!errors.role}
+                        disabled={isEdit}
                       />
                       Học viên
                     </Label>
