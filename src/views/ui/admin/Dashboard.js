@@ -142,7 +142,7 @@ const Dashboard = () => {
                     ? "Học viên"
                     : totalUsers[i].role === "Trainer"
                     ? "PT"
-                    : totalUsers[i].role === "Reception"
+                    : totalUsers[i].role === "receptionist"
                     ? "Lễ tân"
                     : "Vai trò không xác định",
                 "Tên chi nhánh": totalUsers[i].agency[j].name,

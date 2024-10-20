@@ -48,6 +48,7 @@ const UserForm = () => {
     },
     agency: [],
   });
+  const userRole = localStorage.getItem("userRole");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -465,6 +466,20 @@ const UserForm = () => {
                       />
                       PT
                     </Label>
+                    {userRole === "Admin" && (
+                      <Label check className="pe-2">
+                        <Input
+                          type="radio"
+                          name="role"
+                          value="receptionist"
+                          checked={formData.role === "receptionist"}
+                          onChange={handleInputChange}
+                          invalid={!!errors.role}
+                        />
+                        Lễ tân
+                      </Label>
+                    )}
+
                     <Label check className="ml-4 pe-2">
                       <Input
                         type="radio"
