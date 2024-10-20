@@ -328,7 +328,11 @@ const ProfilePage = () => {
   };
   return (
     <div>
-      <ChangePasswordModal isOpen={isModalOpen} toggle={toggleModal} onDone={handleChangePassWord} />
+      <ChangePasswordModal
+        isOpen={isModalOpen}
+        toggle={toggleModal}
+        onDone={handleChangePassWord}
+      />
       <div className="profile-page-container mb-3 pb-0">
         <div className="overview-section">
           <Row className="">
@@ -420,7 +424,15 @@ const ProfilePage = () => {
               </div>
               <div className="d-flex">
                 <span className="label form-label">Quyền:</span>
-                <p>{initialProfileData.role}</p>
+                <p>
+                  {initialProfileData.role === "Student"
+                    ? "Học viên"
+                    : initialProfileData.role === "Trainer"
+                    ? "PT"
+                    : initialProfileData.role === "receptionist"
+                    ? "Lễ tân"
+                    : "Vai trò không xác định"}
+                </p>
               </div>{" "}
               <div className="d-flex">
                 <span className="label form-label">Giới tính:</span>
