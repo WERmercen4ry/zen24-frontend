@@ -6,12 +6,14 @@ import authorizedAxiosinstance from "../../utils/authorizedAxios";
 import { useNavigate } from "react-router-dom";
 import { API_ROOT } from "../../utils/constant";
 import Loader from "../../layouts/loader/Loader";
+import OtpPopup from "./admin/OtpPopup";
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +36,10 @@ const Login = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const togglePopup = (userInfo) => {
+    setShowPopup(!showPopup);
+  };
 
   const validate = () => {
     if (!formData.username || !formData.password) {
@@ -69,7 +75,11 @@ const Login = () => {
         localStorage.setItem("userId", res.data.id);
 
         if (res.data.role === "Admin" || res.data.role === "receptionist") {
-          navigate("/admin");
+          if (res.data.role === "Admin") {
+            togglePopup();
+          } else {
+            navigate("/admin");
+          }
         } else if (res.data.role === "Trainer") {
           navigate("/calendar");
         } else {
@@ -91,6 +101,13 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {showPopup && (
+        <OtpPopup
+          show={showPopup}
+          handleClose={() => togglePopup({})}
+          title="My Pop-up"
+        />
+      )}
       {loading && <Loader />}
       <div className="form-img">
         <img src={picture} alt="logo" className="img" />
