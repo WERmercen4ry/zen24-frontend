@@ -335,6 +335,7 @@ const Dashboard = () => {
 
   return (
     <>
+    {userRole === "Admin" ? (
       <Row className="dashboard">
         <Col sm="6" lg="6" xl="7" xxl="8">
           <Card>
@@ -536,6 +537,12 @@ const Dashboard = () => {
           </Card>
         </Col>
       </Row>
+      ) : (
+        <Row className="dashboard">
+        <h3>Xin chào! Đây là trang quản lý</h3>
+      </Row>
+      )}
+      
     </>
   );
 };

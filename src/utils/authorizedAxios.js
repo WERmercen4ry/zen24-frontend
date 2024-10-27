@@ -1,5 +1,7 @@
 import axios from "axios";
 import { handleLogoutAPI, handleRefreshTokenAPI } from "./handleApi";
+import { useLocation } from "react-router-dom";
+
 // tạo ra một instance của axios
 let authorizedAxiosinstance = axios.create();
 
@@ -40,9 +42,8 @@ authorizedAxiosinstance.interceptors.response.use(
 
     if (error.response?.status === 401) {
       handleLogoutAPI().then(() => {
-        localStorage.removeItem("userinfo");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.clear();
+
         //location.href = "/login";
       });
     }
@@ -51,7 +52,7 @@ authorizedAxiosinstance.interceptors.response.use(
     if (error.response?.status === 410 && originalRequest) {
       if (!refreshTokenpromise) {
         const refreshToken = localStorage.getItem("refreshToken");
-
+        const location = useLocation();
         refreshTokenpromise = handleRefreshTokenAPI(refreshToken)
           .then((res) => {
             const { accessToken } = res.data;
@@ -59,10 +60,8 @@ authorizedAxiosinstance.interceptors.response.use(
             localStorage.setItem("accessToken", accessToken);
           })
           .catch((_error) => {
-            localStorage.removeItem("userinfo");
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            //location.href = "/login";
+            localStorage.clear();
+            location.href = "/login";
 
             return Promise.reject(_error);
           })
