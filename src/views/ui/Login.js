@@ -25,12 +25,14 @@ const Login = () => {
         .get(`${API_ROOT}dashboards/access`)
         .then((res) => {
           // Set the transaction data from the API response
-          if (res.data.role === "Admin") {
-            navigate("/admin");
-          } else if (res.data.role === "Trainer") {
-            navigate("/calendar");
-          } else {
-            navigate("/");
+          if (res.data) {
+            if (res.data.role === "Admin" || res.data.role === "receptionist") {
+              navigate("/admin");
+            } else if (res.data.role === "Trainer") {
+              navigate("/calendar");
+            } else {
+              navigate("/");
+            }
           }
         });
     }
@@ -50,8 +52,10 @@ const Login = () => {
     }
   };
   const submitLogIn = async (e) => {
+    setLoading(true);
     e.preventDefault();
     if (!validate()) {
+      setLoading(false);
       return;
     }
     try {
@@ -63,6 +67,7 @@ const Login = () => {
         setError(
           res.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại."
         );
+        setLoading(false);
       } else {
         const userProfile = {
           profile: res.data.profile,
@@ -86,8 +91,10 @@ const Login = () => {
           navigate("/");
         }
       }
+      setLoading(false);
     } catch {
       setError("Có lỗi xảy ra, vui lòng thử lại.");
+      setLoading(false);
     }
   };
 
@@ -105,6 +112,8 @@ const Login = () => {
         <OtpPopup
           show={showPopup}
           handleClose={() => togglePopup({})}
+          setLoading={setLoading}
+          userInfo={formData}
           title="My Pop-up"
         />
       )}
