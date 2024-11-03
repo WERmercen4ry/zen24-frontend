@@ -26,6 +26,8 @@ const Subscription = lazy(() => import("../views/ui/admin/Subscription.js"));
 const UserForm = lazy(() => import("../views/ui/admin/UserForm.js"));
 const ProfilePage = lazy(() => import("../views/ui/admin/ProfilePage.js"));
 const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
+const Locations = lazy(() => import("../views/ui/admin/Locations.js"));
+
 
 // User
 const WorkoutHistory = lazy(() => import("../views/ui/user/WorkoutHistory.js"));
@@ -66,6 +68,8 @@ const ThemeRoutes = [
 
       { path: "user", element: <UserForm /> },
       { path: "profile", element: <ProfilePage /> },
+      { path: "locations", element: <Locations /> },
+
     ],
   },
   {
