@@ -66,7 +66,7 @@ const Locations = () => {
     if (res.status === 200) {
       showToast(
         "Thông báo",
-        "Xoá lịch chi nhánh thành công!",
+        "Xoá chi nhánh thành công!",
         TOAST_TYPES.SUCCESS
       );
       fetchLocations();
