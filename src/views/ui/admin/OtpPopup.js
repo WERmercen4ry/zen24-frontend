@@ -60,7 +60,6 @@ const OtpPopup = ({ handleClose, setLoading, userInfo }) => {
         localStorage.setItem("refreshToken", res.data.refreshToken);
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("userId", res.data.id);
-        console.log("res.data.role", res.data.role);
         if (res.data.role === "Admin" || res.data.role === "receptionist") {
           navigate("/admin");
         }

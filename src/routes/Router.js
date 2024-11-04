@@ -26,6 +26,17 @@ const Subscription = lazy(() => import("../views/ui/admin/Subscription.js"));
 const UserForm = lazy(() => import("../views/ui/admin/UserForm.js"));
 const ProfilePage = lazy(() => import("../views/ui/admin/ProfilePage.js"));
 const Dashboard = lazy(() => import("../views/ui/admin/Dashboard.js"));
+const CreatePackages = lazy(() =>
+  import("../views/ui/admin/CreatePackages.js")
+);
+
+const PackageManager = lazy(() =>
+  import("../views/ui/admin/PackageManager.js")
+);
+
+const UpdatePackages = lazy(() =>
+  import("../views/ui/admin/UpdatePackages.js")
+);
 
 // User
 const WorkoutHistory = lazy(() => import("../views/ui/user/WorkoutHistory.js"));
@@ -46,7 +57,7 @@ const ThemeRoutes = [
   {
     path: "/admin",
     element: (
-      <ProtectedRoute allowedRoles={["Admin","receptionist"]}>
+      <ProtectedRoute allowedRoles={["Admin", "receptionist"]}>
         <AdminFullLayout />
       </ProtectedRoute>
     ),
@@ -66,6 +77,9 @@ const ThemeRoutes = [
 
       { path: "user", element: <UserForm /> },
       { path: "profile", element: <ProfilePage /> },
+      { path: "package-manager", element: <PackageManager /> },
+      { path: "create-packages", element: <CreatePackages /> },
+      { path: "update-packages", element: <UpdatePackages /> },
     ],
   },
   {

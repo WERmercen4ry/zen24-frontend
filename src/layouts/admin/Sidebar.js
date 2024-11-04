@@ -9,6 +9,11 @@ const navigation = [
     icon: "bi bi-people",
   },
   {
+    title: "Quản lý gói",
+    href: "/admin/package-manager",
+    icon: "bi bi-box-seam",
+  },
+  {
     title: "Thời khoá biểu",
     href: "/admin/timetables",
     icon: "bi bi-card-text",
