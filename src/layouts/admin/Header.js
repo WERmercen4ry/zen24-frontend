@@ -129,6 +129,18 @@ const Header = () => {
                 Giao dịch
               </Link>
             </NavItem>
+            <NavItem>
+              <Link
+                to="/admin/locations"
+                className={`text-secondary item-header ${
+                  activeLink === "/admin/locations" ? "active-link" : ""
+                }`}
+                style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/locations")}
+              >
+                Chi nhánh
+              </Link>
+            </NavItem>
           </Nav>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle className="avatar">
