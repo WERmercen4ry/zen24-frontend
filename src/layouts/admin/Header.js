@@ -95,6 +95,18 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Link
+                to="/admin/package-manager"
+                className={`text-secondary item-header ${
+                  activeLink === "/admin/package-manager" ? "active-link" : ""
+                }`}
+                style={{ borderRadius: "10px" }}
+                onClick={() => handleLinkClick("/package-manager")}
+              >
+                Quản lý gói
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link
                 to="/admin/timetables"
                 className={`text-secondary item-header ${
                   activeLink === "/admin/timetables" ? "active-link" : ""

@@ -80,7 +80,6 @@ const CustomersManager = () => {
       if (res.status !== 200) {
         showToast("Thông báo", res.response?.data?.message, TOAST_TYPES.ERROR);
       } else {
-        console.log(res);
         setData(res.data.users);
         setFilteredData(res.data.users);
         setTotalPages(res.data.totalPages);
