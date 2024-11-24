@@ -120,7 +120,7 @@ const Login = () => {
       {loading && <Loader />}
       <div className="form-img">
         <img src={picture} alt="logo" className="img" />
-        <span className="title">Zen Pilates</span>
+        <span className="title">ZEN PILATES</span>
       </div>
       <Form className="form" onSubmit={submitLogIn}>
         {/* Hiển thị thông báo lỗi nếu có */}

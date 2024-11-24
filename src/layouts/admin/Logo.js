@@ -10,7 +10,7 @@ const Logo = () => {
         className=""
         width="60"
       ></img>
-      <p>Zen Pilates</p>
+      <p>ZEN PILATES</p>
     </Link>
   );
 };

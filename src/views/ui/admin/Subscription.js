@@ -30,6 +30,8 @@ const Subscription = () => {
   const [packageSelected, setPackageSelected] = useState([]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [amount, setAmount] = useState();
+  const [session, setSession] = useState();
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const [errors, setErrors] = useState({});
 
@@ -54,7 +56,7 @@ const Subscription = () => {
     startDate: "",
     endDate: "",
     amount: 0,
-    sessions: 1,
+    sessions: 0,
     amountPerSession: 0,
     method: "",
   });
@@ -67,7 +69,7 @@ const Subscription = () => {
     if (!formData.method)
       newErrors.method = "Vui lòng chọn phương thức thanh toán";
 
-    if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày bắt dầu";
+    if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày bắt đầu";
 
     if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày kết thúc";
 
@@ -83,17 +85,17 @@ const Subscription = () => {
     const start = new Date(formData.startDate);
     const end = new Date(formData.endDate);
 
-    const differenceInTime = end.getTime() - start.getTime();
-    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    // const differenceInTime = end.getTime() - start.getTime();
+    // const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
     if (end <= start) {
       newErrors.startDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu";
       newErrors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu";
-    } else if (differenceInDays < 30) {
-      newErrors.startDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
-      newErrors.endDate = "Ngày bắt đầu và kết thúc phải cách nhau 1 tháng";
-    } else {
     }
+
+    if (!formData.amount) newErrors.amount = "Vui lòng nhập số tiền";
+
+    if (!formData.sessions) newErrors.sessions = "Vui lòng nhập số buổi";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -164,6 +166,24 @@ const Subscription = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packageSelected, startDate, endDate]);
 
+  useEffect(() => {
+
+    let amountPerSession;
+        amountPerSession = formData.amount / formData.sessions;
+    if(amountPerSession > 0){
+        setFormData({
+          ...formData,
+          amountPerSession: amountPerSession,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          amountPerSession: 0,
+        });
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amount, session]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "package") {
@@ -178,6 +198,14 @@ const Subscription = () => {
 
     if (name === "endDate") {
       setEndDate(new Date(value));
+    }
+
+    if (name === "amount") {
+      setAmount(value);
+    }
+
+    if (name === "sessions") {
+      setSession(value);
     }
 
     if (packageSelected && packageSelected.length > 0 && startDate && endDate) {
@@ -390,13 +418,16 @@ const Subscription = () => {
                       <FormGroup>
                         <Label for="amount">Số Tiền</Label>
                         <Input
-                          type="text"
+                          type="number"
                           name="amount"
                           id="amount"
-                          value={formatNumber(formData.amount)}
+                          value={formData.amount}
                           onChange={handleInputChange}
-                          disabled
+                          invalid={!!errors.amount}
                         />
+                        {errors.amount && (
+                          <FormFeedback>{errors.amount}</FormFeedback>
+                        )}
                       </FormGroup>
                     </Col>
                     <Col md={6}>
@@ -408,8 +439,11 @@ const Subscription = () => {
                           id="sessions"
                           value={formData.sessions}
                           onChange={handleInputChange}
-                          disabled
+                          invalid={!!errors.sessions}
                         />
+                        {errors.sessions && (
+                          <FormFeedback>{errors.sessions}</FormFeedback>
+                        )}
                       </FormGroup>
                     </Col>
                   </Row>

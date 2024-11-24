@@ -28,11 +28,11 @@ const navigation = [
     href: "/admin/locations",
     icon: "bi bi-geo-alt-fill",
   },
-  {
-    title: "Nhận diện khuôn mặt",
-    href: "/admin/starter",
-    icon: "bi bi-person-bounding-box",
-  },
+  // {
+  //   title: "Nhận diện khuôn mặt",
+  //   href: "/admin/starter",
+  //   icon: "bi bi-person-bounding-box",
+  // },
 
 ];
 
