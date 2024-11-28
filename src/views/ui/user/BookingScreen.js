@@ -194,10 +194,10 @@ const BookingScreen = () => {
                     {packageInfo.total_lessons}
                   </p>
                   <p className="mb-1 text-muted">
-                    Lớp: {packageInfo.package_id.type}
+                    Lớp: {packageInfo.package_id?.type}
                   </p>
                   <p className="mb-1 text-muted">
-                    Loại: {packageInfo.package_id.level}
+                    Loại: {packageInfo.package_id?.level}
                   </p>
                 </Col>
                 <Col md="3" xs="4" className=" align-items-center">
@@ -210,7 +210,7 @@ const BookingScreen = () => {
                     />
                   </div>
                   <div className="type-package mx-auto">
-                    {packageInfo.package_id.name}
+                    {packageInfo.package_id?.name}
                   </div>
                 </Col>
               </Row>
