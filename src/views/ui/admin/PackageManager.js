@@ -67,7 +67,7 @@ const PackageManager = () => {
       `${API_ROOT}dashboards/deletePackage?packageId=${currentPackage._id}`
     );
     if (res.status === 200) {
-      showToast("Thông báo", "Xoá lịch tập thành công!", TOAST_TYPES.SUCCESS);
+      showToast("Thông báo", "Xoá gói tập thành công!", TOAST_TYPES.SUCCESS);
       fetchData();
     }
   };
