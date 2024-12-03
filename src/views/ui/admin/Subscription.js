@@ -492,10 +492,10 @@ const Subscription = () => {
                       listPackages.length > 0 &&
                       listPackages.map((pkg, index) => (
                         <tr key={index}>
-                          <td>{pkg.package_id.type}</td>
+                          <td>{pkg.package_id?.type}</td>
                           <td>{pkg.remaining_lessons}</td>
                           <td>{pkg.remaining_lessons}</td>
-                          <td>{pkg.package_id.name}</td>
+                          <td>{pkg.package_id?.name}</td>
                           <td>{pkg.price}</td>
                           <td>
                             {pkg.start_date != null
