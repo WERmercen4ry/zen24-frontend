@@ -105,8 +105,6 @@ const CreatePackages = () => {
 
     if (!formData.type) newErrors.type = "Vui lòng nhập loại gói";
 
-    if (!formData.duration_in_months)
-      newErrors.duration_in_months = "Vui lòng nhập số buổi trong tháng";
 
     if (!formData.max_members)
       newErrors.max_members = "Vui lòng nhập số học viên trong gói";
@@ -236,22 +234,6 @@ const CreatePackages = () => {
               </Col>
             </Row>
             <Row>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="duration_in_months">Số buổi trong tháng *</Label>
-                  <Input
-                    type="number"
-                    name="duration_in_months"
-                    id="duration_in_months"
-                    value={formData.duration_in_months}
-                    onChange={handleInputChange}
-                    invalid={!!errors.duration_in_months}
-                  />
-                  {errors.duration_in_months && (
-                    <FormFeedback>{errors.duration_in_months}</FormFeedback>
-                  )}
-                </FormGroup>
-              </Col>
               <Col md={6}>
                 <FormGroup>
                   <Label for="max_members">Số học viên trong gói *</Label>

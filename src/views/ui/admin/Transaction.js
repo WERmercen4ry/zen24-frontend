@@ -120,7 +120,7 @@ const Transaction = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "status") {
-      setIsChangeStatus(true)
+      setIsChangeStatus(true);
     }
     setFormData({
       ...formData,
@@ -137,7 +137,15 @@ const Transaction = () => {
     if (!formData.amount) newErrors.amount = "Vui lòng nhập số tiền";
     if (!formData.status)
       newErrors.status = "Vui lòng chọn trạng thái giao dịch";
-
+    if (!formData.created_at)
+      newErrors.created_at = "Vui lòng nhập ngày giao dịch";
+    if (
+      !formData.payment_date &&
+      isChangeStatus &&
+      formData.status === "Đã thanh toán"
+    ) {
+      newErrors.payment_date = "Vui lòng nhập ngày hoàn thành giao dịch";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -152,14 +160,9 @@ const Transaction = () => {
       if (selectedFile) {
         avatarUrl = await uploadFileToFirebase(selectedFile, userTransactionId); // Upload file và lấy URL
       }
-      let paydate = "";
-      if (isChangeStatus && formData.status === "Đã thanh toán") {
-        paydate = new Date();
-      }
       const updatedFormData = {
         ...formData,
         image: avatarUrl,
-        payment_date: paydate,
       };
       var res;
       if (isEdit) {
@@ -234,13 +237,12 @@ const Transaction = () => {
                     className="avatar-image"
                   />
                 </label>
-
               </div>
               {errors.image && (
-                  <FormFeedback style={{ display: "block" }}>
-                    {errors.image}
-                  </FormFeedback>
-                )}
+                <FormFeedback style={{ display: "block" }}>
+                  {errors.image}
+                </FormFeedback>
+              )}
             </FormGroup>
           </Col>
           <Col md={8}>
@@ -286,9 +288,7 @@ const Transaction = () => {
                 onChange={handleInputChange}
                 invalid={!!errors.method}
               >
-                <option value="" >
-                  Phương thức thanh toán
-                </option>
+                <option value="">Phương thức thanh toán</option>
                 <option value="Tiền mặt">Tiền mặt</option>
                 <option value="Chuyển khoản">Chuyển khoản</option>
               </Input>
@@ -320,9 +320,7 @@ const Transaction = () => {
                 onChange={handleInputChange}
                 invalid={!!errors.status}
               >
-                <option value="">
-                  Trạng thái giao dịch
-                </option>
+                <option value="">Trạng thái giao dịch</option>
                 <option value="Chưa thanh toán">Chưa thanh toán</option>
                 <option value="Đã thanh toán">Đã thanh toán</option>
               </Input>
@@ -333,37 +331,36 @@ const Transaction = () => {
                 <FormGroup>
                   <Label for="created_at">Ngày tạo giao dịch</Label>
                   <Input
-                    type="text"
+                    type="date"
                     name="created_at"
                     id="created_at"
-                    value={
-                      isEdit
-                        ? moment(formData?.created_at || "")
-                            .utc()
-                            .format("YYYY-MM-DD HH:mm:ss")
-                        : ""
-                    }
-                    disabled
+                    value={moment(formData?.created_at || "")
+                      .utc()
+                      .format("YYYY-MM-DD")}
+                    onChange={handleInputChange}
+                    invalid={!!errors.created_at}
                   />
+                  {errors.created_at && (
+                    <FormFeedback>{errors.created_at}</FormFeedback>
+                  )}
                 </FormGroup>
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="email">Ngày hoàn thành giao dịch</Label>
+                  <Label for="payment_date">Ngày hoàn thành giao dịch</Label>
                   <Input
-                    type="text"
+                    type="date"
                     name="payment_date"
                     id="payment_date"
-                    value={
-                      isEdit && formData?.payment_date
-                        ? moment(formData?.payment_date || "")
-                            .utc()
-                            .format("YYYY-MM-DD HH:mm:ss")
-                        : ""
-                    }
+                    value={moment(formData?.payment_date || "")
+                      .utc()
+                      .format("YYYY-MM-DD")}
                     onChange={handleInputChange}
-                    disabled
+                    invalid={!!errors.payment_date}
                   />
+                  {errors.payment_date && (
+                    <FormFeedback>{errors.payment_date}</FormFeedback>
+                  )}
                 </FormGroup>
               </Col>
             </Row>
