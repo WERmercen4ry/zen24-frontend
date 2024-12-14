@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col, Button, Input } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import "../../../assets/scss/layout/user_page.scss";
 import PtInfoPopUp from "./PtInfoPopUp";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const TrainnerCalendar = () => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const [showPopup, setShowPopup] = useState(false);
@@ -60,10 +61,10 @@ const TrainnerCalendar = () => {
   };
 
   // Xử lý chọn ngày mới
-  const handleDateChange = (e) => {
+  const handleDateChange = (date) => {
     setFormSearch((prevState) => ({
       ...prevState,
-      selectDate: e.target.value,
+      selectDate: date.toISOString().split("T")[0],
     }));
   };
 
@@ -113,15 +114,15 @@ const TrainnerCalendar = () => {
 
       {/* Đặt lịch */}
 
-      <div className="d-flex align-items-center justify-content-center mt-2">
+      <div className="d-flex align-items-center justify-content-center mt-3">
         <p className="my-auto me-2 selected-date">Ngày đang được chọn</p>
-        <Input
+        <DatePicker
+          showIcon
+          selected={formSearch.selectDate}
+          onChange={handleDateChange} // Chỉ gọi khi người dùng chọn ngày
+          dateFormat="yyyy-MM-dd"
+          placeholderText="Chọn ngày"
           className="input-date selected-date"
-          type="date"
-          name="filterDate"
-          id="filterDate"
-          value={formSearch.selectDate} // Đảm bảo date có định dạng đúng
-          onChange={handleDateChange} // Cập nhật ngày khi thay đổi
         />
       </div>
 
