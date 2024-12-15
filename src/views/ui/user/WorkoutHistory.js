@@ -234,7 +234,7 @@ const WorkoutHistory = () => {
                 <Row>
                   <Col md="1" xs="2">
                     <img
-                      src={session.schedule[0].instructor.avatar}
+                      src={session.schedule[0].instructor?.avatar}
                       onClick={() =>
                         togglePopup(session.schedule[0].instructor)
                       }
@@ -244,41 +244,66 @@ const WorkoutHistory = () => {
                     />
                   </Col>
                   <Col md="9" xs="5" className="workout-trainer">
-                    <div>PT: {session.schedule[0].instructor.profile.name}</div>
+                    <div>
+                      PT: {session.schedule[0].instructor?.profile?.name}
+                    </div>
                   </Col>
                   <Col
                     md="2"
                     xs="5"
                     className="d-flex align-items-center justify-content-end"
                   >
-                    <Button
-                      color="danger"
-                      size="lg"
-                      className="status-btn"
-                      onClick={() => handleCancelClick(session)}
-                      disabled={
-                        (new Date(session.schedule[0].day).getDate() ===
-                          new Date().getDate() &&
-                          new Date(session.schedule[0].day).getMonth() ===
-                            new Date().getMonth() &&
-                          Math.round(
-                            session.schedule[0].start_time.split(":")[1]
-                          ) > new Date().getMinutes()) ||
-                        (new Date(session.schedule[0].day).getDate() ===
-                          new Date().getDate() &&
-                          new Date(session.schedule[0].day).getMonth() ===
-                            new Date().getMonth() &&
-                          Math.round(
-                            session.schedule[0].start_time.split(":")[0]
-                          ) < new Date().getHours()) ||
-                        (new Date(session.schedule[0].day).getMonth() ===
-                          new Date().getMonth() &&
-                          new Date(session.schedule[0].day).getDate() <
-                            new Date().getDate())
-                      }
-                    >
-                      Hủy
-                    </Button>
+                    {(() => {
+                      // Chuyển đổi ngày và thời gian từ dữ liệu
+                      const scheduleDate = new Date(session.schedule[0].day);
+
+                      // Xử lý start_time
+                      const startTime =
+                        session.schedule[0].start_time.split(":");
+                      const startDateTime = new Date(scheduleDate);
+                      startDateTime.setHours(
+                        Number(startTime[0]),
+                        Number(startTime[1]),
+                        0,
+                        0
+                      );
+
+                      // Xử lý end_time
+                      const endTime = session.schedule[0].end_time.split(":");
+                      const endDateTime = new Date(scheduleDate);
+                      endDateTime.setHours(
+                        Number(endTime[0]),
+                        Number(endTime[1]),
+                        0,
+                        0
+                      );
+
+                      const now = new Date(); // Lấy thời gian hiện tại
+
+                      // Điều kiện: lịch cùng ngày, thời gian hiện tại <= 2 giờ trước giờ bắt đầu, và chưa qua giờ kết thúc
+                      const isSameDay =
+                        scheduleDate.toISOString().split("T")[0] ===
+                        now.toISOString().split("T")[0];
+                      const isWithinTwoHours =
+                        startDateTime.getTime() - now.getTime() <=
+                        2 * 60 * 60 * 1000;
+                      const isBeforeEndTime =
+                        now.getTime() <= endDateTime.getTime();
+
+                      // Kết hợp tất cả các điều kiện
+                      return isSameDay &&
+                        isWithinTwoHours &&
+                        isBeforeEndTime ? (
+                        <Button
+                          color="danger"
+                          size="lg"
+                          className="status-btn"
+                          onClick={() => handleCancelClick(session)}
+                        >
+                          Hủy
+                        </Button>
+                      ) : null; // Nếu không thỏa điều kiện, không hiển thị gì
+                    })()}
                   </Col>
                 </Row>
               </Col>
