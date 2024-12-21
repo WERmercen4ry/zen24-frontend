@@ -1,22 +1,21 @@
 @import "../variables";
 
 .header {
-  background-color: #343434;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10000;
-  padding: 0.7% 1.2%;
-  max-height: 80px;
-  min-height: 70px;
+  background-color: #b6997a;
+  position        : fixed;
+  top             : 0;
+  width           : 100%;
+  z-index         : 10000;
+  padding         : 0.2% 1.2%;
+  max-height      : 60px;
 }
 
 .header-container {
-  display: flex;
-  max-width: $userWidth;
+  display        : flex;
+  max-width      : 1286px;
   justify-content: space-between;
-  align-items: center;
-  margin: 0 auto;
+  align-items    : center;
+  margin         : 0 auto;
 }
 
 .header-logo img {
@@ -24,65 +23,65 @@
 }
 
 .header-search {
-  flex-grow: 1;
-  margin-left: 20px;
+  flex-grow   : 1;
+  margin-left : 20px;
   margin-right: 20px;
 }
 
 .search-input {
-  width: 100%;
-  padding: 10px;
-  border: none;
+  width        : 100%;
+  padding      : 10px;
+  border       : none;
   border-radius: 4px;
 }
 
 .search-btn {
   background-color: #fff;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-left: 10px;
+  padding         : 10px;
+  border          : none;
+  cursor          : pointer;
+  border-radius   : 4px;
+  margin-left     : 10px;
 }
 
 .header-right {
-  display: flex;
+  display    : flex;
   align-items: center;
 }
 
 .price-check-btn {
   background-color: #ff3333;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+  color           : white;
+  border          : none;
+  padding         : 10px 15px;
+  border-radius   : 5px;
+  cursor          : pointer;
 }
 
 .infor-user {
-  color: #E9E1D2 !important;
+  color    : #E9E1D2 !important;
   font-size: 12px;
 }
 
 .infor-name {
-  color: #E9E1D2 !important;
+  color      : #E9E1D2 !important;
   font-weight: bold;
 }
 
 .inbox-btn {
-  margin: 0 15px;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: none;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  margin          : 0 15px;
+  width           : 35px;
+  height          : 35px;
+  border-radius   : 50%;
+  border          : none;
+  box-shadow      : 0px 0px 20px rgba(0, 0, 0, 0.082);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  position        : relative;
   background-color: #464646;
-  cursor: pointer;
-  transition: all 0.3s;
+  cursor          : pointer;
+  transition      : all 0.3s;
 }
 
 .inbox-btn svg path {
@@ -90,7 +89,7 @@
 }
 
 .inbox-btn svg {
-  height: 17px;
+  height    : 17px;
   transition: all 0.3s;
 }
 
@@ -105,31 +104,36 @@
     display: none;
   }
 }
-.avatar{
+
+.avatar {
   margin: auto;
 }
+
 .notification-menu {
-  max-width: 400px;
-  overflow-y: auto; 
-  padding: 10px;
-  border: 1px solid #ccc;
+  max-width : 400px;
+  overflow-y: auto;
+  padding   : 10px;
+  border    : 1px solid #ccc;
 }
 
 .notification-item {
-  display: flex;
-  padding: 10px;
+  display      : flex;
+  padding      : 10px;
   border-bottom: 1px solid #eee;
 }
+
 .notification-item:hover {
-  background-color: #f0f0f0; /* Hiệu ứng hover */
+  background-color: #f0f0f0;
+  /* Hiệu ứng hover */
 }
+
 .notification-item:last-child {
   border-bottom: none;
 }
 
 .notification-icon {
-  width: 35px;
-  height: 35px;
+  width        : 35px;
+  height       : 35px;
   border-radius: 50%;
 }
 
@@ -138,72 +142,76 @@
 }
 
 .notification-content strong {
-  display: block;
+  display  : block;
   font-size: 14px;
-  color: #333;
+  color    : #333;
 }
 
 .notification-content p {
-  margin: 0;
+  margin   : 0;
   font-size: 13px;
-  color: #555;
+  color    : #555;
 }
 
 .notification-time {
-  display: block;
-  font-size: 12px;
-  color: #999;
+  display   : block;
+  font-size : 12px;
+  color     : #999;
   margin-top: 5px;
-  min-width: 250px;
+  min-width : 250px;
 }
 
 .msg-count {
-  position: absolute;
-  top: -5px;
-  right: -10px;
+  position        : absolute;
+  top             : -5px;
+  right           : -10px;
   background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 3px 6px;
-  font-size: 12px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color           : white;
+  border-radius   : 50%;
+  padding         : 3px 6px;
+  font-size       : 12px;
+  width           : 20px;
+  height          : 20px;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
 }
+
 .msg-count-detail {
-  position: absolute;
-  top: -3px;
-  right: 0px;
+  position        : absolute;
+  top             : -3px;
+  right           : 0px;
   background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 3px 6px;
-  font-size: 12px;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color           : white;
+  border-radius   : 50%;
+  padding         : 3px 6px;
+  font-size       : 12px;
+  width           : 12px;
+  height          : 12px;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
 }
+
 .notification-arrow {
-  position: absolute;
-  top: 35px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #fff; /* Màu của mũi tên */
-  z-index: 1;
+  position     : absolute;
+  top          : 35px;
+  left         : 50%;
+  transform    : translateX(-50%);
+  width        : 0;
+  height       : 0;
+  border-left  : 10px solid transparent;
+  border-right : 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  /* Màu của mũi tên */
+  z-index      : 1;
 }
+
 .unread-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
+  display         : inline-block;
+  width           : 8px;
+  height          : 8px;
   background-color: red;
-  border-radius: 50%;
-  margin-right: 5px;
+  border-radius   : 50%;
+  margin-right    : 5px;
 }
