@@ -188,7 +188,7 @@
   color: $success !important;
 }
 .input-date{
-  max-width: 40%;
+  max-width: 170px;
 }
 .px-2p{
   padding-left: 1%;
@@ -313,4 +313,7 @@
 }
 .bi-bell-fill{
   color: #fff;
+}
+.react-datepicker__calendar-icon{
+  margin-top: 3px;
 }

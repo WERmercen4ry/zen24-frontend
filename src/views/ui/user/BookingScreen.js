@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col, Button, Input } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import ConfirmPopup from "../../../layouts/user/ConfirmPopup";
 import "../../../assets/scss/layout/user_page.scss";
 import logo from "../../../assets/images/logos/ZenLogo2.png";
@@ -7,7 +7,8 @@ import PtInfoPopUp from "./PtInfoPopUp";
 import authorizedAxiosinstance from "../../../utils/authorizedAxios";
 import { API_ROOT } from "../../../utils/constant";
 import { LoaderContext } from "../../../layouts/loader/LoaderContext";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const BookingScreen = () => {
   const { showLoader, hideLoader } = useContext(LoaderContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,6 @@ const BookingScreen = () => {
   const [userId, setUserId] = useState(null);
   const [classId, setClassId] = useState(null);
   const [selectedUser, setSelectedUser] = useState("");
-
   const [formSearch, setFormSearch] = useState({
     userId: "",
     type: "Pilate",
@@ -99,10 +99,10 @@ const BookingScreen = () => {
   };
 
   // Xử lý chọn ngày mới
-  const handleDateChange = (e) => {
+  const handleDateChange = (date) => {
     setFormSearch((prevState) => ({
       ...prevState,
-      selectDate: e.target.value,
+      selectDate: date.toISOString().split("T")[0],
     }));
   };
 
@@ -249,13 +249,22 @@ const BookingScreen = () => {
       <h5 className="mt-3">Đặt lịch</h5>
       <div className="d-flex align-items-center justify-content-center">
         <p className="my-auto me-2 selected-date">Ngày đang được chọn</p>
-        <Input
+        {/* <Input
           className="input-date selected-date"
           type="date"
           name="filterDate"
           id="filterDate"
           value={formSearch.selectDate} // Đảm bảo date có định dạng đúng
           onChange={handleDateChange} // Cập nhật ngày khi thay đổi
+          onBlur={handleDateBlur}
+        /> */}
+        <DatePicker
+          showIcon
+          selected={formSearch.selectDate}
+          onChange={handleDateChange} // Chỉ gọi khi người dùng chọn ngày
+          dateFormat="yyyy-MM-dd"
+          placeholderText="Chọn ngày"
+          className="input-date selected-date"
         />
       </div>
 
