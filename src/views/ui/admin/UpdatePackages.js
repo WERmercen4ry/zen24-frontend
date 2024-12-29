@@ -124,7 +124,6 @@ const UpdatePackages = () => {
 
     if (!formData.type) newErrors.type = "Vui lòng nhập loại gói";
 
-
     if (!formData.max_members)
       newErrors.max_members = "Vui lòng nhập số học viên trong gói";
 
@@ -245,7 +244,6 @@ const UpdatePackages = () => {
                     <option value="" disabled>
                       Chọn loại gói
                     </option>
-                    <option value="Gym">Gym</option>
                     <option value="Pilate">Pilate</option>
                   </Input>
                   {errors.type && <FormFeedback>{errors.type}</FormFeedback>}
@@ -253,7 +251,6 @@ const UpdatePackages = () => {
               </Col>
             </Row>
             <Row>
-
               <Col md={6}>
                 <FormGroup>
                   <Label for="max_members">Số học viên trong gói *</Label>
