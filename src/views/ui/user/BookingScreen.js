@@ -233,7 +233,7 @@ const BookingScreen = () => {
             PILATES
           </Button>
         </Col>
-        <Col xs="6" className="text-center">
+        {/* <Col xs="6" className="text-center">
           <Button
             className={
               formSearch.type === "Gym" ? "active-tab" : "inactive-tab"
@@ -242,7 +242,7 @@ const BookingScreen = () => {
           >
             GYM
           </Button>
-        </Col>
+        </Col> */}
       </Row>
 
       {/* Đặt lịch */}
