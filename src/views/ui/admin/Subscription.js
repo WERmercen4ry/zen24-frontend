@@ -167,20 +167,19 @@ const Subscription = () => {
   }, [packageSelected, startDate, endDate]);
 
   useEffect(() => {
-
     let amountPerSession;
-        amountPerSession = formData.amount / formData.sessions;
-    if(amountPerSession > 0){
-        setFormData({
-          ...formData,
-          amountPerSession: amountPerSession,
-        });
-      } else {
-        setFormData({
-          ...formData,
-          amountPerSession: 0,
-        });
-      }
+    amountPerSession = formData.amount / formData.sessions;
+    if (amountPerSession > 0) {
+      setFormData({
+        ...formData,
+        amountPerSession: amountPerSession,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        amountPerSession: 0,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount, session]);
 
@@ -493,7 +492,7 @@ const Subscription = () => {
                       listPackages.map((pkg, index) => (
                         <tr key={index}>
                           <td>{pkg.package_id?.type}</td>
-                          <td>{pkg.remaining_lessons}</td>
+                          <td>{pkg.total_lessons}</td>
                           <td>{pkg.remaining_lessons}</td>
                           <td>{pkg.package_id?.name}</td>
                           <td>{pkg.price}</td>
