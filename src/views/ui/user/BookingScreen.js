@@ -229,6 +229,7 @@ const BookingScreen = () => {
               formSearch.type === "Pilate" ? "active-tab" : "inactive-tab"
             }
             onClick={() => handleChangeType("Pilate")}
+            hidden
           >
             PILATES
           </Button>
